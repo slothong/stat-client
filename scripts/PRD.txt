@@ -1,0 +1,196 @@
+<context>  
+# Overview  
+"너라면?"은 누구나 간단한 양자택일 설문을 만들고 참여할 수 있는 캐주얼 투표 플랫폼입니다. "짜장면 vs 짬뽕", "여름휴가 vs 겨울여행"처럼 일상 속에서 자주 등장하는 주제를 기반으로, 사람들이 의견을 나누고 다른 사람들의 선택을 확인할 수 있습니다. SNS 시대에 사람들은 가벼운 공감 요소를 중심으로 소통하길 원하며, 이 서비스는 그 니즈를 충족시킵니다.
+
+* **문제**: 사람들이 일상적 주제에 대한 공감과 의견 공유를 쉽게 할 수 있는 공간이 부족합니다.
+* **타깃**: 10\~30대 SNS 사용자, 짧고 간단한 콘텐츠에 익숙한 모바일 중심 유저.
+* **가치**: 가볍게 참여하고 재미를 느끼며, 다른 사람들의 생각을 한눈에 확인할 수 있는 공간 제공.
+
+# Core Features
+
+* **설문 만들기**
+
+  * 사용자가 직접 질문과 선택지를 등록할 수 있음
+  * 핵심 이유: 콘텐츠의 지속성과 다양성 확보
+  * 2\~4개의 보기 등록, 미리보기 기능 제공
+
+* **설문 참여 및 결과 확인**
+
+  * 클릭 한 번으로 투표, 이후 결과 바로 보기
+  * 중요성: 즉각적 피드백 제공, 사용자 리텐션 강화
+  * 결과는 막대 그래프 또는 비율 수치로 표시
+
+* **메인 피드 / 인기 설문 노출**
+
+  * 투표 수 기반으로 실시간 인기 설문 보여줌
+  * 유저가 자주 방문하게 만드는 엔트리 포인트
+  * 카테고리별 필터 또는 ‘오늘의 질문’ 제공 가능
+
+* **공유 기능**
+
+  * 결과 공유 또는 설문 공유를 SNS로 가능
+  * 중요성: 유입 채널 확보, 자연스러운 마케팅
+
+* **회원가입**
+
+  * SNS계정으로 회원가입 할 수 있어야 함
+
+# User Experience
+
+## User Personas
+
+* **유형 1: 라이트 유저 (15\~25세)**
+
+  * 목표: 재미로 참여, 시간 때우기
+  * 행동: SNS 공유된 설문 링크를 보고 투표
+
+* **유형 2: 크리에이터 성향 유저 (20\~30대)**
+
+  * 목표: 사람들 의견을 알아보고 싶은 질문을 만들고 싶음
+  * 행동: 자주 설문 만들고 공유함
+
+## Key User Flows
+
+* **A. 설문 참여 플로우**
+
+  1. 메인 화면에서 설문 발견
+  2. 보기 클릭 → 결과 표시
+  3. 공유 또는 다음 설문 탐색
+
+* **B. 설문 생성 플로우**
+
+  1. 로그인
+  2. 질문 작성 + 보기 입력
+  3. 미리보기 후 업로드
+  4. 개인 설문 피드 또는 SNS 공유
+
+## UI/UX Considerations
+
+* 모바일 우선 디자인 (반응형 대응)
+* 투표 결과 애니메이션: 직관적이고 즉각적인 피드백
+* 단순한 컬러 구성, 보기 클릭시 하이라이트 효과
+* 과거 인기 설문 아카이빙 및 검색 기능 고려
+
+</context>  
+<PRD>  
+# Technical Architecture  
+## System Components  
+- **Frontend**: Angular  
+- **Backend**: NestJS  
+- **Database**: PostgreSQL  
+- **Authentication**: Firebase Auth or OAuth (Google/Kakao)  
+- **Analytics & Logs**: Sentry, Google Analytics, LogRocket  
+- **Storage**: Cloud Storage (e.g., AWS S3 for 이미지)  
+- **CDN**: Cloudflare or Vercel CDN for 빠른 응답속도
+
+## Data Models
+
+### User
+
+* `id`, `email`, `nickname`, `profileImage`, `createdAt`
+
+### Poll
+
+* `id`, `creatorId`, `question`, `choices[]`, `createdAt`, `tags[]`, `voteCount`, `status`
+
+### Choice
+
+* `id`, `pollId`, `text`, `voteCount`
+
+### Vote
+
+* `id`, `pollId`, `choiceId`, `userId (nullable)`, `ip`, `votedAt`
+
+## APIs
+
+* `GET /polls`: 인기/최신 설문 리스트
+* `POST /polls`: 설문 생성
+* `GET /polls/:id`: 설문 상세
+* `POST /polls/:id/vote`: 투표
+* `GET /polls/:id/results`: 투표 결과 조회
+* `POST /auth/signup | login`: 사용자 인증
+
+## Infrastructure Requirements
+
+* Vercel or Netlify for FE
+* AWS EC2 or Heroku for BE
+* PostgreSQL (RDS or Supabase)
+* Redis (선택사항: 투표 수 처리 최적화용)
+
+# Development Roadmap
+
+## Phase 1: MVP
+
+* 설문 보기/참여 기능
+* 설문 생성 (질문 + 보기 등록)
+* 인기 설문 피드
+* 결과 시각화 UI
+* 인증 (SNS 로그인)
+* 공유 링크 생성 기능
+
+## Phase 2: Core Experience
+
+* 사용자 피드 (내가 만든 설문, 참여한 설문)
+* 카테고리 또는 해시태그 기반 분류
+* 댓글/짧은 의견 기능
+* 신고 및 콘텐츠 필터링 도입
+* UX 개선 (애니메이션, 전환 효과 등)
+
+## Phase 3: 확장 및 정제
+
+* 커뮤니티 추천 기반 질문 생성 유도
+* 주간/월간 인기 설문 랭킹
+* 추천 알고리즘 적용 (취향 기반 설문 노출)
+* 관리자 대시보드
+* 글로벌 버전 (다국어 지원)
+
+# Logical Dependency Chain
+
+1. **투표 모델링 및 백엔드 API 구현**
+
+   * Poll, Choice, Vote 모델, 기본 CRUD API
+2. **투표 UI + 결과 표시**
+
+   * 프론트 초기 페이지 구현 → 빠르게 사용 가능하게
+3. **설문 만들기 기능 추가**
+
+   * 기본 설문 생성 폼
+4. **인기/최신 피드 정렬 및 노출 로직 구현**
+
+   * 캐시 또는 단순 정렬 기준으로 구현
+5. **공유 기능, 무회원 참여**
+6. **회원 관리 및 간단한 인증 추가**
+
+# Risks and Mitigations
+
+## 콘텐츠 피로도 및 중복성
+
+* **대응**: 설문 추천 큐레이션, 트렌드 기반 주제 자동 추천 시스템 고려
+
+## 악성 콘텐츠 / 필터링 이슈
+
+* **대응**: 신고 시스템, 관리자 승인 옵션 고려
+
+## 중복 서비스와의 차별화
+
+* **대응**: "결과 보는 재미"와 "공감각적 UI", 투표 후 반응성 강조
+* 예: 당신은 몇 %와 같은 선택을 했는지 알려주기
+
+## 트래픽 처리
+
+* **대응**: 캐시 + 정적 콘텐츠 우선 전략 / Redis 활용
+
+# Appendix
+
+## 유사 서비스 참고
+
+* "Either" 앱
+* TikTok 밸런스 게임 콘텐츠
+* 커뮤니티 설문 (예: 디시인사이드 투표 게시판)
+
+## 설문 예시
+
+* “단 하루만 산다면, 바다 vs 산?”
+* “고백 먼저 vs 기다리기”
+* “아이스 아메리카노 vs 따뜻한 아메리카노”
+
