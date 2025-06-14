@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: stat_postgres
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+
+  server:
+    build:
+      context: ./Dockerfile
+    container_name: stat_server
+    ports:
+      - '3000:3000'
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: myuser
+      DB_PASSWORD: mypassword
+      DB_DATABASE: mydatabase
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

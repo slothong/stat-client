@@ -22,6 +22,8 @@ import { PollsModule } from './polls/polls.module';
         database: config.get('DB_DATABASE'),
         autoLoadEntities: true,
         synchronize: true,
+        retryAttempts: 5,
+        retryDelay: 3000,
       }),
     }),
     AuthModule,
