@@ -7,9 +7,9 @@ services:
     ports:
       - '5432:5432'
     environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data
@@ -23,9 +23,9 @@ services:
     environment:
       DB_HOST: db
       DB_PORT: 5432
-      DB_USERNAME: myuser
-      DB_PASSWORD: mypassword
-      DB_DATABASE: mydatabase
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
     depends_on:
       - db
 
