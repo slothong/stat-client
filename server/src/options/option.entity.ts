@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Poll } from '../polls/poll.entity';
+import { Poll } from '@/polls/poll.entity';
 
 @Entity({ name: 'options' })
 export class Option {

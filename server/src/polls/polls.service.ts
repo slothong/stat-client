@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Poll } from './poll.entity';
 import { CreatePollDto } from './dto/create-poll.dto';
-import { Option } from '../options/option.entity';
+import { Option } from '@/options/option.entity';
 
 @Injectable()
 export class PollsService {

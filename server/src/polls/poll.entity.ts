@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Option } from '../options/option.entity';
+import { Option } from '@/options/option.entity';
 
 @Entity({ name: 'polls' })
 export class Poll {
