@@ -2,6 +2,7 @@ import { Injectable, UseGuards, Request } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '@/users/user.entity';
+import { AuthRequest } from './auth-request';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,7 @@ export class AuthService {
   }
 
   @UseGuards(AuthGuard('jwt'))
-  getProfile(@Request() req) {
+  getProfile(@Request() req: AuthRequest) {
     return req.user;
   }
 }

@@ -1,3 +1,4 @@
+import { AuthRequest } from '@/auth/auth-request';
 import { Controller, UseGuards, Get, Request } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -5,7 +6,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class UsersController {
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
-  getMe(@Request() req) {
+  getMe(@Request() req: AuthRequest) {
     return req.user;
   }
 }
