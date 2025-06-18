@@ -1,5 +1,8 @@
 import { Component, computed, input } from '@angular/core';
 import { HlmButtonDirective } from '../ui/ui-button-helm/src';
+import clsx, { ClassValue } from 'clsx';
+import { HlmDialogService } from '../ui/ui-dialog-helm/src';
+import { LoginDialogContentComponent } from '../login-dialog-content/login-dialog-content';
 
 @Component({
   selector: 'app-header',
@@ -10,8 +13,15 @@ import { HlmButtonDirective } from '../ui/ui-button-helm/src';
   imports: [HlmButtonDirective],
 })
 export class HeaderComponent {
-  public readonly userClass = input<string>('', { alias: 'class' });
+  public readonly userClass = input<ClassValue>('', { alias: 'class' });
   protected readonly computedClass = computed(() => {
-    return this.userClass();
+    return clsx('flex justify-between items-center', this.userClass());
   });
+
+  constructor(private readonly dialog: HlmDialogService) {}
+
+  protected openLoginDialog() {
+    console.log('open dialog');
+    this.dialog.open(LoginDialogContentComponent);
+  }
 }
