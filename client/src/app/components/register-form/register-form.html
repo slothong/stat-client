@@ -1,0 +1,38 @@
+<form
+  class="flex flex-col gap-4 mt-4 items-center"
+  [formGroup]="formGroup"
+  (ngSubmit)="onSubmit()"
+>
+  <hlm-form-field>
+    <input
+      class="w-80"
+      hlmInput
+      type="email"
+      placeholder="Email"
+      formControlName="email"
+    />
+    <hlm-error>이메일을 입력하세요.</hlm-error>
+  </hlm-form-field>
+  <hlm-form-field>
+    <input
+      class="w-80"
+      hlmInput
+      type="password"
+      placeholder="Password"
+      formControlName="password"
+    />
+    <hlm-error>비밀번호를 입력하세요.</hlm-error>
+  </hlm-form-field>
+  <hlm-form-field>
+    <input
+      class="w-80"
+      hlmInput
+      type="password"
+      placeholder="Confirm password"
+      formControlName="confirmPassword"
+    />
+    <hlm-error>비밀번호를 확인하세요.</hlm-error>
+  </hlm-form-field>
+
+  <button hlmBtn class="w-80" type="submit">회원가입</button>
+</form>

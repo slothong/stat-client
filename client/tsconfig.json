@@ -20,6 +20,10 @@
       "@ui/icon": ["./src/app/components/ui/ui-icon-helm/src/index.ts"],
       "@ui/form-field": [
         "./src/app/components/ui/ui-form-field-helm/src/index.ts"
+      ],
+      "@ui/input": ["./src/app/components/ui/ui-input-helm/src/index.ts"],
+      "@ui/typography": [
+        "./src/app/components/ui/ui-typography-helm/src/index.ts"
       ]
     }
   },

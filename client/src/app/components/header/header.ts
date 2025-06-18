@@ -2,7 +2,7 @@ import { Component, computed, input } from '@angular/core';
 import { HlmButtonDirective } from '../ui/ui-button-helm/src';
 import clsx, { ClassValue } from 'clsx';
 import { HlmDialogService } from '../ui/ui-dialog-helm/src';
-import { LoginDialogContentComponent } from '../login-dialog-content/login-dialog-content';
+import { AuthDialogContentComponent } from '../auth-dialog-content/auth-dialog-content';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +21,6 @@ export class HeaderComponent {
   constructor(private readonly dialog: HlmDialogService) {}
 
   protected openLoginDialog() {
-    console.log('open dialog');
-    this.dialog.open(LoginDialogContentComponent);
+    this.dialog.open(AuthDialogContentComponent);
   }
 }
