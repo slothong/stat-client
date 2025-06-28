@@ -1,7 +1,10 @@
 <hlm-dialog-header> <h3 hlmDialogTitle>{{title()}}</h3> </hlm-dialog-header>
 
 @if (mode() === 'login') {
-<app-login-form (goToRegister)="mode.set('register')" />
+<app-login-form
+  (goToRegister)="mode.set('register')"
+  (loginSuccess)="closeDialog()"
+/>
 } @else {
-<app-register-form />
+<app-register-form (registrationSuccess)="mode.set('login')" />
 }

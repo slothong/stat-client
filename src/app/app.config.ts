@@ -10,8 +10,9 @@ import {
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
-import { BaseUrlInterceptor } from './services/base-url-interceptor';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { baseUrlInterceptor } from './http-interceptors/base-url-interceptor';
+import { authInterceptor } from './http-interceptors/auth-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,15 +20,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(),
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: BaseUrlInterceptor,
-      multi: true,
-    },
-    {
-      provide: 'BASE_API_URL',
-      useValue: 'http://localhost:3000',
-    },
+    provideHttpClient(withInterceptors([baseUrlInterceptor, authInterceptor])),
   ],
 };

@@ -1,4 +1,8 @@
 <div>logo</div>
 <div>
+  @let user = me(); @if (user) { Hi! {{ user.username}}
+  <button hlmBtn (click)="logout()">로그아웃</button>
+  } @else {
   <button hlmBtn (click)="openLoginDialog()">로그인</button>
+  }
 </div>

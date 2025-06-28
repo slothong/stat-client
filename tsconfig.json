@@ -24,7 +24,8 @@
       "@ui/input": ["./src/app/components/ui/ui-input-helm/src/index.ts"],
       "@ui/typography": [
         "./src/app/components/ui/ui-typography-helm/src/index.ts"
-      ]
+      ],
+      "@ui/sonner": ["./src/app/components/ui/ui-sonner-helm/src/index.ts"]
     }
   },
   "angularCompilerOptions": {
