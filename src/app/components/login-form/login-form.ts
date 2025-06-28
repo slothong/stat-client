@@ -30,7 +30,7 @@ import { toast } from 'ngx-sonner';
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
   ],
 })
-export class LoginFormComponent {
+export class LoginForm {
   readonly goToRegister = output();
   readonly loginSuccess = output();
 

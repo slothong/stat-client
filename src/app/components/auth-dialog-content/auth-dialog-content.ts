@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { HlmDialogHeaderComponent, HlmDialogTitleDirective } from '@ui/dialog';
-import { LoginFormComponent } from '../login-form/login-form';
-import { RegisterFormComponent } from '../register-form/register-form';
+import { LoginForm } from '../login-form/login-form';
+import { RegisterForm } from '../register-form/register-form';
 import { CommonModule } from '@angular/common';
 import { BrnDialogRef } from '@spartan-ng/brain/dialog';
 
@@ -12,11 +12,11 @@ import { BrnDialogRef } from '@spartan-ng/brain/dialog';
     HlmDialogHeaderComponent,
     HlmDialogTitleDirective,
     CommonModule,
-    LoginFormComponent,
-    RegisterFormComponent,
+    LoginForm,
+    RegisterForm,
   ],
 })
-export class AuthDialogContentComponent {
+export class AuthDialogContent {
   readonly mode = signal<'login' | 'register'>('login');
 
   private readonly dialogRef = inject(BrnDialogRef);

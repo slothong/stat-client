@@ -51,7 +51,7 @@ function passwordMatchValidator(
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
   ],
 })
-export class RegisterFormComponent {
+export class RegisterForm {
   protected readonly formGroup = new FormGroup(
     {
       email: new FormControl('', [Validators.required, Validators.email]),

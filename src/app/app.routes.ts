@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { MainPageComponent } from '@/pages/main-page/main-page';
+import { MainPage } from '@/pages/main-page/main-page';
 import { CreatePollPage } from './pages/create-poll-page/create-poll-page';
 
 export const routes: Routes = [
   {
     path: '',
-    component: MainPageComponent,
+    component: MainPage,
   },
   {
     path: 'create-poll',

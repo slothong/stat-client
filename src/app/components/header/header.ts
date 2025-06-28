@@ -1,10 +1,11 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input } from '@angular/core';
 import { HlmButtonDirective } from '../ui/ui-button-helm/src';
 import clsx, { ClassValue } from 'clsx';
 import { HlmDialogService } from '../ui/ui-dialog-helm/src';
-import { AuthDialogContentComponent } from '../auth-dialog-content/auth-dialog-content';
+import { AuthDialogContent } from '../auth-dialog-content/auth-dialog-content';
 import { Auth } from '@/services/auth';
 import { Me } from '@/services/me';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -12,9 +13,9 @@ import { Me } from '@/services/me';
   host: {
     '[class]': 'computedClass()',
   },
-  imports: [HlmButtonDirective],
+  imports: [HlmButtonDirective, RouterLink],
 })
-export class HeaderComponent {
+export class Header {
   public readonly userClass = input<ClassValue>('', { alias: 'class' });
   protected readonly computedClass = computed(() => {
     return clsx('flex justify-between items-center', this.userClass());
@@ -29,10 +30,12 @@ export class HeaderComponent {
   protected readonly isAuthenticated = inject(Auth).isAuthenticated;
 
   protected openLoginDialog() {
-    this.dialog.open(AuthDialogContentComponent);
+    this.dialog.open(AuthDialogContent);
   }
 
   protected logout() {
     this.auth.logout();
   }
+
+  protected goToPost() {}
 }

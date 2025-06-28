@@ -1,6 +1,7 @@
 <div>logo</div>
 <div>
   @let user = me(); @if (user) { Hi, {{ user.username}}!
+  <a hlmBtn routerLink="/create-poll">글쓰기</a>
   <button hlmBtn variant="link" (click)="logout()">로그아웃</button>
   } @else {
   <button hlmBtn (click)="openLoginDialog()">로그인</button>
