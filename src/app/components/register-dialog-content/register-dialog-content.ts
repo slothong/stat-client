@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  HlmDialogContentComponent,
-  HlmDialogHeaderComponent,
-} from '@ui/dialog';
+import { HlmDialogHeaderComponent } from '@ui/dialog';
 import { HlmFormFieldComponent } from '@ui/form-field';
 import { HlmInputDirective } from '@ui/input';
 import { HlmButtonDirective } from '@ui/button';

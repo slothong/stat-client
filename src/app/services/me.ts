@@ -1,11 +1,8 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { Auth } from './auth';
 import { HttpClient } from '@angular/common/http';
-
-type User = {
-  id: string;
-  username: string;
-};
+import { UserDto } from '@/models/user-dto';
+import { User } from '@/models/user';
 
 @Injectable({
   providedIn: 'root',
@@ -15,29 +12,24 @@ export class Me {
 
   private readonly isAuthenticated = inject(Auth).isAuthenticated;
 
-  private readonly innerMe = signal<User | null>(null);
+  private readonly innerUser = signal<User | null>(null);
 
-  readonly me = this.innerMe.asReadonly();
+  readonly user = this.innerUser.asReadonly();
 
   constructor() {
     effect(() => {
       const isAuthenticated = this.isAuthenticated();
       if (isAuthenticated) {
-        this.loadMe();
+        this.loadUser();
       } else {
-        this.innerMe.set(null);
+        this.innerUser.set(null);
       }
     });
   }
 
-  loadMe() {
-    return this.http
-      .get<{ userid: string; username: string }>('/api/users/me')
-      .subscribe((res) => {
-        this.innerMe.set({
-          id: res.userid,
-          username: res.username,
-        });
-      });
+  loadUser() {
+    return this.http.get<UserDto>('/api/users/me').subscribe((userDto) => {
+      this.innerUser.set(User.fromDto(userDto));
+    });
   }
 }

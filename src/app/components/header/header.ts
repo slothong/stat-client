@@ -22,7 +22,7 @@ export class HeaderComponent {
 
   private readonly auth = inject(Auth);
 
-  protected readonly me = inject(Me).me;
+  protected readonly me = inject(Me).user;
 
   constructor(private readonly dialog: HlmDialogService) {}
 

@@ -9,7 +9,6 @@ import {
 import { HlmButtonDirective } from '@ui/button';
 import { HlmErrorDirective, HlmFormFieldModule } from '@ui/form-field';
 import { HlmInputModule } from '@ui/input';
-import { HlmToasterComponent } from '../ui/ui-sonner-helm/src';
 import { toast } from 'ngx-sonner';
 import { Auth } from '@/services/auth';
 
