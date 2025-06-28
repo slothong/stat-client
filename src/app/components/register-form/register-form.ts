@@ -1,9 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, output } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { HlmButtonDirective } from '@ui/button';
@@ -11,6 +14,27 @@ import { HlmErrorDirective, HlmFormFieldModule } from '@ui/form-field';
 import { HlmInputModule } from '@ui/input';
 import { toast } from 'ngx-sonner';
 import { Auth } from '@/services/auth';
+import {
+  ErrorStateMatcher,
+  ShowOnDirtyErrorStateMatcher,
+} from '@spartan-ng/brain/forms';
+
+function passwordMatchValidator(
+  passwordKey: string,
+  confirmPasswordKey: string
+): ValidatorFn {
+  return (group: AbstractControl): ValidationErrors | null => {
+    const password = group.get(passwordKey)?.value;
+    const confirmPassword = group.get(confirmPasswordKey)?.value;
+
+    if (password !== confirmPassword) {
+      group.get(confirmPasswordKey)?.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    } else {
+      return null;
+    }
+  };
+}
 
 @Component({
   selector: 'app-register-form',
@@ -23,13 +47,26 @@ import { Auth } from '@/services/auth';
     ReactiveFormsModule,
     CommonModule,
   ],
+  providers: [
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+  ],
 })
 export class RegisterFormComponent {
-  protected readonly formGroup = new FormGroup({
-    email: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
-    confirmPassword: new FormControl('', Validators.required),
-  });
+  protected readonly formGroup = new FormGroup(
+    {
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(20),
+        Validators.pattern(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).+$/),
+      ]),
+      confirmPassword: new FormControl(''),
+    },
+    {
+      validators: passwordMatchValidator('password', 'confirmPassword'),
+    }
+  );
 
   readonly registrationSuccess = output();
 

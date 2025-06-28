@@ -7,6 +7,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import {
+  ErrorStateMatcher,
+  ShowOnDirtyErrorStateMatcher,
+} from '@spartan-ng/brain/forms';
 import { HlmButtonDirective } from '@ui/button';
 import { HlmFormFieldModule } from '@ui/form-field';
 import { HlmInputModule } from '@ui/input';
@@ -22,14 +26,22 @@ import { toast } from 'ngx-sonner';
     ReactiveFormsModule,
     CommonModule,
   ],
+  providers: [
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+  ],
 })
 export class LoginFormComponent {
   readonly goToRegister = output();
   readonly loginSuccess = output();
 
   protected readonly formGroup = new FormGroup({
-    email: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      Validators.maxLength(20),
+      Validators.pattern(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).+$/),
+    ]),
   });
 
   private readonly auth = inject(Auth);

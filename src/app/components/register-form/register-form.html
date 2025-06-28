@@ -3,9 +3,9 @@
   [formGroup]="formGroup"
   (ngSubmit)="onSubmit()"
 >
-  <hlm-form-field>
+  <hlm-form-field class="w-80">
     <input
-      class="w-80"
+      class="w-full"
       hlmInput
       type="email"
       placeholder="Email"
@@ -13,25 +13,30 @@
     />
     <hlm-error>이메일을 입력하세요.</hlm-error>
   </hlm-form-field>
-  <hlm-form-field>
+  <hlm-form-field class="w-80">
     <input
-      class="w-80"
+      class="w-full"
       hlmInput
       type="password"
       placeholder="Password"
       formControlName="password"
     />
-    <hlm-error>비밀번호를 입력하세요.</hlm-error>
+    <hlm-error>
+      비밀번호는 8~20자 사이의 영문자, 숫자, 특수문자({{'[!@#$%^&*]'}})를
+      포함해야 합니다.
+    </hlm-error>
   </hlm-form-field>
-  <hlm-form-field>
+  <hlm-form-field class="w-80">
     <input
-      class="w-80"
+      class="w-full"
       hlmInput
       type="password"
       placeholder="Confirm password"
       formControlName="confirmPassword"
     />
-    <hlm-error>비밀번호를 확인하세요.</hlm-error>
+    @if (formGroup.getError('passwordMismatch')) {
+    <hlm-error>비밀번호가 일치하지 않습니다.</hlm-error>
+    }
   </hlm-form-field>
 
   <button hlmBtn class="w-80" type="submit">회원가입</button>
