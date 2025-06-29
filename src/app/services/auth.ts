@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { BehaviorSubject, map, switchMap, tap } from 'rxjs';
-import { Me } from './me';
+import { map, tap } from 'rxjs';
 import { toast } from 'ngx-sonner';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +11,8 @@ export class Auth {
   private readonly http = inject(HttpClient);
 
   private readonly innerAccessToken = signal<string | null>(null);
+
+  private readonly router = inject(Router);
 
   readonly accessToken = this.innerAccessToken.asReadonly();
 
@@ -64,6 +66,10 @@ export class Auth {
           withCredentials: true,
         }
       )
-      .subscribe();
+      .subscribe({
+        next: () => {
+          this.router.navigate(['']);
+        },
+      });
   }
 }
