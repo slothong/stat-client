@@ -1,7 +1,7 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const BASE_API_URL = 'http://localhost:3000';
+const BASE_API_URL = 'https://localhost:3000';
 
 export function baseUrlInterceptor(
   req: HttpRequest<unknown>,
@@ -9,6 +9,7 @@ export function baseUrlInterceptor(
 ): Observable<HttpEvent<unknown>> {
   const clonedReq = req.clone({
     url: BASE_API_URL + req.url,
+    withCredentials: true,
   });
   return next(clonedReq);
 }
