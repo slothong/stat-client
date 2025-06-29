@@ -36,6 +36,4 @@ export class Header {
   protected logout() {
     this.auth.logout();
   }
-
-  protected goToPost() {}
 }

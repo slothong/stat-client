@@ -62,7 +62,7 @@ export class PollForm {
       (option) => option != null
     );
     if (title == null || options == null || options.length < 2) {
-      console.log(title, options);
+      toast('생성에 실패했습니다.');
       return;
     }
 

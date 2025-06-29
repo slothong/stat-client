@@ -7,6 +7,8 @@ export function baseUrlInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
-  const clonedReq = req.clone({ url: BASE_API_URL + req.url });
+  const clonedReq = req.clone({
+    url: BASE_API_URL + req.url,
+  });
   return next(clonedReq);
 }
