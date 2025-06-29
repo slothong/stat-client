@@ -25,7 +25,10 @@
       "@ui/typography": [
         "./src/app/components/ui/ui-typography-helm/src/index.ts"
       ],
-      "@ui/sonner": ["./src/app/components/ui/ui-sonner-helm/src/index.ts"]
+      "@ui/sonner": ["./src/app/components/ui/ui-sonner-helm/src/index.ts"],
+      "@ui/radio-group": [
+        "./src/app/components/ui/ui-radio-group-helm/src/index.ts"
+      ]
     }
   },
   "angularCompilerOptions": {

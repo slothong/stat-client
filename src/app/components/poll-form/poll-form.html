@@ -1,0 +1,56 @@
+<form
+  class="flex flex-col gap-3 w-lg"
+  [formGroup]="formGroup"
+  (ngSubmit)="submitForm()"
+>
+  <hlm-form-field class="w-full">
+    <input
+      class="w-full"
+      hlmInput
+      type="text"
+      placeholder="Title"
+      formControlName="title"
+    />
+  </hlm-form-field>
+  <hlm-form-field class="w-full h-36">
+    <textarea
+      class="w-full h-full resize-none"
+      hlmInput
+      placeholder="Description"
+      formControlName="description"
+    ></textarea>
+  </hlm-form-field>
+  <hlm-radio-group>
+    @for (option of formGroup.controls.options.controls; track option) {
+    <hlm-form-field class="w-full">
+      <div class="flex w-full gap-1">
+        <hlm-radio [disabled]="true" [value]="false" class="flex-1">
+          <hlm-radio-indicator indicator />
+          <input
+            class="w-full"
+            hlmInput
+            type="text"
+            placeholder="Option"
+            [formControl]="option"
+          />
+        </hlm-radio>
+        <button
+          hlmBtn
+          size="icon"
+          variant="outline"
+          (click)="removeItem($index)"
+          [disabled]="formGroup.controls.options.controls.length <= 2"
+        >
+          <ng-icon hlm size="sm" name="lucideMinus" />
+        </button>
+      </div>
+    </hlm-form-field>
+    }
+  </hlm-radio-group>
+  <button hlmBtn variant="outline" class="w-full" (click)="addItem()">
+    추가
+  </button>
+  <button hlmBtn class="w-full" type="submit" [disabled]="!formGroup.valid">
+    제출
+  </button>
+</form>
