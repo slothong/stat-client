@@ -3,8 +3,8 @@ import { HlmButtonDirective } from '../ui/ui-button-helm/src';
 import clsx, { ClassValue } from 'clsx';
 import { HlmDialogService } from '../ui/ui-dialog-helm/src';
 import { AuthDialogContent } from '../auth-dialog-content/auth-dialog-content';
-import { Auth } from '@/services/auth';
-import { Me } from '@/services/me';
+import { AuthManager } from '@/services/auth-manager';
+import { MeStore } from '@/services/me-store';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -21,13 +21,13 @@ export class Header {
     return clsx('flex justify-between items-center', this.userClass());
   });
 
-  private readonly auth = inject(Auth);
+  private readonly auth = inject(AuthManager);
 
-  protected readonly me = inject(Me).user;
+  protected readonly me = inject(MeStore).user;
 
   constructor(private readonly dialog: HlmDialogService) {}
 
-  protected readonly isAuthenticated = inject(Auth).isAuthenticated;
+  protected readonly isAuthenticated = inject(AuthManager).isAuthenticated;
 
   protected openLoginDialog() {
     this.dialog.open(AuthDialogContent);

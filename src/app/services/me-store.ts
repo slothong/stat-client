@@ -1,16 +1,15 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
-import { Auth } from './auth';
-import { HttpClient } from '@angular/common/http';
-import { UserDto } from '@/models/user-dto';
+import { AuthManager } from './auth-manager';
 import { User } from '@/models/user';
+import { UserApi } from './user-api';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Me {
-  private readonly http = inject(HttpClient);
+export class MeStore {
+  private readonly userApi = inject(UserApi);
 
-  private readonly isAuthenticated = inject(Auth).isAuthenticated;
+  private readonly isAuthenticated = inject(AuthManager).isAuthenticated;
 
   private readonly innerUser = signal<User | null>(null);
 
@@ -28,8 +27,6 @@ export class Me {
   }
 
   loadUser() {
-    return this.http.get<UserDto>('/api/users/me').subscribe((userDto) => {
-      this.innerUser.set(User.fromDto(userDto));
-    });
+    return this.userApi.getMe().subscribe((user) => this.innerUser.set(user));
   }
 }

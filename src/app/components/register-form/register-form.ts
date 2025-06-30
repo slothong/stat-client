@@ -13,7 +13,7 @@ import { HlmButtonDirective } from '@ui/button';
 import { HlmErrorDirective, HlmFormFieldModule } from '@ui/form-field';
 import { HlmInputModule } from '@ui/input';
 import { toast } from 'ngx-sonner';
-import { Auth } from '@/services/auth';
+import { AuthManager } from '@/services/auth-manager';
 import {
   ErrorStateMatcher,
   ShowOnDirtyErrorStateMatcher,
@@ -70,7 +70,7 @@ export class RegisterForm {
 
   readonly registrationSuccess = output();
 
-  private readonly auth = inject(Auth);
+  private readonly auth = inject(AuthManager);
 
   onSubmit() {
     const email = this.formGroup.controls.email.value;

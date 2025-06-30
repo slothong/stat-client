@@ -13,7 +13,7 @@ import { HlmButtonModule } from '../ui/ui-button-helm/src';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { lucideMinus } from '@ng-icons/lucide';
 import { HlmIconDirective } from '../ui/ui-icon-helm/src';
-import { Poll } from '@/services/poll';
+import { PollApi } from '@/services/poll-api';
 import { toast } from 'ngx-sonner';
 import { Router } from '@angular/router';
 
@@ -41,7 +41,7 @@ export class PollForm {
     ]),
   });
 
-  private readonly poll = inject(Poll);
+  private readonly poll = inject(PollApi);
 
   private router = inject(Router);
 

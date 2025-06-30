@@ -1,4 +1,4 @@
-import { Auth } from '@/services/auth';
+import { AuthManager } from '@/services/auth-manager';
 import { CommonModule } from '@angular/common';
 import { Component, inject, output } from '@angular/core';
 import {
@@ -44,7 +44,7 @@ export class LoginForm {
     ]),
   });
 
-  private readonly auth = inject(Auth);
+  private readonly auth = inject(AuthManager);
 
   onSubmit() {
     const email = this.formGroup.controls.email.value;

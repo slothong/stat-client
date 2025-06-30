@@ -1,4 +1,4 @@
-import { Auth } from '@/services/auth';
+import { AuthManager } from '@/services/auth-manager';
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -7,7 +7,7 @@ export function authInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
-  const accessToken = inject(Auth).accessToken();
+  const accessToken = inject(AuthManager).accessToken();
 
   if (accessToken) {
     return next(
