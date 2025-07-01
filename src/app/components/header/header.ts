@@ -18,7 +18,10 @@ import { RouterLink } from '@angular/router';
 export class Header {
   public readonly userClass = input<ClassValue>('', { alias: 'class' });
   protected readonly computedClass = computed(() => {
-    return clsx('flex justify-between items-center', this.userClass());
+    return clsx(
+      'flex justify-between items-center py-5 w-full',
+      this.userClass()
+    );
   });
 
   private readonly auth = inject(AuthManager);

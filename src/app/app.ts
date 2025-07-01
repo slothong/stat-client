@@ -9,6 +9,9 @@ import { AuthManager } from './services/auth-manager';
   imports: [RouterOutlet, Header, HlmToasterComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss',
+  host: {
+    class: 'flex flex-col h-full',
+  },
 })
 export class App implements OnInit {
   private readonly auth = inject(AuthManager);

@@ -1,8 +1,13 @@
-<div>logo</div>
+<a class="text-2xl font-bold" routerLink="/">너라면</a>
 <div>
-  @let user = me(); @if (user) { Hi, {{ user.username}}!
-  <a hlmBtn routerLink="/create-poll">글쓰기</a>
-  <button hlmBtn variant="link" (click)="logout()">로그아웃</button>
+  @let user = me(); @if (user) {
+  <div class="flex items-center gap-5">
+    Hi, {{ user.username}}!
+    <div>
+      <button hlmBtn routerLink="/create-poll">설문 만들기</button>
+      <button hlmBtn variant="link" (click)="logout()">로그아웃</button>
+    </div>
+  </div>
   } @else {
   <button hlmBtn (click)="openLoginDialog()">로그인</button>
   }

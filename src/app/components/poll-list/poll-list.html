@@ -1,3 +1,18 @@
 @for (poll of (polls | async); track poll) {
-<div>{{poll.question}}</div>
+<a [routerLink]="'/polls/' + poll.id">
+  <section hlmCard class="cursor-pointer">
+    <div hlmCardHeader>{{poll.question}}</div>
+    <div hlmCardDescription>{{poll.description}}</div>
+    <div hlmCardContent class="flex flex-col gap-3">
+      @for (option of poll.options; track option) {
+      <div
+        class="flex items-center gap-3 border-gray-200 border rounded-lg py-2 px-2 bg-gray-50 hover:bg-gray-100"
+      >
+        <hlm-radio-indicator />
+        <div>{{ option.optionText }}</div>
+      </div>
+      }
+    </div>
+  </section>
+</a>
 }

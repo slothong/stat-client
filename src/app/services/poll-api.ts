@@ -25,4 +25,18 @@ export class PollApi {
         map((pollDtos) => pollDtos.map((pollDto) => Poll.fromDto(pollDto)))
       );
   }
+
+  getPoll(pollId: string) {
+    return this.http
+      .get<PollDto>(`/api/polls/${pollId}`)
+      .pipe(map((pollDto) => Poll.fromDto(pollDto)));
+  }
+
+  votePoll(pollId: string, optionId: string) {
+    return this.http
+      .post<PollDto>(`/api/polls/${pollId}/votes`, {
+        optionId,
+      })
+      .pipe(map((pollDto) => Poll.fromDto(pollDto)));
+  }
 }

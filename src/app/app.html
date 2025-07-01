@@ -1,7 +1,11 @@
-<header>
-  <app-header />
+<header class="flex justify-center">
+  <div class="w-5xl flex items-center">
+    <app-header />
+  </div>
 </header>
-<main>
-  <router-outlet />
+<main class="flex-auto bg-gray-100 flex justify-center">
+  <div class="w-5xl pt-8">
+    <router-outlet />
+  </div>
   <hlm-toaster />
 </main>
