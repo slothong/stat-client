@@ -13,6 +13,7 @@ import {
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { baseUrlInterceptor } from './http-interceptors/base-url-interceptor';
 import { authInterceptor } from './http-interceptors/auth-interceptor';
+import { credentialInterceptor } from './http-interceptors/credential-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +21,12 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withInterceptors([baseUrlInterceptor, authInterceptor])),
+    provideHttpClient(
+      withInterceptors([
+        baseUrlInterceptor,
+        authInterceptor,
+        credentialInterceptor,
+      ])
+    ),
   ],
 };

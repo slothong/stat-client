@@ -1,14 +1,12 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const BASE_API_URL = 'https://localhost:3000';
-
-export function baseUrlInterceptor(
+export function credentialInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
   const clonedReq = req.clone({
-    url: BASE_API_URL + req.url,
+    withCredentials: true,
   });
   return next(clonedReq);
 }
