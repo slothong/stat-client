@@ -35,7 +35,7 @@ export class PollApi {
   votePoll(pollId: string, optionId: string) {
     return this.http
       .post<PollDto>(`/api/polls/${pollId}/votes`, {
-        optionId,
+        optionIds: [optionId],
       })
       .pipe(map((pollDto) => Poll.fromDto(pollDto)));
   }
