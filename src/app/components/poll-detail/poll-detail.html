@@ -9,12 +9,12 @@
       (ngSubmit)="submitForm()"
       [formGroup]="formGroup"
     >
-      <hlm-radio-group formControlName="optionId">
+      <hlm-radio-group formControlName="optionId" [value]="myVote$ | async">
         @for (option of poll?.options; track option) {
         <label
           class="flex items-center gap-3 border-gray-200 border rounded-lg py-2 px-2 bg-gray-50 hover:bg-gray-100"
         >
-          <hlm-radio [value]="option.id">
+          <hlm-radio [value]="option.id" [disabled]="!!poll?.hasVoted">
             <hlm-radio-indicator />
             <div>{{ option.optionText }}</div>
           </hlm-radio>
@@ -22,7 +22,9 @@
         }
       </hlm-radio-group>
 
-      <button hlmBtn type="submit">투표하기</button>
+      <button hlmBtn type="submit" [disabled]="!!poll?.hasVoted">
+        투표하기
+      </button>
     </form>
   </div>
 </section>

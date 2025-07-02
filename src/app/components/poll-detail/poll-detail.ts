@@ -2,7 +2,7 @@ import { PollApi } from '@/services/poll-api';
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, switchMap } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs';
 import { HlmRadioGroupModule } from '@ui/radio-group';
 import {
   HlmCardContentDirective,
@@ -37,6 +37,14 @@ export class PollDetail {
   protected readonly poll$ = toObservable(this.pollId).pipe(
     filter((pollId) => pollId != null),
     switchMap((pollId) => this.pollApi.getPoll(pollId))
+  );
+
+  protected readonly myVote$ = this.poll$.pipe(
+    map((poll) => poll.options.find((option) => option.votedByMe)),
+    map((option) => option?.id),
+    tap((optionId) => {
+      console.log(optionId);
+    })
   );
 
   protected formGroup = new FormGroup({

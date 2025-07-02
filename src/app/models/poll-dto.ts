@@ -6,4 +6,5 @@ export type PollDto = {
   description?: string;
   createdAt: string;
   options: OptionDto[];
+  hasVoted?: boolean;
 };

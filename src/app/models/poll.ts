@@ -1,5 +1,4 @@
 import { Option } from './option';
-import { OptionDto } from './option-dto';
 import { PollDto } from './poll-dto';
 
 export class Poll {
@@ -8,6 +7,7 @@ export class Poll {
   readonly description?: string;
   readonly createdAt: Date;
   readonly options: Option[];
+  readonly hasVoted: boolean;
 
   constructor({
     id,
@@ -15,18 +15,21 @@ export class Poll {
     description,
     createdAt,
     options,
+    hasVoted,
   }: {
     id: string;
     question: string;
     description?: string;
     createdAt: Date;
-    options: OptionDto[];
+    options: Option[];
+    hasVoted?: boolean;
   }) {
     this.id = id;
     this.question = question;
     this.description = description;
     this.createdAt = createdAt;
     this.options = options;
+    this.hasVoted = !!hasVoted;
   }
 
   static fromDto(dto: PollDto) {
@@ -36,6 +39,7 @@ export class Poll {
       description: dto.description,
       createdAt: new Date(dto.createdAt),
       options: dto.options.map((optionDto) => Option.fromDto(optionDto)),
+      hasVoted: dto.hasVoted,
     });
   }
 }
