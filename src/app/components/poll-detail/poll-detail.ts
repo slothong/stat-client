@@ -11,9 +11,8 @@ import {
 } from '@ui/card';
 import { HlmButtonDirective } from '@ui/button';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { HlmFormFieldComponent } from '@ui/form-field';
-import { HlmInputDirective } from '@ui/input';
 import { Vote } from '@/services/vote';
+import { PollResult } from '../poll-result/poll-result';
 
 @Component({
   selector: 'app-poll-detail',
@@ -26,6 +25,7 @@ import { Vote } from '@/services/vote';
     HlmButtonDirective,
     ReactiveFormsModule,
     HlmCardHeaderDirective,
+    PollResult,
   ],
   templateUrl: './poll-detail.html',
 })
@@ -37,14 +37,6 @@ export class PollDetail {
   protected readonly poll$ = toObservable(this.pollId).pipe(
     filter((pollId) => pollId != null),
     switchMap((pollId) => this.pollApi.getPoll(pollId))
-  );
-
-  protected readonly myVote$ = this.poll$.pipe(
-    map((poll) => poll.options.find((option) => option.votedByMe)),
-    map((option) => option?.id),
-    tap((optionId) => {
-      console.log(optionId);
-    })
   );
 
   protected formGroup = new FormGroup({
