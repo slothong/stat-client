@@ -10,7 +10,7 @@ import {
 import { HlmInputModule } from '../ui/ui-input-helm/src';
 import { HlmRadioGroupModule } from '../ui/ui-radio-group-helm/src';
 import { HlmButtonModule } from '../ui/ui-button-helm/src';
-import { provideIcons } from '@ng-icons/core';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { lucideMinus } from '@ng-icons/lucide';
 import { PollApi } from '@/services/poll-api';
 import { toast } from 'ngx-sonner';
@@ -24,6 +24,7 @@ import { Router } from '@angular/router';
     HlmInputModule,
     HlmRadioGroupModule,
     HlmButtonModule,
+    NgIconComponent,
   ],
   templateUrl: './poll-create-form.html',
   providers: provideIcons({ lucideMinus }),
