@@ -1,9 +1,9 @@
-import { PollForm } from '@/components/poll-form/poll-form';
+import { PollCreateForm } from '@/components/poll-create-form/poll-create-form';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-create-poll-page',
   templateUrl: './create-poll-page.html',
-  imports: [PollForm],
+  imports: [PollCreateForm],
 })
 export class CreatePollPage {}

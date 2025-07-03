@@ -10,28 +10,25 @@ import {
 import { HlmInputModule } from '../ui/ui-input-helm/src';
 import { HlmRadioGroupModule } from '../ui/ui-radio-group-helm/src';
 import { HlmButtonModule } from '../ui/ui-button-helm/src';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { provideIcons } from '@ng-icons/core';
 import { lucideMinus } from '@ng-icons/lucide';
-import { HlmIconDirective } from '../ui/ui-icon-helm/src';
 import { PollApi } from '@/services/poll-api';
 import { toast } from 'ngx-sonner';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-poll-form',
+  selector: 'app-poll-create-form',
   imports: [
     HlmFormFieldModule,
     ReactiveFormsModule,
     HlmInputModule,
     HlmRadioGroupModule,
     HlmButtonModule,
-    HlmIconDirective,
-    NgIconComponent,
   ],
-  templateUrl: './poll-form.html',
+  templateUrl: './poll-create-form.html',
   providers: provideIcons({ lucideMinus }),
 })
-export class PollForm {
+export class PollCreateForm {
   protected readonly formGroup = new FormGroup({
     title: new FormControl('', Validators.required),
     description: new FormControl(''),

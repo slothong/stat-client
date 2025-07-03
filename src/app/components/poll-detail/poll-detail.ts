@@ -1,8 +1,7 @@
-import { PollApi } from '@/services/poll-api';
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, map, switchMap, tap } from 'rxjs';
+import { filter, switchMap } from 'rxjs';
 import { HlmRadioGroupModule } from '@ui/radio-group';
 import {
   HlmCardContentDirective,
@@ -13,7 +12,6 @@ import { HlmButtonDirective } from '@ui/button';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Vote } from '@/services/vote';
 import { PollResult } from '../poll-result/poll-result';
-import { Router } from '@angular/router';
 import { PollStore } from '@/services/poll-store';
 
 @Component({
