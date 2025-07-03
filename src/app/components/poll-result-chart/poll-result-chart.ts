@@ -7,6 +7,7 @@ import {
   input,
   viewChild,
 } from '@angular/core';
+import { ChartConfiguration } from 'chart.js';
 
 @Component({
   selector: 'app-poll-result-chart',
@@ -19,17 +20,20 @@ export class PollResultChart {
   readonly canvasRef =
     viewChild<ElementRef<HTMLCanvasElement>>('chartContainer');
 
-  protected readonly data = computed(() => {
+  protected readonly chartConfig = computed<ChartConfiguration | null>(() => {
     const options = this.poll()?.options;
     if (options == null) return null;
     return {
-      labels: options.map((option) => option.optionText),
-      datasets: [
-        {
-          label: 'Result',
-          data: options.map((option) => option.votes),
-        },
-      ],
+      type: 'bar',
+      data: {
+        labels: options.map((option) => option.optionText),
+        datasets: [
+          {
+            label: 'Result',
+            data: options.map((option) => option.votes),
+          },
+        ],
+      },
     };
   });
 }

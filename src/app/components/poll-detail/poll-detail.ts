@@ -13,6 +13,8 @@ import { HlmButtonDirective } from '@ui/button';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Vote } from '@/services/vote';
 import { PollResult } from '../poll-result/poll-result';
+import { Router } from '@angular/router';
+import { PollStore } from '@/services/poll-store';
 
 @Component({
   selector: 'app-poll-detail',
@@ -31,12 +33,12 @@ import { PollResult } from '../poll-result/poll-result';
 })
 export class PollDetail {
   readonly pollId = input<string | null>();
-  private readonly pollApi = inject(PollApi);
+  private readonly pollStore = inject(PollStore);
   private readonly vote = inject(Vote);
 
   protected readonly poll$ = toObservable(this.pollId).pipe(
     filter((pollId) => pollId != null),
-    switchMap((pollId) => this.pollApi.getPoll(pollId))
+    switchMap((pollId) => this.pollStore.getPoll$(pollId))
   );
 
   protected formGroup = new FormGroup({
@@ -51,6 +53,6 @@ export class PollDetail {
 
     if (optionId == null) return;
 
-    this.vote.vote(pollId, optionId);
+    this.vote.vote(pollId, optionId).subscribe();
   }
 }
