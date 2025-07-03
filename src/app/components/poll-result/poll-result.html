@@ -1,4 +1,5 @@
 <form class="flex flex-col gap-5">
+  <app-poll-result-chart [poll]="poll()" />
   <hlm-radio-group [value]="myVote()">
     @for (option of poll()?.options; track option) {
     <label

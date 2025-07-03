@@ -5,6 +5,7 @@ import {
   HlmRadioIndicatorComponent,
 } from '../ui/ui-radio-group-helm/src';
 import { Poll } from '@/models/poll';
+import { PollResultChart } from '../poll-result-chart/poll-result-chart';
 
 @Component({
   selector: 'app-poll-result',
@@ -13,6 +14,7 @@ import { Poll } from '@/models/poll';
     HlmRadioComponent,
     HlmRadioIndicatorComponent,
     HlmRadioGroupComponent,
+    PollResultChart,
   ],
 })
 export class PollResult {
