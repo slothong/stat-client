@@ -39,5 +39,46 @@
     }
   </hlm-form-field>
 
+  <div class="flex">
+    <hlm-form-field>
+      <brn-select placeholder="Year" formControlName="year">
+        <hlm-select-trigger>
+          <hlm-select-value />
+        </hlm-select-trigger>
+        <hlm-select-content class="w-56 h-56">
+          @for (year of yearOptions; track year) {
+          <hlm-option [value]="year">{{year}}</hlm-option>
+          }
+        </hlm-select-content>
+      </brn-select>
+    </hlm-form-field>
+    <hlm-form-field>
+      <brn-select placeholder="Month" formControlName="month">
+        <hlm-select-trigger>
+          <hlm-select-value />
+        </hlm-select-trigger>
+        <hlm-select-content class="w-56 h-56">
+          @for (month of monthOptions; track month) {
+          <hlm-option [value]="month">{{month}}</hlm-option>
+          }
+        </hlm-select-content>
+      </brn-select></hlm-form-field
+    >
+    <brn-select
+      placeholder="Date"
+      [disabled]="!formGroup.controls.year.valid || !formGroup.controls.month.valid"
+    >
+      <hlm-select-trigger>
+        <hlm-select-value />
+      </hlm-select-trigger>
+      <hlm-select-content class="w-56 h-56">
+        @for (date of getDateOptions( formGroup.controls.year.value!,
+        formGroup.controls.month.value!); track date) {
+        <hlm-option [value]="date">{{date}}</hlm-option>
+        }
+      </hlm-select-content>
+    </brn-select>
+  </div>
+
   <button hlmBtn class="w-80" type="submit">회원가입</button>
 </form>
