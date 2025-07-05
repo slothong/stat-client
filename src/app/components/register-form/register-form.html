@@ -42,5 +42,20 @@
     </nz-form-control>
   </nz-form-item>
 
+  <nz-form-item>
+    <nz-form-control>
+      <nz-date-picker formControlName="birth" [nzDisabledDate]="disabledDate" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control>
+      <nz-radio-group formControlName="gender">
+        <label nz-radio nzValue="male">Male</label>
+        <label nz-radio nzValue="female">Female</label>
+      </nz-radio-group>
+    </nz-form-control>
+  </nz-form-item>
+
   <button nz-button nzType="primary" type="submit">회원가입</button>
 </form>

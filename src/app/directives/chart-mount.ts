@@ -1,5 +1,5 @@
 import { Directive, effect, ElementRef, inject, input } from '@angular/core';
-import { Chart, ChartConfiguration, ChartData } from 'chart.js/auto';
+import { Chart, ChartConfiguration } from 'chart.js/auto';
 
 @Directive({
   selector: '[appChartMount]',
@@ -9,14 +9,28 @@ export class ChartMount {
 
   private readonly el = inject<ElementRef<HTMLCanvasElement>>(ElementRef);
 
+  private chart: Chart | null = null;
+
   constructor() {
     effect(() => {
       const chartConfig = this.chartConfig();
       if (chartConfig) {
-        new Chart(this.el.nativeElement, chartConfig);
+        setTimeout(() => {
+          this.chart = new Chart(this.el.nativeElement, chartConfig);
+        });
       }
+      return () => {
+        this.chart?.destroy();
+      };
     });
 
     this.el.nativeElement.setAttribute('role', 'img');
+  }
+
+  ngOnDestroy() {
+    if (this.chart) {
+      this.chart.destroy();
+      this.chart = null;
+    }
   }
 }

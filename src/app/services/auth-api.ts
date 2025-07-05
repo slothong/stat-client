@@ -8,8 +8,13 @@ import { map } from 'rxjs';
 export class AuthApi {
   private readonly http = inject(HttpClient);
 
-  register(email: string, password: string) {
-    return this.http.post('/api/auth/register', { username: email, password });
+  register(email: string, password: string, birth: Date, gender: string) {
+    return this.http.post('/api/auth/register', {
+      username: email,
+      password,
+      birth,
+      gender,
+    });
   }
 
   login(email: string, password: string) {

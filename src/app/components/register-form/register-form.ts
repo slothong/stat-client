@@ -14,6 +14,9 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { Router } from '@angular/router';
 
 function passwordMatchValidator(
   passwordKey: string,
@@ -39,6 +42,8 @@ function passwordMatchValidator(
     NzFormModule,
     NzInputModule,
     NzButtonModule,
+    NzDatePickerModule,
+    NzRadioModule,
     ReactiveFormsModule,
     CommonModule,
   ],
@@ -54,40 +59,36 @@ export class RegisterForm {
         Validators.pattern(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).+$/),
       ]),
       confirmPassword: new FormControl(''),
-      year: new FormControl(null, [Validators.required]),
-      month: new FormControl(null, [Validators.required]),
+      birth: new FormControl<Date | null>(null, [Validators.required]),
+      gender: new FormControl('male', [Validators.required]),
     },
     {
       validators: passwordMatchValidator('password', 'confirmPassword'),
     }
   );
 
-  readonly registrationSuccess = output();
-
   private readonly message = inject(NzMessageService);
   private readonly auth = inject(AuthManager);
+  private readonly router = inject(Router);
 
-  protected readonly yearOptions = Array.from(
-    { length: new Date().getFullYear() - 1900 + 1 },
-    (_, i) => new Date().getFullYear() - i
-  );
-
-  protected readonly monthOptions = Array.from({ length: 12 }, (_, i) => i + 1); // 1~12
-
-  getDateOptions(year: number, month: number): number[] {
-    const lastDate = new Date(year, month, 0).getDate(); // 해당 월의 마지막 날짜
-    return Array.from({ length: lastDate }, (_, i) => i + 1);
-  }
+  protected readonly disabledDate = (date: Date) => {
+    return date.getTime() >= new Date().getTime();
+  };
 
   onSubmit() {
     const email = this.formGroup.controls.email.value;
     const password = this.formGroup.controls.password.value;
-    if (email == null || password == null) return;
+    const birth = this.formGroup.controls.birth.value;
+    const gender = this.formGroup.controls.gender.value;
+    if (email == null || password == null || birth == null || gender == null) {
+      this.message.error('알 수 없는 에러');
+      return;
+    }
 
-    this.auth.register(email, password).subscribe({
+    this.auth.register(email, password, birth, gender).subscribe({
       next: () => {
         this.message.success('회원 가입에 성공했습니다!');
-        this.registrationSuccess.emit();
+        this.router.navigate(['/login']);
       },
       error: () => {
         this.message.error('회원 가입에 실패했습니다.');

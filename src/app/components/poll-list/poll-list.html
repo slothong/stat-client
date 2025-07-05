@@ -1,13 +1,13 @@
 @for (poll of (polls | async); track poll) {
-<a [routerLink]="'/polls/' + poll.id">
-  <nz-card [nzTitle]="poll.question">
-    <nz-radio-group>
-      @for (option of poll.options; track option) {
-      <label nz-radio>
-        <div>{{ option.optionText }}</div>
-      </label>
-      }
-    </nz-radio-group>
-  </nz-card>
-</a>
+<nz-card [routerLink]="'/polls/' + poll.id">
+  <nz-card-meta
+    [nzTitle]="poll.question"
+    [nzDescription]="`by ${poll.createdBy.username} • ${getRelativeTime(poll.createdAt)}`"
+  ></nz-card-meta>
+  <div class="card-body">
+    @for (option of poll.options; track option) {
+    <div nz-radio>{{ option.optionText }}</div>
+    }
+  </div>
+</nz-card>
 }

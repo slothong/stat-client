@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -26,10 +26,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   ],
 })
 export class LoginForm {
-  readonly goToRegister = output();
-  readonly loginSuccess = output();
-
   private readonly message = inject(NzMessageService);
+  private readonly router = inject(Router);
 
   protected readonly formGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -51,10 +49,10 @@ export class LoginForm {
     this.auth.login(email, password).subscribe({
       next: () => {
         this.message.success('로그인에 성공했습니다.');
-        this.loginSuccess.emit();
+        this.router.navigate(['/']);
       },
       error: () => {
-        this.message.error('로그인에 성공했습니다.');
+        this.message.error('로그인에 실패했습니다.');
       },
     });
   }

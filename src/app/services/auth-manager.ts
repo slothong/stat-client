@@ -17,8 +17,8 @@ export class AuthManager {
 
   readonly isAuthenticated = computed(() => this.innerAccessToken() != null);
 
-  register(email: string, password: string) {
-    return this.authApi.register(email, password);
+  register(email: string, password: string, birth: Date, gender: string) {
+    return this.authApi.register(email, password, birth, gender);
   }
 
   login(email: string, password: string) {

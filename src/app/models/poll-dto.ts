@@ -5,6 +5,10 @@ export type PollDto = {
   question: string;
   description?: string;
   createdAt: string;
+  createdBy: {
+    userId: string;
+    username: string;
+  };
   options: OptionDto[];
   hasVoted?: boolean;
 };

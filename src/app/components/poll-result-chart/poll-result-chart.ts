@@ -22,6 +22,7 @@ export class PollResultChart {
 
   protected readonly chartConfig = computed<ChartConfiguration | null>(() => {
     const options = this.poll()?.options;
+    console.log(this.poll());
     if (options == null) return null;
     return {
       type: 'bar',

@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+nz-card {
+  cursor: pointer;
+}
+
+nz-card:hover {
+  background: #f8f8f8;
+}
+
+div.card-body {
+  display: flex;
+  flex-direction: column;
+  padding-top: 15px;
+}
