@@ -1,15 +1,8 @@
-<form class="flex flex-col gap-5">
-  <app-poll-result-chart [poll]="poll()" />
-  <hlm-radio-group [value]="myVote()">
-    @for (option of poll()?.options; track option) {
-    <label
-      class="flex items-center gap-3 border-gray-200 border rounded-lg py-2 px-2 bg-gray-50 hover:bg-gray-100"
-    >
-      <hlm-radio [value]="option.id" [disabled]="true">
-        <hlm-radio-indicator />
-        <div>{{ option.optionText }}</div>
-      </hlm-radio>
-    </label>
-    }
-  </hlm-radio-group>
-</form>
+<app-poll-result-chart [poll]="poll()" />
+<nz-radio-group [ngModel]="myVote()">
+  @for (option of poll()?.options; track option) {
+  <label nz-radio [nzDisabled]="true" [nzValue]="option.id">
+    <div>{{ option.optionText }}</div>
+  </label>
+  }
+</nz-radio-group>

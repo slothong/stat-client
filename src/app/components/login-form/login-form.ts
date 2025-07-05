@@ -8,33 +8,28 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import {
-  ErrorStateMatcher,
-  ShowOnDirtyErrorStateMatcher,
-} from '@spartan-ng/brain/forms';
-import { HlmButtonDirective } from '@ui/button';
-import { HlmFormFieldModule } from '@ui/form-field';
-import { HlmInputModule } from '@ui/input';
-import { toast } from 'ngx-sonner';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.html',
   imports: [
-    HlmButtonDirective,
-    HlmFormFieldModule,
-    HlmInputModule,
     ReactiveFormsModule,
     CommonModule,
     RouterLink,
-  ],
-  providers: [
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+    NzFormModule,
+    NzInputModule,
+    NzButtonModule,
   ],
 })
 export class LoginForm {
   readonly goToRegister = output();
   readonly loginSuccess = output();
+
+  private readonly message = inject(NzMessageService);
 
   protected readonly formGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -55,11 +50,11 @@ export class LoginForm {
 
     this.auth.login(email, password).subscribe({
       next: () => {
-        toast('로그인에 성공했습니다.');
+        this.message.success('로그인에 성공했습니다.');
         this.loginSuccess.emit();
       },
       error: () => {
-        toast('로그인에 실패했습니다.');
+        this.message.error('로그인에 성공했습니다.');
       },
     });
   }

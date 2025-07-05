@@ -1,34 +1,35 @@
-<div class="flex flex-col gap-2">
-  <form
-    class="flex flex-col gap-4 mt-4 items-center"
-    [formGroup]="formGroup"
-    (ngSubmit)="onSubmit()"
-  >
-    <hlm-form-field class="w-80">
-      <input
-        class="w-full"
-        hlmInput
-        type="email"
-        placeholder="Email"
-        formControlName="email"
-      />
-      <hlm-error>이메일을 입력하세요.</hlm-error>
-    </hlm-form-field>
-    <hlm-form-field class="w-80">
-      <input
-        class="w-full"
-        hlmInput
-        type="password"
-        placeholder="Password"
-        formControlName="password"
-      />
-      <hlm-error>
+<div>
+  <form nz-form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <nz-form-item>
+      <nz-form-control nzErrorTip="이메일을 입력하세요.">
+        <nz-input-group nzPrefixIcon="mail">
+          <input
+            type="text"
+            nz-input
+            formControlName="email"
+            placeholder="Email"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control
+        nzErrorTip="
         비밀번호는 8~20자 사이의 영문자, 숫자, 특수문자({{'[!@#$%^&*]'}})를
-        포함해야 합니다.
-      </hlm-error>
-    </hlm-form-field>
+        포함해야 합니다."
+      >
+        <nz-input-group nzPrefixIcon="lock">
+          <input
+            type="password"
+            nz-input
+            formControlName="password"
+            placeholder="Password"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
 
-    <button hlmBtn class="w-80" type="submit">로그인</button>
+    <button nz-button nzType="primary" type="submit">로그인</button>
   </form>
-  <button hlmBtn variant="link" routerLink="/register">회원가입</button>
+  <button nz-button nzType="link" routerLink="/register">회원가입</button>
 </div>

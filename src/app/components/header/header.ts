@@ -1,33 +1,19 @@
-import { Component, computed, effect, inject, input } from '@angular/core';
-import { HlmButtonDirective } from '../ui/ui-button-helm/src';
-import clsx, { ClassValue } from 'clsx';
-import { HlmDialogService } from '../ui/ui-dialog-helm/src';
+import { Component, inject } from '@angular/core';
 import { AuthManager } from '@/services/auth-manager';
 import { MeStore } from '@/services/me-store';
 import { RouterLink } from '@angular/router';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.html',
-  host: {
-    '[class]': 'computedClass()',
-  },
-  imports: [HlmButtonDirective, RouterLink],
+  imports: [RouterLink, NzButtonModule, NzFlexModule],
 })
 export class Header {
-  public readonly userClass = input<ClassValue>('', { alias: 'class' });
-  protected readonly computedClass = computed(() => {
-    return clsx(
-      'flex justify-between items-center py-5 w-full',
-      this.userClass()
-    );
-  });
-
   private readonly auth = inject(AuthManager);
 
   protected readonly me = inject(MeStore).user;
-
-  constructor(private readonly dialog: HlmDialogService) {}
 
   protected readonly isAuthenticated = inject(AuthManager).isAuthenticated;
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -9,17 +9,11 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { HlmButtonDirective } from '@ui/button';
-import { HlmErrorDirective, HlmFormFieldModule } from '@ui/form-field';
-import { HlmInputModule } from '@ui/input';
-import { toast } from 'ngx-sonner';
 import { AuthManager } from '@/services/auth-manager';
-import {
-  ErrorStateMatcher,
-  ShowOnDirtyErrorStateMatcher,
-} from '@spartan-ng/brain/forms';
-import { BrnSelectImports } from '@spartan-ng/brain/select';
-import { HlmSelectImports } from '../ui/ui-select-helm/src';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 function passwordMatchValidator(
   passwordKey: string,
@@ -42,17 +36,11 @@ function passwordMatchValidator(
   selector: 'app-register-form',
   templateUrl: './register-form.html',
   imports: [
-    HlmButtonDirective,
-    HlmFormFieldModule,
-    HlmInputModule,
-    HlmErrorDirective,
-    BrnSelectImports,
-    HlmSelectImports,
+    NzFormModule,
+    NzInputModule,
+    NzButtonModule,
     ReactiveFormsModule,
     CommonModule,
-  ],
-  providers: [
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
   ],
 })
 export class RegisterForm {
@@ -76,6 +64,7 @@ export class RegisterForm {
 
   readonly registrationSuccess = output();
 
+  private readonly message = inject(NzMessageService);
   private readonly auth = inject(AuthManager);
 
   protected readonly yearOptions = Array.from(
@@ -91,19 +80,18 @@ export class RegisterForm {
   }
 
   onSubmit() {
-    console.log(this.formGroup);
-    // const email = this.formGroup.controls.email.value;
-    // const password = this.formGroup.controls.password.value;
-    // if (email == null || password == null) return;
+    const email = this.formGroup.controls.email.value;
+    const password = this.formGroup.controls.password.value;
+    if (email == null || password == null) return;
 
-    // this.auth.register(email, password).subscribe({
-    //   next: () => {
-    //     toast('회원 가입에 성공했습니다!');
-    //     this.registrationSuccess.emit();
-    //   },
-    //   error: () => {
-    //     toast('회원 가입에 실패했습니다.');
-    //   },
-    // });
+    this.auth.register(email, password).subscribe({
+      next: () => {
+        this.message.success('회원 가입에 성공했습니다!');
+        this.registrationSuccess.emit();
+      },
+      error: () => {
+        this.message.error('회원 가입에 실패했습니다.');
+      },
+    });
   }
 }

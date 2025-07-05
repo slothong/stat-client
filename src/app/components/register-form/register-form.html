@@ -1,93 +1,46 @@
-<form
-  class="flex flex-col gap-4 mt-4 items-center"
-  [formGroup]="formGroup"
-  (ngSubmit)="onSubmit()"
->
-  <hlm-form-field class="w-80">
-    <input
-      class="w-full"
-      hlmInput
-      type="email"
-      placeholder="Email"
-      formControlName="email"
-    />
-    <hlm-error>이메일을 입력하세요.</hlm-error>
-  </hlm-form-field>
-  <hlm-form-field class="w-80">
-    <input
-      class="w-full"
-      hlmInput
-      type="password"
-      placeholder="Password"
-      formControlName="password"
-    />
-    <hlm-error>
-      비밀번호는 8~20자 사이의 영문자, 숫자, 특수문자({{'[!@#$%^&*]'}})를
-      포함해야 합니다.
-    </hlm-error>
-  </hlm-form-field>
-  <hlm-form-field class="w-80">
-    <input
-      class="w-full"
-      hlmInput
-      type="password"
-      placeholder="Confirm password"
-      formControlName="confirmPassword"
-    />
-    @if (formGroup.getError('passwordMismatch')) {
-    <hlm-error>비밀번호가 일치하지 않습니다.</hlm-error>
-    }
-  </hlm-form-field>
+<form nz-form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <nz-form-item>
+    <nz-form-control nzErrorTip="이메일을 입력하세요.">
+      <nz-input-group nzPrefixIcon="mail">
+        <input
+          nz-input
+          type="email"
+          placeholder="Email"
+          formControlName="email"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
 
-  <div class="flex">
-    <hlm-form-field>
-      <brn-select placeholder="Year" formControlName="year">
-        <hlm-select-trigger>
-          <hlm-select-value />
-        </hlm-select-trigger>
-        <hlm-select-content class="w-56 h-56">
-          @for (year of yearOptions; track year) {
-          <hlm-option [value]="year">{{year}}</hlm-option>
-          }
-        </hlm-select-content>
-      </brn-select>
-    </hlm-form-field>
-    <hlm-form-field>
-      <brn-select placeholder="Month" formControlName="month">
-        <hlm-select-trigger>
-          <hlm-select-value />
-        </hlm-select-trigger>
-        <hlm-select-content class="w-56 h-56">
-          @for (month of monthOptions; track month) {
-          <hlm-option [value]="month">{{month}}</hlm-option>
-          }
-        </hlm-select-content>
-      </brn-select></hlm-form-field
+  <nz-form-item>
+    <nz-form-control
+      nzErrorTip="
+        비밀번호는 8~20자 사이의 영문자, 숫자, 특수문자({{'[!@#$%^&*]'}})를
+        포함해야 합니다."
     >
-    <brn-select
-      placeholder="Date"
-      [disabled]="!formGroup.controls.year.valid || !formGroup.controls.month.valid"
-    >
-      <hlm-select-trigger>
-        <hlm-select-value />
-      </hlm-select-trigger>
-      <hlm-select-content class="w-56 h-56">
-        @for (date of getDateOptions( formGroup.controls.year.value!,
-        formGroup.controls.month.value!); track date) {
-        <hlm-option [value]="date">{{date}}</hlm-option>
-        }
-      </hlm-select-content>
-    </brn-select>
-  </div>
-  <brn-select placeholder="Gender">
-    <hlm-select-trigger>
-      <hlm-select-value />
-    </hlm-select-trigger>
-    <hlm-select-content class="w-56">
-      <hlm-option value="male">Male</hlm-option>
-      <hlm-option value="female">Female</hlm-option>
-    </hlm-select-content>
-  </brn-select>
+      <nz-input-group nzPrefixIcon="lock">
+        <input
+          type="password"
+          nz-input
+          formControlName="password"
+          placeholder="Password"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
 
-  <button hlmBtn class="w-80" type="submit">회원가입</button>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="비밀번호가 일치하지 않습니다.">
+      <nz-input-group nzPrefixIcon="lock">
+        <input
+          type="password"
+          nz-input
+          formControlName="confirmPassword"
+          placeholder="Confirm password"
+        />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+
+  <button nz-button nzType="primary" type="submit">회원가입</button>
 </form>

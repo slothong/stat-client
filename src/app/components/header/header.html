@@ -1,14 +1,18 @@
-<a class="text-2xl font-bold" routerLink="/">너라면</a>
-<div>
+<div nz-flex nzJustify="space-between">
+  <a routerLink="/">너라면</a>
   @let user = me(); @if (user) {
-  <div class="flex items-center gap-5">
+  <div>
     Hi, {{ user.username}}!
     <div>
-      <button hlmBtn routerLink="/create-poll">설문 만들기</button>
-      <button hlmBtn variant="link" (click)="logout()">로그아웃</button>
+      <button nz-button nzType="primary" routerLink="/create-poll">
+        설문 만들기
+      </button>
+      <button nz-button nzType="text" variant="link" (click)="logout()">
+        로그아웃
+      </button>
     </div>
   </div>
   } @else {
-  <button hlmBtn routerLink="/login">로그인</button>
+  <button nz-button nzType="primary" routerLink="/login">로그인</button>
   }
 </div>

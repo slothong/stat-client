@@ -1,13 +1,6 @@
-@if (authInitialized()) {
-<header class="flex justify-center">
-  <div class="w-5xl flex items-center">
-    <app-header />
-  </div>
+<header>
+  <app-header />
 </header>
-<main class="flex-auto bg-gray-100 flex justify-center">
-  <div class="w-5xl pt-8">
-    <router-outlet />
-  </div>
-  <hlm-toaster />
+<main>
+  <router-outlet></router-outlet>
 </main>
-}

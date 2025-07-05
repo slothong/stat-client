@@ -2,29 +2,26 @@ import { AsyncPipe } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, switchMap } from 'rxjs';
-import { HlmRadioGroupModule } from '@ui/radio-group';
-import {
-  HlmCardContentDirective,
-  HlmCardDirective,
-  HlmCardHeaderDirective,
-} from '@ui/card';
-import { HlmButtonDirective } from '@ui/button';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Vote } from '@/services/vote';
 import { PollResult } from '../poll-result/poll-result';
 import { PollStore } from '@/services/poll-store';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @Component({
   selector: 'app-poll-detail',
   imports: [
     AsyncPipe,
-    HlmRadioGroupModule,
-    HlmCardDirective,
-    HlmCardHeaderDirective,
-    HlmCardContentDirective,
-    HlmButtonDirective,
+    NzFormModule,
+    NzInputModule,
+    NzRadioModule,
+    NzButtonModule,
+    NzCardModule,
     ReactiveFormsModule,
-    HlmCardHeaderDirective,
     PollResult,
   ],
   templateUrl: './poll-detail.html',

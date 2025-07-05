@@ -1,21 +1,13 @@
 import { Component, computed, input } from '@angular/core';
-import {
-  HlmRadioComponent,
-  HlmRadioGroupComponent,
-  HlmRadioIndicatorComponent,
-} from '../ui/ui-radio-group-helm/src';
 import { Poll } from '@/models/poll';
 import { PollResultChart } from '../poll-result-chart/poll-result-chart';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-poll-result',
   templateUrl: './poll-result.html',
-  imports: [
-    HlmRadioComponent,
-    HlmRadioIndicatorComponent,
-    HlmRadioGroupComponent,
-    PollResultChart,
-  ],
+  imports: [NzRadioModule, FormsModule, PollResultChart],
 })
 export class PollResult {
   readonly poll = input<Poll | null>();

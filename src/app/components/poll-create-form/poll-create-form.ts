@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { HlmFormFieldModule } from '../ui/ui-form-field-helm/src/index';
 import {
   FormArray,
   FormControl,
@@ -7,27 +6,25 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { HlmInputModule } from '../ui/ui-input-helm/src';
-import { HlmRadioGroupModule } from '../ui/ui-radio-group-helm/src';
-import { HlmButtonModule } from '../ui/ui-button-helm/src';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { lucideMinus } from '@ng-icons/lucide';
 import { PollApi } from '@/services/poll-api';
 import { toast } from 'ngx-sonner';
 import { Router } from '@angular/router';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-poll-create-form',
   imports: [
-    HlmFormFieldModule,
+    NzFormModule,
+    NzInputModule,
+    NzButtonModule,
+    NzRadioModule,
     ReactiveFormsModule,
-    HlmInputModule,
-    HlmRadioGroupModule,
-    HlmButtonModule,
-    NgIconComponent,
   ],
   templateUrl: './poll-create-form.html',
-  providers: provideIcons({ lucideMinus }),
 })
 export class PollCreateForm {
   protected readonly formGroup = new FormGroup({
@@ -40,6 +37,8 @@ export class PollCreateForm {
   });
 
   private readonly poll = inject(PollApi);
+
+  private readonly message = inject(NzMessageService);
 
   private router = inject(Router);
 
@@ -60,7 +59,7 @@ export class PollCreateForm {
       (option) => option != null
     );
     if (title == null || options == null || options.length < 2) {
-      toast('생성에 실패했습니다.');
+      this.message.error('생성에 실패했습니다.');
       return;
     }
 
@@ -72,7 +71,7 @@ export class PollCreateForm {
       })
       .subscribe({
         next: () => {
-          toast('설문을 생성했습니다!');
+          this.message.success('설문을 생성했습니다!');
           this.router.navigate(['/']);
         },
       });
