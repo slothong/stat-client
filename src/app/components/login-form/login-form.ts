@@ -7,6 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import {
   ErrorStateMatcher,
   ShowOnDirtyErrorStateMatcher,
@@ -25,6 +26,7 @@ import { toast } from 'ngx-sonner';
     HlmInputModule,
     ReactiveFormsModule,
     CommonModule,
+    RouterLink,
   ],
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
