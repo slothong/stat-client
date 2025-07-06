@@ -6,6 +6,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 @Component({
   selector: 'app-poll-list',
@@ -17,6 +18,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzListModule,
     NzTypographyModule,
     NzCardModule,
+    NzSpaceModule,
   ],
   templateUrl: './poll-list.html',
   styleUrl: './poll-list.scss',

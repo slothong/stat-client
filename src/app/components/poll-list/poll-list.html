@@ -5,9 +5,13 @@
     [nzDescription]="`by ${poll.createdBy.username} • ${getRelativeTime(poll.createdAt)}`"
   ></nz-card-meta>
   <div class="card-body">
-    @for (option of poll.options; track option) {
-    <div nz-radio>{{ option.optionText }}</div>
-    }
+    <nz-space nzDirection="vertical" nzSize="small">
+      @for (option of poll.options; track option) {
+      <nz-card nzType="inner" nzSize="small" *nzSpaceItem>
+        <span nz-radio>{{ option.optionText }}</span>
+      </nz-card>
+      }
+    </nz-space>
   </div>
 </nz-card>
 }

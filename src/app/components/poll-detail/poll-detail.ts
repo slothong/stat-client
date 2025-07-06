@@ -11,6 +11,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 @Component({
   selector: 'app-poll-detail',
@@ -21,10 +22,12 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     NzRadioModule,
     NzButtonModule,
     NzCardModule,
+    NzSpaceModule,
     ReactiveFormsModule,
     PollResult,
   ],
   templateUrl: './poll-detail.html',
+  styleUrl: './poll-detail.scss',
 })
 export class PollDetail {
   readonly pollId = input<string | null>();

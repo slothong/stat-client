@@ -7,22 +7,35 @@
     <app-poll-result [poll]="poll" />
     } @else {
     <form nz-form (ngSubmit)="submitForm()" [formGroup]="formGroup">
-      <nz-radio-group formControlName="optionId">
-        @for (option of poll?.options; track option) {
-        <label nz-radio [nzValue]="option.id" [nzDisabled]="!!poll?.hasVoted">
-          {{ option.optionText }}
-        </label>
-        }
-      </nz-radio-group>
+      <nz-space nzDirection="vertical" nzSize="large">
+        <nz-radio-group formControlName="optionId" *nzSpaceItem>
+          <nz-space nzDirection="vertical" nzSize="small">
+            @for (option of poll?.options; track option) {
+            <label *nzSpaceItem>
+              <nz-card nzType="inner" nzSize="small">
+                <span
+                  nz-radio
+                  [nzValue]="option.id"
+                  [nzDisabled]="!!poll?.hasVoted"
+                >
+                  {{ option.optionText }}
+                </span>
+              </nz-card>
+            </label>
+            }
+          </nz-space>
+        </nz-radio-group>
 
-      <button
-        nz-button
-        nzType="primary"
-        type="submit"
-        [disabled]="!!poll?.hasVoted"
-      >
-        투표하기
-      </button>
+        <button
+          *nzSpaceItem
+          nz-button
+          nzType="primary"
+          type="submit"
+          [disabled]="!!poll?.hasVoted"
+        >
+          투표하기
+        </button>
+      </nz-space>
     </form>
     }
   </div>

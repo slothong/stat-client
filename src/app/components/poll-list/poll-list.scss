@@ -8,12 +8,16 @@ nz-card {
   cursor: pointer;
 }
 
-nz-card:hover {
-  background: #f8f8f8;
-}
-
 div.card-body {
   display: flex;
   flex-direction: column;
   padding-top: 15px;
+}
+
+nz-card[nzType="inner"]:hover {
+  background: #fafafa;
+}
+
+span[nz-radio] {
+  pointer-events: none;
 }
