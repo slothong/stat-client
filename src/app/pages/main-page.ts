@@ -1,9 +1,9 @@
-import { PollList } from '@/components/poll-list/poll-list';
+import { PollList } from '@/components/poll-list';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-main-page',
-  templateUrl: './main-page.html',
   imports: [PollList],
+  template: ` <app-poll-list /> `,
 })
 export class MainPage {}

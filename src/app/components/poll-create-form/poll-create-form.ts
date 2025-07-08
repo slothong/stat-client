@@ -7,13 +7,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { PollApi } from '@/services/poll-api';
-import { toast } from 'ngx-sonner';
 import { Router } from '@angular/router';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
 
 @Component({
   selector: 'app-poll-create-form',
@@ -22,6 +23,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
     NzInputModule,
     NzButtonModule,
     NzRadioModule,
+    NzSpaceModule,
+    NzFlexModule,
     ReactiveFormsModule,
   ],
   templateUrl: './poll-create-form.html',

@@ -1,6 +1,18 @@
-@import "ng-zorro-antd/ng-zorro-antd.min.css";
+/* @import "ng-zorro-antd/ng-zorro-antd.min.css"; */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
 
 body {
   padding: 0;
   margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

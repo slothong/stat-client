@@ -1,11 +1,18 @@
-<form nz-form [formGroup]="formGroup" (ngSubmit)="submitForm()">
+<form
+  nz-form
+  [formGroup]="formGroup"
+  (ngSubmit)="submitForm()"
+  nzLayout="vertical"
+>
   <nz-form-item>
     <nz-input-group>
+      <nz-form-label>Title</nz-form-label>
       <input nz-input type="text" placeholder="Title" formControlName="title" />
     </nz-input-group>
   </nz-form-item>
   <nz-form-item>
     <nz-input-group>
+      <nz-form-label>Description</nz-form-label>
       <textarea
         nz-input
         placeholder="Description"
@@ -13,27 +20,43 @@
       ></textarea>
     </nz-input-group>
   </nz-form-item>
-  <nz-radio-group>
-    @for (option of formGroup.controls.options.controls; track option) {
-    <label nz-radio>
-      <input nz-input type="text" placeholder="Option" [formControl]="option" />
-    </label>
-    <button
-      nz-button
-      (click)="removeItem($index)"
-      [disabled]="formGroup.controls.options.controls.length <= 2"
-    >
-      -
-    </button>
-    }
-  </nz-radio-group>
-  <button nz-button nzType="default" (click)="addItem()">추가</button>
-  <button
-    nz-button
-    nzType="primary"
-    type="submit"
-    [disabled]="!formGroup.valid"
-  >
-    제출
-  </button>
+  <div nz-flex [nzVertical]="true" nzGap="middle">
+    <div nz-flex [nzVertical]="true">
+      <nz-form-label>Options</nz-form-label>
+      <nz-radio-group [nzDisabled]="true">
+        <div nz-flex [nzVertical]="true" nzGap="small">
+          @for (option of formGroup.controls.options.controls; track option) {
+          <div nz-flex>
+            <label nz-radio>
+              <input
+                nz-input
+                type="text"
+                placeholder="Option"
+                [formControl]="option"
+              />
+            </label>
+            <button
+              nz-button
+              (click)="removeItem($index)"
+              [disabled]="formGroup.controls.options.controls.length <= 2"
+            >
+              -
+            </button>
+          </div>
+          }
+        </div>
+      </nz-radio-group>
+    </div>
+    <div nz-flex [nzVertical]="true" nzGap="small">
+      <button nz-button nzType="default" (click)="addItem()">추가</button>
+      <button
+        nz-button
+        nzType="primary"
+        type="submit"
+        [disabled]="!formGroup.valid"
+      >
+        제출
+      </button>
+    </div>
+  </div>
 </form>

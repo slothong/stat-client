@@ -6,8 +6,8 @@ import { map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-poll-detail-page',
-  templateUrl: './poll-detail-page.html',
   imports: [PollDetail, AsyncPipe],
+  template: ` <app-poll-detail [pollId]="pollId | async" /> `,
 })
 export class PollDetailPage {
   protected readonly pollId = inject(ActivatedRoute).paramMap.pipe(

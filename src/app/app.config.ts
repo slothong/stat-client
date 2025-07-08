@@ -1,9 +1,14 @@
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
-  provideZonelessChangeDetection, importProvidersFrom,
+  provideZonelessChangeDetection,
+  importProvidersFrom,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import {
+  MAT_DATE_LOCALE,
+  provideNativeDateAdapter,
+} from '@angular/material/core';
 
 import { routes } from './app.routes';
 import {
@@ -19,6 +24,8 @@ import { registerLocaleData } from '@angular/common';
 import ko from '@angular/common/locales/ko';
 import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 registerLocaleData(ko);
 
@@ -34,6 +41,23 @@ export const appConfig: ApplicationConfig = {
         authInterceptor,
         credentialInterceptor,
       ])
-    ), provideNzI18n(ko_KR), importProvidersFrom(FormsModule), provideAnimationsAsync(), provideHttpClient(),
+    ),
+    provideNzI18n(ko_KR),
+    importProvidersFrom(FormsModule),
+    provideAnimationsAsync(),
+    provideHttpClient(),
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {
+        verticalPosition: 'top',
+        duration: 3000,
+      },
+    },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'outline' },
+    },
+    provideNativeDateAdapter(),
+    { provide: MAT_DATE_LOCALE, useValue: 'ko-KR' },
   ],
 };
