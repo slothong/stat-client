@@ -4,7 +4,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { filter, map, switchMap, tap } from 'rxjs';
-import { PollResult } from '@/components/poll-result/poll-result';
+import { PollResult } from '@/components/poll-result';
 
 @Component({
   selector: 'app-poll-detail-page',

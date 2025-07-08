@@ -11,8 +11,15 @@ import { ChartConfiguration } from 'chart.js';
 
 @Component({
   selector: 'app-poll-result-chart',
-  templateUrl: './poll-result-chart.html',
   imports: [ChartMount],
+  template: `
+    <canvas
+      appChartMount
+      [chartConfig]="chartConfig()"
+      width="400"
+      height="100"
+    ></canvas>
+  `,
 })
 export class PollResultChart {
   readonly poll = input<Poll | null | undefined>();
