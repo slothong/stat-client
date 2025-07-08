@@ -9,7 +9,7 @@ import { MatRadioModule } from '@angular/material/radio';
   selector: 'app-poll-list',
   imports: [CommonModule, RouterLink, MatCardModule, MatRadioModule],
   host: {
-    class: 'flex flex-col',
+    class: 'flex flex-col gap-3',
   },
   template: `
     @for (poll of (polls | async); track poll) {

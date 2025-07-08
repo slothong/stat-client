@@ -1,4 +1,4 @@
-import { PollCreateForm } from '@/components/poll-create-form/poll-create-form';
+import { PollCreateForm } from '@/components/poll-create-form';
 import { Component } from '@angular/core';
 
 @Component({
