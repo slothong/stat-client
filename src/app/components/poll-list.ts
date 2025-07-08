@@ -15,7 +15,7 @@ import { MatRadioModule } from '@angular/material/radio';
     @for (poll of (polls | async); track poll) {
     <mat-card
       [routerLink]="'/polls/' + poll.id"
-      class="cursor-pointer"
+      class="cursor-pointer hover:ring-2! hover:ring-blue-100 transition-all duration-300"
       appearance="outlined"
     >
       <mat-card-header>
