@@ -2,22 +2,12 @@ import { Component, inject } from '@angular/core';
 import { AuthManager } from '@/services/auth-manager';
 import { MeStore } from '@/services/me-store';
 import { RouterLink } from '@angular/router';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzFlexModule } from 'ng-zorro-antd/flex';
-import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-header',
-  imports: [
-    MatButtonModule,
-    RouterLink,
-    NzButtonModule,
-    NzFlexModule,
-    NzSpaceModule,
-    MatIconModule,
-  ],
+  imports: [MatButtonModule, RouterLink, MatIconModule],
   host: {
     class: 'flex justify-between items-center h-20',
   },
