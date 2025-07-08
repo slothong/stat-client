@@ -5,6 +5,7 @@ import { CreatePollPage } from './pages/create-poll-page';
 import { PollDetailPage } from './pages/poll-detail-page';
 import { LoginPage } from './pages/login-page';
 import { RegisterPage } from './pages/register-page';
+import { PollResultPage } from './pages/poll-result-page';
 
 export const routes: Routes = [
   {
@@ -27,5 +28,9 @@ export const routes: Routes = [
   {
     path: 'polls/:id',
     component: PollDetailPage,
+  },
+  {
+    path: 'polls/:id/result',
+    component: PollResultPage,
   },
 ];
