@@ -10,16 +10,17 @@ import { PollResultView } from '@/components/poll-result-view';
   selector: 'app-poll-detail-page',
   imports: [PollDetail, AsyncPipe, PollResultView],
   template: `
-    @let poll = (poll$ | async) ?? undefined; @if (poll?.hasVoted) {
-    <app-poll-result-view [pollId]="poll?.id" />
+    @let poll = (poll$ | async) ?? undefined;
+    @if (poll?.hasVoted) {
+      <app-poll-result-view [pollId]="poll?.id" />
     } @else {
-    <app-poll-detail [poll]="poll" />
+      <app-poll-detail [pollId]="(pollId$ | async) ?? undefined" />
     }
   `,
 })
 export class PollDetailPage implements OnInit {
   protected readonly pollId$ = inject(ActivatedRoute).paramMap.pipe(
-    map((p) => p.get('id'))
+    map((p) => p.get('id')),
   );
 
   private readonly pollStore = inject(PollStore);
@@ -28,7 +29,7 @@ export class PollDetailPage implements OnInit {
 
   protected readonly poll$ = this.pollId$.pipe(
     filter((pollId) => pollId != null),
-    switchMap((pollId) => this.pollStore.getPoll$(pollId))
+    switchMap((pollId) => this.pollStore.getPoll$(pollId)),
   );
 
   ngOnInit() {

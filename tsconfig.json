@@ -14,23 +14,39 @@
     "module": "preserve",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/app/*"],
-      "@ui/button": ["./src/app/components/ui/ui-button-helm/src/index.ts"],
-      "@ui/dialog": ["./src/app/components/ui/ui-dialog-helm/src/index.ts"],
-      "@ui/icon": ["./src/app/components/ui/ui-icon-helm/src/index.ts"],
+      "@/*": [
+        "src/app/*"
+      ],
+      "@ui/button": [
+        "./src/app/components/ui/ui-button-helm/src/index.ts"
+      ],
+      "@ui/dialog": [
+        "./src/app/components/ui/ui-dialog-helm/src/index.ts"
+      ],
+      "@ui/icon": [
+        "./src/app/components/ui/ui-icon-helm/src/index.ts"
+      ],
       "@ui/form-field": [
         "./src/app/components/ui/ui-form-field-helm/src/index.ts"
       ],
-      "@ui/input": ["./src/app/components/ui/ui-input-helm/src/index.ts"],
+      "@ui/input": [
+        "./src/app/components/ui/ui-input-helm/src/index.ts"
+      ],
       "@ui/typography": [
         "./src/app/components/ui/ui-typography-helm/src/index.ts"
       ],
-      "@ui/sonner": ["./src/app/components/ui/ui-sonner-helm/src/index.ts"],
+      "@ui/sonner": [
+        "./src/app/components/ui/ui-sonner-helm/src/index.ts"
+      ],
       "@ui/radio-group": [
         "./src/app/components/ui/ui-radio-group-helm/src/index.ts"
       ],
-      "@ui/card": ["./src/app/components/ui/ui-card-helm/src/index.ts"],
-      "@ui/select": ["./src/app/components/ui/ui-select-helm/src/index.ts"]
+      "@ui/card": [
+        "./src/app/components/ui/ui-card-helm/src/index.ts"
+      ],
+      "@ui/select": [
+        "./src/app/components/ui/ui-select-helm/src/index.ts"
+      ]
     }
   },
   "angularCompilerOptions": {
