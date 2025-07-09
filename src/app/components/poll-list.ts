@@ -1,9 +1,9 @@
-import { PollApi } from '@/services/poll-api';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
+import { PollListQueries } from '@/services/poll-list-queries';
 
 @Component({
   selector: 'app-poll-list',
@@ -12,7 +12,11 @@ import { MatRadioModule } from '@angular/material/radio';
     class: 'flex flex-col gap-3',
   },
   template: `
-    @for (poll of (polls | async); track poll) {
+    @if(pollList.result$ | async; as result) { @if (result.isLoading) {
+    <p>Loading</p>
+    } @if (result.isError) {
+    <p>Error</p>
+    } @if (result.isSuccess) { @for (poll of result.data; track poll) {
     <mat-card
       [routerLink]="'/polls/' + poll.id"
       class="cursor-pointer hover:ring-2! hover:ring-blue-100 transition-all duration-300"
@@ -37,13 +41,11 @@ import { MatRadioModule } from '@angular/material/radio';
         </div>
       </mat-card-content>
     </mat-card>
-    }
+    } } }
   `,
 })
 export class PollList {
-  private readonly pollApi = inject(PollApi);
-
-  protected readonly polls = this.pollApi.getPollList();
+  protected readonly pollList = inject(PollListQueries).getPolls();
 
   protected getRelativeTime(date: Date) {
     const now = new Date();
