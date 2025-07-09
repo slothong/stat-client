@@ -19,7 +19,6 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { baseUrlInterceptor } from './http-interceptors/base-url-interceptor';
 import { authInterceptor } from './http-interceptors/auth-interceptor';
 import { credentialInterceptor } from './http-interceptors/credential-interceptor';
-import { ko_KR, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import ko from '@angular/common/locales/ko';
 import { FormsModule } from '@angular/forms';
@@ -42,7 +41,6 @@ export const appConfig: ApplicationConfig = {
         credentialInterceptor,
       ])
     ),
-    provideNzI18n(ko_KR),
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),
     provideHttpClient(),

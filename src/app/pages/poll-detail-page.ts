@@ -4,14 +4,14 @@ import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, map, switchMap, tap } from 'rxjs';
-import { PollResult } from '@/components/poll-result';
+import { PollResultView } from '@/components/poll-result-view';
 
 @Component({
   selector: 'app-poll-detail-page',
-  imports: [PollDetail, AsyncPipe, PollResult],
+  imports: [PollDetail, AsyncPipe, PollResultView],
   template: `
     @let poll = (poll$ | async) ?? undefined; @if (poll?.hasVoted) {
-    <app-poll-result [poll]="poll" />
+    <app-poll-result-view [pollId]="poll?.id" />
     } @else {
     <app-poll-detail [poll]="poll" />
     }

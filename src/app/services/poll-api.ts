@@ -1,5 +1,6 @@
 import { Poll } from '@/models/poll';
 import { PollDto } from '@/models/poll-dto';
+import { PollResultDto } from '@/models/poll-result-dto';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map } from 'rxjs';
@@ -38,5 +39,9 @@ export class PollApi {
         optionIds: [optionId],
       })
       .pipe(map((pollDto) => Poll.fromDto(pollDto)));
+  }
+
+  getPollResult$(pollId: string) {
+    return this.http.get<PollResultDto>(`/api/polls/${pollId}/result`);
   }
 }

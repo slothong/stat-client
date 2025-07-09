@@ -8,7 +8,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthManager } from '@/services/auth-manager';
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
 import { ZodError } from '@/components/zod-error';
 import { HasErrorRoot } from '@/directives/has-error-root';
@@ -180,16 +179,9 @@ export class RegisterForm {
   protected readonly minDate = new Date(1900, 0, 1);
   protected readonly maxDate = new Date();
 
-  private readonly message = inject(NzMessageService);
   private readonly auth = inject(AuthManager);
   private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
-
-  constructor() {
-    this.formGroup.statusChanges.subscribe((event) => {
-      console.log(event, this.formGroup);
-    });
-  }
 
   onSubmit() {
     const email = this.formGroup.controls.email.value;
@@ -197,7 +189,7 @@ export class RegisterForm {
     const birth = this.formGroup.controls.birth.value;
     const gender = this.formGroup.controls.gender.value;
     if (email == null || password == null || birth == null || gender == null) {
-      this.message.error('알 수 없는 에러');
+      this.snackBar.open('알 수 없는 에러');
       return;
     }
 

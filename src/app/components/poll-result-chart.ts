@@ -1,5 +1,6 @@
 import { ChartMount } from '@/directives/chart-mount';
 import { Poll } from '@/models/poll';
+import { PollResult } from '@/models/poll-result';
 import {
   Component,
   computed,
@@ -22,14 +23,13 @@ import { ChartConfiguration } from 'chart.js';
   `,
 })
 export class PollResultChart {
-  readonly poll = input<Poll | null | undefined>();
+  readonly pollResult = input<PollResult | null>();
 
   readonly canvasRef =
     viewChild<ElementRef<HTMLCanvasElement>>('chartContainer');
 
   protected readonly chartConfig = computed<ChartConfiguration | null>(() => {
-    const options = this.poll()?.options;
-    console.log(this.poll());
+    const options = this.pollResult()?.options;
     if (options == null) return null;
     return {
       type: 'bar',
@@ -38,7 +38,7 @@ export class PollResultChart {
         datasets: [
           {
             label: 'Result',
-            data: options.map((option) => option.votes),
+            data: options.map((option) => option.voteCount),
           },
         ],
       },
