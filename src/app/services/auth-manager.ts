@@ -18,24 +18,24 @@ export class AuthManager {
   readonly isAuthenticated = computed(() => this.innerAccessToken() != null);
 
   register(email: string, password: string, birth: Date, gender: string) {
-    return this.authApi.register(email, password, birth, gender);
+    return this.authApi.register$(email, password, birth, gender);
   }
 
   login(email: string, password: string) {
     return this.authApi
-      .login(email, password)
+      .login$(email, password)
       .pipe(tap((accessToken) => this.innerAccessToken.set(accessToken)));
   }
 
   refresh() {
     return this.authApi
-      .refresh()
+      .refresh$()
       .pipe(tap((accessToken) => this.innerAccessToken.set(accessToken)));
   }
 
   logout() {
     this.innerAccessToken.set(null);
-    this.authApi.logout().subscribe({
+    this.authApi.logout$().subscribe({
       next: () => {
         this.router.navigate(['']);
       },

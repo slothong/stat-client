@@ -8,7 +8,7 @@ import { map } from 'rxjs';
 export class AuthApi {
   private readonly http = inject(HttpClient);
 
-  register(email: string, password: string, birth: Date, gender: string) {
+  register$(email: string, password: string, birth: Date, gender: string) {
     return this.http.post('/api/auth/register', {
       username: email,
       password,
@@ -17,7 +17,7 @@ export class AuthApi {
     });
   }
 
-  login(email: string, password: string) {
+  login$(email: string, password: string) {
     return this.http
       .post<{ accessToken: string }>('/api/auth/login', {
         username: email,
@@ -26,13 +26,13 @@ export class AuthApi {
       .pipe(map((res) => res.accessToken));
   }
 
-  refresh() {
+  refresh$() {
     return this.http
       .post<{ accessToken: string }>('/api/auth/refresh', {})
       .pipe(map((res) => res.accessToken));
   }
 
-  logout() {
+  logout$() {
     return this.http.post('/api/auth/logout', {});
   }
 }

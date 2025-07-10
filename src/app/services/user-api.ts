@@ -10,7 +10,7 @@ import { map } from 'rxjs';
 export class UserApi {
   private readonly http = inject(HttpClient);
 
-  getMe() {
+  getMe$() {
     return this.http
       .get<UserDto>('/api/users/me')
       .pipe(map((userDto) => User.fromDto(userDto)));

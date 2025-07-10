@@ -3,18 +3,18 @@ import { PollStore } from '@/services/poll-store';
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, map, switchMap, tap } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs';
 import { PollResultView } from '@/components/poll-result-view';
 
 @Component({
   selector: 'app-poll-detail-page',
   imports: [PollDetail, AsyncPipe, PollResultView],
   template: `
-    @let poll = (poll$ | async) ?? undefined;
+    @let poll = poll$ | async;
     @if (poll?.hasVoted) {
       <app-poll-result-view [pollId]="poll?.id" />
     } @else {
-      <app-poll-detail [pollId]="(pollId$ | async) ?? undefined" />
+      <app-poll-detail [pollId]="pollId$ | async" />
     }
   `,
 })
