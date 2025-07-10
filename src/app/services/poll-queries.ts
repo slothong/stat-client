@@ -25,6 +25,14 @@ export class PollQueries {
     });
   }
 
+  getPollResult$(pollId?: string) {
+    return this.query({
+      queryKey: ['polls', pollId, 'result'],
+      queryFn: () => this.pollApi.getPollResult$(pollId!),
+      enabled: pollId != null,
+    });
+  }
+
   // createPoll() {
   //   return this.mutation({
   //     mutationFn: ()

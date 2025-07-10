@@ -1,24 +1,20 @@
-import {
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
-import { PollApi } from '@/services/poll-api';
-import { PollResult } from '@/models/poll-result';
 import { PollResultChart } from './poll-result-chart';
+import { map, ReplaySubject, switchMap } from 'rxjs';
+import { PollQueries } from '@/services/poll-queries';
+import { AsyncPipe } from '@angular/common';
+
 @Component({
   selector: 'app-poll-result-view',
-  imports: [FormsModule, PollResultChart, MatRadioModule],
+  imports: [FormsModule, PollResultChart, MatRadioModule, AsyncPipe],
   template: `
-    <app-poll-result-chart [pollResult]="pollResult()" />
+    @let pollResult = (pollResult$ | async)?.data;
+    <app-poll-result-chart [pollResult]="pollResult" />
     <mat-radio-group [disabled]="true" class="flex flex-col">
-      @for (option of pollResult()?.options; track option) {
-        <mat-radio-button [checked]="option.id === myVote()">
+      @for (option of pollResult?.options; track option) {
+        <mat-radio-button [checked]="option.id === (myVote$ | async)">
           {{ option.optionText }}
         </mat-radio-button>
       }
@@ -26,25 +22,23 @@ import { PollResultChart } from './poll-result-chart';
   `,
 })
 export class PollResultView {
-  readonly pollId = input<string | null>();
-
-  protected readonly pollResult = signal<PollResult | null>(null);
-
-  private readonly api = inject(PollApi);
-
-  protected readonly myVote = computed(() => {
-    const pollResult = this.pollResult();
-    return pollResult?.options.find((option) => option.votedByMe)?.id;
-  });
-
-  constructor() {
-    effect(() => {
-      const pollId = this.pollId();
-      if (pollId) {
-        this.api.getPollResult$(pollId).subscribe({
-          next: (result) => this.pollResult.set(result),
-        });
-      }
-    });
+  @Input()
+  set pollId(value: string) {
+    this.pollId$.next(value);
   }
+
+  readonly pollId$ = new ReplaySubject<string>(1);
+
+  private readonly pollQueries = inject(PollQueries);
+
+  protected readonly pollResult$ = this.pollId$.pipe(
+    switchMap((pollId) => this.pollQueries.getPollResult$(pollId).result$),
+  );
+
+  protected readonly myVote$ = this.pollResult$.pipe(
+    map(
+      (pollResult) =>
+        pollResult.data?.options.find((option) => option.votedByMe)?.id,
+    ),
+  );
 }
