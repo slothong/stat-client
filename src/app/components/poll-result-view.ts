@@ -34,7 +34,7 @@ export class PollResultView {
   private readonly pollQueries = inject(PollQueries);
 
   protected readonly pollResult$ = this.pollId$.pipe(
-    switchMap((pollId) => this.pollQueries.getPollResult$(pollId).result$),
+    switchMap((pollId) => this.pollQueries.getPollResult$(pollId)),
   );
 
   protected readonly myVote$ = this.pollResult$.pipe(

@@ -1,20 +1,20 @@
-import { PollDetail } from '@/components/poll-detail';
+import { VoteForm } from '@/components/vote-form';
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs';
 import { PollResultView } from '@/components/poll-result-view';
 import { PollQueries } from '@/services/poll-queries';
 
 @Component({
   selector: 'app-poll-detail-page',
-  imports: [PollDetail, AsyncPipe, PollResultView],
+  imports: [VoteForm, AsyncPipe, PollResultView],
   template: `
     @let poll = (poll$ | async)?.data;
     @if (poll?.hasVoted) {
       <app-poll-result-view [pollId]="pollId$ | async" />
     } @else {
-      <app-poll-detail [pollId]="pollId$ | async" />
+      <app-vote-form [pollId]="pollId$ | async" />
     }
   `,
 })
@@ -26,8 +26,7 @@ export class PollDetailPage {
   private readonly pollQueries = inject(PollQueries);
 
   protected poll$ = this.pollId$.pipe(
-    switchMap(
-      (pollId) => this.pollQueries.getPoll$(pollId ?? undefined).result$,
-    ),
+    filter((pollId): pollId is string => !!pollId),
+    switchMap((pollId) => this.pollQueries.getPoll$(pollId)),
   );
 }

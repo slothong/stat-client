@@ -19,7 +19,7 @@ import {
 import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-poll-detail',
+  selector: 'app-vote-form',
   imports: [
     MatFormFieldModule,
     MatInputModule,
@@ -68,7 +68,7 @@ import { AsyncPipe } from '@angular/common';
     }
   `,
 })
-export class PollDetail {
+export class VoteForm {
   @Input()
   set pollId(value: string | null) {
     if (value) {
@@ -81,7 +81,7 @@ export class PollDetail {
   private readonly pollQueries = inject(PollQueries);
 
   readonly pollQuery$ = this.pollId$.pipe(
-    switchMap((pollId) => this.pollQueries.getPoll$(pollId).result$),
+    switchMap((pollId) => this.pollQueries.getPoll$(pollId)),
     shareReplay(1),
   );
 

@@ -16,6 +16,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PollQueries } from '@/services/poll-queries';
 
 const formSchema = z.object({
   title: z.string().nonempty(),
@@ -103,6 +104,8 @@ export class PollCreateForm {
 
   private readonly poll = inject(PollApi);
 
+  private readonly createPoll = inject(PollQueries).createPoll();
+
   private readonly snackbar = inject(MatSnackBar);
 
   private router = inject(Router);
@@ -128,17 +131,18 @@ export class PollCreateForm {
       return;
     }
 
-    this.poll
-      .createPoll$({
+    this.createPoll.mutate(
+      {
         question: title,
         description,
         options,
-      })
-      .subscribe({
-        next: () => {
+      },
+      {
+        onSuccess: () => {
           this.snackbar.open('설문을 생성했습니다!');
           this.router.navigate(['/']);
         },
-      });
+      },
+    );
   }
 }

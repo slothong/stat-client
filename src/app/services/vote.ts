@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { PollApi } from './poll-api';
 import { tap } from 'rxjs';
 import { injectQueryClient } from '@ngneat/query';
+import { PollQueries } from './poll-queries';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class Vote {
     return this.pollApi.votePoll$(pollId, optionId).pipe(
       tap(() => {
         this.queryClient.invalidateQueries({
-          queryKey: ['polls', pollId],
+          queryKey: PollQueries.getPollQueryKey(pollId),
         });
       }),
     );
