@@ -6,6 +6,6 @@ export interface Comment {
     username: string;
   };
   content: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

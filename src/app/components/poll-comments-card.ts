@@ -1,4 +1,5 @@
 import { CommentQueries } from '@/services/comment-queries';
+import { getRelativeDateText } from '@/utils/date';
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import {
@@ -11,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { injectQueryClient } from '@ngneat/query';
@@ -25,6 +27,7 @@ import { map, ReplaySubject, switchMap } from 'rxjs';
     MatListModule,
     MatButtonModule,
     MatDividerModule,
+    MatIconModule,
     ReactiveFormsModule,
     AsyncPipe,
   ],
@@ -57,12 +60,22 @@ import { map, ReplaySubject, switchMap } from 'rxjs';
               @for (comment of comments; track comment.id) {
                 <mat-card appearance="outlined">
                   <mat-card-content>
-                    <div class="text-sm text-gray-400">
-                      {{ comment.author.username }}
+                    <div class="text-sm mb-3">
+                      <span class="text-black">
+                        {{ comment.author.username }}
+                      </span>
+                      <span class="text-gray-400">
+                        •
+                        {{ getDateText(comment.createdAt) }}
+                      </span>
                     </div>
-                    {{ comment.content }}
-                    <div class="text-sm text-gray-400">
-                      {{ comment.createdAt }}
+                    <div>
+                      {{ comment.content }}
+                    </div>
+                    <div>
+                      <mat-icon fontSet="material-icons-outlined">
+                        comment
+                      </mat-icon>
                     </div>
                   </mat-card-content>
                 </mat-card>
@@ -103,5 +116,9 @@ export class PollCommentsCard {
       this.commentQueries.postComment(pollId).mutate(content);
       this.formGroup.reset();
     });
+  }
+
+  protected getDateText(date: Date) {
+    return getRelativeDateText(date);
   }
 }

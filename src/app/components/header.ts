@@ -17,7 +17,7 @@ import { AsyncPipe } from '@angular/common';
     <div class="flex items-center gap-3">
       @let user = me$ | async;
       @if (user) {
-        <span>Hi, {{ user.username }}!</span>
+        <span [routerLink]="'/users/' + user.id">Hi, {{ user.username }}!</span>
         <button matButton="filled" routerLink="/create-poll">
           <mat-icon>add</mat-icon>
           설문 만들기
