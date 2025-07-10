@@ -1,5 +1,5 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { tap } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, map, ReplaySubject, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthApi } from './auth-api';
 
@@ -9,36 +9,36 @@ import { AuthApi } from './auth-api';
 export class AuthManager {
   private readonly authApi = inject(AuthApi);
 
-  private readonly innerAccessToken = signal<string | null>(null);
-
   private readonly router = inject(Router);
 
-  readonly accessToken = this.innerAccessToken.asReadonly();
+  private readonly innerAccessToken$ = new BehaviorSubject<string | null>(null); // new ReplaySubject<string | null>(1);
 
-  readonly isAuthenticated = computed(() => this.innerAccessToken() != null);
+  readonly accessToken$ = this.innerAccessToken$.asObservable();
 
-  register(email: string, password: string, birth: Date, gender: string) {
+  readonly isAuthenticated$ = this.accessToken$.pipe(map((token) => !!token));
+
+  register$(email: string, password: string, birth: Date, gender: string) {
     return this.authApi.register$(email, password, birth, gender);
   }
 
-  login(email: string, password: string) {
+  login$(email: string, password: string) {
     return this.authApi
       .login$(email, password)
-      .pipe(tap((accessToken) => this.innerAccessToken.set(accessToken)));
+      .pipe(tap((accessToken) => this.innerAccessToken$.next(accessToken)));
   }
 
-  refresh() {
+  refresh$() {
     return this.authApi
       .refresh$()
-      .pipe(tap((accessToken) => this.innerAccessToken.set(accessToken)));
+      .pipe(tap((accessToken) => this.innerAccessToken$.next(accessToken)));
   }
 
-  logout() {
-    this.innerAccessToken.set(null);
-    this.authApi.logout$().subscribe({
-      next: () => {
+  logout$() {
+    return this.authApi.logout$().pipe(
+      tap(() => {
+        this.innerAccessToken$.next(null);
         this.router.navigate(['']);
-      },
-    });
+      }),
+    );
   }
 }

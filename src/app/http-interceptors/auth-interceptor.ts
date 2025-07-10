@@ -1,20 +1,21 @@
 import { AuthManager } from '@/services/auth-manager';
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 
 export function authInterceptor(
   req: HttpRequest<unknown>,
-  next: HttpHandlerFn
+  next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
-  const accessToken = inject(AuthManager).accessToken();
-
-  if (accessToken) {
-    return next(
-      req.clone({
-        headers: req.headers.set('Authorization', `Bearer ${accessToken}`),
-      })
-    );
-  }
-  return next(req);
+  return inject(AuthManager).accessToken$.pipe(
+    switchMap((accessToken) => {
+      if (accessToken) {
+        const authReq = req.clone({
+          headers: req.headers.set('Authorization', `Bearer ${accessToken}`),
+        });
+        return next(authReq);
+      }
+      return next(req);
+    }),
+  );
 }

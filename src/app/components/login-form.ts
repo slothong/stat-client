@@ -28,7 +28,7 @@ const loginFormSchema = {
       {
         message:
           'Password must include letters, numbers, and special characters.',
-      }
+      },
     )
     .regex(/^\S*$/, {
       message: 'Password must not contain spaces.',
@@ -122,7 +122,7 @@ export class LoginForm {
     },
     {
       validators: zodValidator(z.object(loginFormSchema)),
-    }
+    },
   );
 
   private readonly auth = inject(AuthManager);
@@ -132,7 +132,7 @@ export class LoginForm {
     const password = this.formGroup.controls.password.value;
     if (email == null || password == null) return;
 
-    this.auth.login(email, password).subscribe({
+    this.auth.login$(email, password).subscribe({
       next: () => {
         this.snackBar.open('로그인에 성공했습니다.');
         this.router.navigate(['/']);

@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { AuthManager } from './auth-manager';
 import { UserApi } from './user-api';
-import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, shareReplay, switchMap } from 'rxjs';
 
 @Injectable({
@@ -9,9 +8,7 @@ import { filter, shareReplay, switchMap } from 'rxjs';
 })
 export class MeStore {
   private readonly userApi = inject(UserApi);
-  private readonly isAuthenticated$ = toObservable(
-    inject(AuthManager).isAuthenticated,
-  );
+  private readonly isAuthenticated$ = inject(AuthManager).isAuthenticated$;
 
   readonly user$ = this.isAuthenticated$.pipe(
     filter((auth) => auth === true),

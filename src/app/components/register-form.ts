@@ -36,7 +36,7 @@ const registerFormSchema = z
         {
           message:
             'Password must include letters, numbers, and special characters.',
-        }
+        },
       )
       .regex(/^\S*$/, {
         message: 'Password must not contain spaces.',
@@ -171,7 +171,7 @@ export class RegisterForm {
     },
     {
       validators: zodValidator(registerFormSchema),
-    }
+    },
   );
 
   protected readonly hidePassword = signal(true);
@@ -193,7 +193,7 @@ export class RegisterForm {
       return;
     }
 
-    this.auth.register(email, password, birth, gender).subscribe({
+    this.auth.register$(email, password, birth, gender).subscribe({
       next: () => {
         this.snackBar.open('회원 가입에 성공했습니다!');
         this.router.navigate(['/login']);

@@ -8,12 +8,12 @@ import { AuthManager } from './services/auth-manager';
   imports: [RouterOutlet, Header],
   template: `
     @if (authInitialized()) {
-    <header class="px-32">
-      <app-header />
-    </header>
-    <main class="px-32">
-      <router-outlet></router-outlet>
-    </main>
+      <header class="px-32">
+        <app-header />
+      </header>
+      <main class="px-32">
+        <router-outlet></router-outlet>
+      </main>
     }
   `,
 })
@@ -23,7 +23,7 @@ export class App implements OnInit {
   protected readonly authInitialized = signal(false);
 
   ngOnInit() {
-    this.auth.refresh().subscribe({
+    this.auth.refresh$().subscribe({
       next: () => this.authInitialized.set(true),
       error: () => this.authInitialized.set(true),
     });

@@ -34,9 +34,7 @@ export class Header {
 
   protected readonly me$ = inject(MeStore).user$;
 
-  protected readonly isAuthenticated = inject(AuthManager).isAuthenticated;
-
   protected logout() {
-    this.auth.logout();
+    this.auth.logout$();
   }
 }
