@@ -11,6 +11,6 @@ import { map } from 'rxjs';
 })
 export class PollResultPage {
   protected readonly pollId$ = inject(ActivatedRoute).paramMap.pipe(
-    map((p) => p.get('id'))
+    map((p) => p.get('id')),
   );
 }

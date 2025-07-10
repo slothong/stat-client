@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, map, ReplaySubject, shareReplay, tap } from 'rxjs';
-import { Router } from '@angular/router';
+import { BehaviorSubject, map, tap } from 'rxjs';
 import { AuthApi } from './auth-api';
 
 @Injectable({
@@ -8,8 +7,6 @@ import { AuthApi } from './auth-api';
 })
 export class AuthManager {
   private readonly authApi = inject(AuthApi);
-
-  private readonly router = inject(Router);
 
   private readonly innerAccessToken$ = new BehaviorSubject<string | null>(null); // new ReplaySubject<string | null>(1);
 
@@ -37,7 +34,6 @@ export class AuthManager {
     return this.authApi.logout$().pipe(
       tap(() => {
         this.innerAccessToken$.next(null);
-        this.router.navigate(['']);
       }),
     );
   }

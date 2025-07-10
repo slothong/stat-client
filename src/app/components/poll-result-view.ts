@@ -23,8 +23,10 @@ import { AsyncPipe } from '@angular/common';
 })
 export class PollResultView {
   @Input()
-  set pollId(value: string) {
-    this.pollId$.next(value);
+  set pollId(value: string | null) {
+    if (value) {
+      this.pollId$.next(value);
+    }
   }
 
   readonly pollId$ = new ReplaySubject<string>(1);

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AuthManager } from '@/services/auth-manager';
 import { MeStore } from '@/services/me-store';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe } from '@angular/common';
@@ -34,7 +34,11 @@ export class Header {
 
   protected readonly me$ = inject(MeStore).user$;
 
+  private readonly router = inject(Router);
+
   protected logout() {
-    this.auth.logout$();
+    this.auth.logout$().subscribe({
+      next: () => this.router.navigate(['/']),
+    });
   }
 }

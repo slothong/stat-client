@@ -13,8 +13,8 @@ export class ZodError {
 
   private status$ = this.hasErrorRoot.formControl$.pipe(
     switchMap((control) =>
-      (control?.statusChanges ?? EMPTY).pipe(startWith(null))
-    )
+      (control?.statusChanges ?? EMPTY).pipe(startWith(null)),
+    ),
   );
 
   protected readonly error$ = combineLatest([
@@ -23,6 +23,6 @@ export class ZodError {
   ]).pipe(
     map(([control]) => {
       return control?.getError('zodError');
-    })
+    }),
   );
 }

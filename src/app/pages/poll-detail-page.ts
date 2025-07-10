@@ -12,7 +12,7 @@ import { PollQueries } from '@/services/poll-queries';
   template: `
     @let poll = (poll$ | async)?.data;
     @if (poll?.hasVoted) {
-      <app-poll-result-view [pollId]="poll?.id" />
+      <app-poll-result-view [pollId]="pollId$ | async" />
     } @else {
       <app-poll-detail [pollId]="pollId$ | async" />
     }
