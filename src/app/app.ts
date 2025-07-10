@@ -1,29 +1,26 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from '@/components/header';
 import { AuthManager } from './services/auth-manager';
+import { map } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header],
+  imports: [RouterOutlet, Header, AsyncPipe],
   template: `
-    <header class="px-32">
-      <app-header />
-    </header>
-    <main class="px-32">
-      <router-outlet></router-outlet>
-    </main>
+    @if (authInitialized | async) {
+      <header class="px-32">
+        <app-header />
+      </header>
+      <main class="px-32">
+        <router-outlet></router-outlet>
+      </main>
+    }
   `,
 })
-export class App implements OnInit {
-  private readonly auth = inject(AuthManager);
-
-  protected readonly authInitialized = signal(false);
-
-  ngOnInit() {
-    this.auth.refresh$().subscribe({
-      next: () => this.authInitialized.set(true),
-      error: () => this.authInitialized.set(true),
-    });
-  }
+export class App {
+  protected readonly authInitialized = inject(AuthManager)
+    .refresh$()
+    .pipe(map(() => true));
 }

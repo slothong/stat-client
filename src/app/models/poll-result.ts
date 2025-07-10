@@ -1,4 +1,4 @@
-export type PollResult = {
+export interface PollResult {
   pollId: string;
   question: string;
   description?: string;
@@ -8,4 +8,4 @@ export type PollResult = {
     voteCount: number;
     votedByMe: boolean;
   }[];
-};
+}

@@ -5,10 +5,17 @@ import { PollResultChart } from './poll-result-chart';
 import { map, ReplaySubject, switchMap } from 'rxjs';
 import { PollQueries } from '@/services/poll-queries';
 import { AsyncPipe } from '@angular/common';
+import { PollCommentsCard } from './poll-comments-card';
 
 @Component({
   selector: 'app-poll-result-view',
-  imports: [FormsModule, PollResultChart, MatRadioModule, AsyncPipe],
+  imports: [
+    FormsModule,
+    PollResultChart,
+    MatRadioModule,
+    AsyncPipe,
+    PollCommentsCard,
+  ],
   template: `
     @let pollResult = (pollResult$ | async)?.data;
     <app-poll-result-chart [pollResult]="pollResult" />
@@ -19,6 +26,7 @@ import { AsyncPipe } from '@angular/common';
         </mat-radio-button>
       }
     </mat-radio-group>
+    <app-poll-comments-card [pollId]="pollId$ | async" />
   `,
 })
 export class PollResultView {
