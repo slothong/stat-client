@@ -12,7 +12,7 @@ import { PollQueries } from '@/services/poll-queries';
     class: 'flex flex-col gap-3',
   },
   template: `
-    @if (pollList.result$ | async; as result) {
+    @if (pollList$ | async; as result) {
       @if (result.isLoading) {
         <p>Loading</p>
       }
@@ -51,7 +51,7 @@ import { PollQueries } from '@/services/poll-queries';
   `,
 })
 export class PollList {
-  protected readonly pollList = inject(PollQueries).getPolls();
+  protected readonly pollList$ = inject(PollQueries).getPolls$();
 
   protected getRelativeTime(date: Date) {
     const now = new Date();

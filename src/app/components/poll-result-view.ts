@@ -15,13 +15,12 @@ import { PollResultChart } from './poll-result-chart';
   selector: 'app-poll-result-view',
   imports: [FormsModule, PollResultChart, MatRadioModule],
   template: `
-    abc
     <app-poll-result-chart [pollResult]="pollResult()" />
     <mat-radio-group [disabled]="true" class="flex flex-col">
       @for (option of pollResult()?.options; track option) {
-      <mat-radio-button [checked]="option.id === myVote()">
-        {{ option.optionText }}
-      </mat-radio-button>
+        <mat-radio-button [checked]="option.id === myVote()">
+          {{ option.optionText }}
+        </mat-radio-button>
       }
     </mat-radio-group>
   `,

@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { injectMutation, injectQuery } from '@ngneat/query';
 import { PollApi } from './poll-api';
-import { Poll } from '@/models/poll';
 
 @Injectable({
   providedIn: 'root',
@@ -11,17 +10,17 @@ export class PollQueries {
   private readonly mutation = injectMutation();
   private readonly pollApi = inject(PollApi);
 
-  getPolls() {
+  getPolls$() {
     return this.query({
       queryKey: ['polls'],
-      queryFn: () => this.pollApi.getPollList(),
-    });
+      queryFn: () => this.pollApi.getPollList$(),
+    }).result$;
   }
 
-  getPoll(pollId?: string) {
+  getPoll$(pollId?: string) {
     return this.query({
       queryKey: ['polls', pollId],
-      queryFn: () => this.pollApi.getPoll(pollId!),
+      queryFn: () => this.pollApi.getPoll$(pollId!),
       enabled: pollId != null,
     });
   }

@@ -8,7 +8,7 @@ import { inject, Injectable } from '@angular/core';
 export class OptionApi {
   private readonly http = inject(HttpClient);
 
-  updateOption(option: Option) {
+  updateOption$(option: Option) {
     return this.http.put(`/api/options/${option.id}`, option);
   }
 }

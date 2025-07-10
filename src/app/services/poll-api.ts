@@ -11,7 +11,7 @@ import { map } from 'rxjs';
 export class PollApi {
   private readonly http = inject(HttpClient);
 
-  createPoll(pollDto: {
+  createPoll$(pollDto: {
     question: string;
     description?: string | null;
     options: string[];
@@ -19,21 +19,21 @@ export class PollApi {
     return this.http.post('/api/polls', pollDto);
   }
 
-  getPollList() {
+  getPollList$() {
     return this.http
       .get<PollDto[]>('/api/polls')
       .pipe(
-        map((pollDtos) => pollDtos.map((pollDto) => Poll.fromDto(pollDto)))
+        map((pollDtos) => pollDtos.map((pollDto) => Poll.fromDto(pollDto))),
       );
   }
 
-  getPoll(pollId: string) {
+  getPoll$(pollId: string) {
     return this.http
       .get<PollDto>(`/api/polls/${pollId}`)
       .pipe(map((pollDto) => Poll.fromDto(pollDto)));
   }
 
-  votePoll(pollId: string, optionId: string) {
+  votePoll$(pollId: string, optionId: string) {
     return this.http
       .post<PollDto>(`/api/polls/${pollId}/votes`, {
         optionIds: [optionId],

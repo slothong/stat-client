@@ -59,21 +59,21 @@ const formSchema = z.object({
       <mat-radio-group>
         <div class="flex flex-col">
           @for (option of formGroup.controls.options.controls; track option) {
-          <div class="flex items-start gap-2">
-            <mat-radio-button [disabled]="true" class="mt-2" />
-            <mat-form-field class="flex-1">
-              <input matInput type="text" [formControl]="option" />
-            </mat-form-field>
+            <div class="flex items-start gap-2">
+              <mat-radio-button [disabled]="true" class="mt-2" />
+              <mat-form-field class="flex-1">
+                <input matInput type="text" [formControl]="option" />
+              </mat-form-field>
 
-            <button
-              matIconButton
-              (click)="removeItem($index)"
-              [disabled]="formGroup.controls.options.controls.length <= 2"
-              class="mt-2"
-            >
-              <mat-icon>remove</mat-icon>
-            </button>
-          </div>
+              <button
+                matIconButton
+                (click)="removeItem($index)"
+                [disabled]="formGroup.controls.options.controls.length <= 2"
+                class="mt-2"
+              >
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
           }
         </div>
       </mat-radio-group>
@@ -98,7 +98,7 @@ export class PollCreateForm {
     },
     {
       validators: zodValidator(formSchema),
-    }
+    },
   );
 
   private readonly poll = inject(PollApi);
@@ -109,7 +109,7 @@ export class PollCreateForm {
 
   protected addItem() {
     this.formGroup.controls.options.push(
-      new FormControl('', Validators.required)
+      new FormControl('', Validators.required),
     );
   }
 
@@ -121,7 +121,7 @@ export class PollCreateForm {
     const title = this.formGroup.value.title;
     const description = this.formGroup.value.description;
     const options = this.formGroup.value.options?.filter(
-      (option) => option != null
+      (option) => option != null,
     );
     if (title == null || options == null || options.length < 2) {
       this.snackbar.open('생성에 실패했습니다.');
@@ -129,7 +129,7 @@ export class PollCreateForm {
     }
 
     this.poll
-      .createPoll({
+      .createPoll$({
         question: title,
         description,
         options,

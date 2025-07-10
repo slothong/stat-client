@@ -7,14 +7,12 @@ import { AuthManager } from './services/auth-manager';
   selector: 'app-root',
   imports: [RouterOutlet, Header],
   template: `
-    @if (authInitialized()) {
-      <header class="px-32">
-        <app-header />
-      </header>
-      <main class="px-32">
-        <router-outlet></router-outlet>
-      </main>
-    }
+    <header class="px-32">
+      <app-header />
+    </header>
+    <main class="px-32">
+      <router-outlet></router-outlet>
+    </main>
   `,
 })
 export class App implements OnInit {

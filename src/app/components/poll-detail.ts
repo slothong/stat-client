@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { PollQueries } from '@/services/poll-queries';
 import {
   combineLatest,
+  filter,
   map,
   ReplaySubject,
   shareReplay,
@@ -77,10 +78,10 @@ export class PollDetail {
 
   private readonly pollId$ = new ReplaySubject<string>(1);
 
-  private readonly query = inject(PollQueries);
+  private readonly pollQueries = inject(PollQueries);
 
   readonly pollQuery$ = this.pollId$.pipe(
-    switchMap((pollId) => this.query.getPoll(pollId).result$),
+    switchMap((pollId) => this.pollQueries.getPoll$(pollId).result$),
     shareReplay(1),
   );
 
@@ -98,13 +99,18 @@ export class PollDetail {
 
   protected submitForm() {
     combineLatest([this.formGroup$, this.pollQuery$])
-      .pipe(take(1))
-      .subscribe(([formGroup, pollResult]) => {
-        const pollId = pollResult.data?.id;
-        if (pollId == null) return;
-        const optionId = formGroup.controls.optionId.value;
-        if (optionId == null) return;
-        this.vote.vote(pollId, optionId).subscribe();
-      });
+      .pipe(
+        take(1),
+        map(([formGroup, pollResult]) => ({
+          optionId: formGroup.controls.optionId.value,
+          pollId: pollResult.data?.id,
+        })),
+        filter(
+          (result): result is { optionId: string; pollId: string } =>
+            !!result.optionId && !!result.pollId,
+        ),
+        switchMap(({ optionId, pollId }) => this.vote.vote$(pollId, optionId)),
+      )
+      .subscribe();
   }
 }

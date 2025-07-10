@@ -23,7 +23,7 @@ export class PollStore {
   }
 
   fetch(pollId: string) {
-    this.pollApi.getPoll(pollId).subscribe((poll) => {
+    this.pollApi.getPoll$(pollId).subscribe((poll) => {
       this.pollMap.get(pollId)?.next(poll);
     });
   }

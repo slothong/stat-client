@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, map, ReplaySubject, tap } from 'rxjs';
+import { BehaviorSubject, map, ReplaySubject, shareReplay, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthApi } from './auth-api';
 
