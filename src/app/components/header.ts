@@ -1,14 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { AuthManager } from '@/services/auth-manager';
 import { MeStore } from '@/services/me-store';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [MatButtonModule, RouterLink, MatIconModule, AsyncPipe],
+  imports: [MatButtonModule, RouterModule, MatIconModule, AsyncPipe],
   host: {
     class: 'flex justify-between items-center h-20',
   },
@@ -18,7 +18,7 @@ import { AsyncPipe } from '@angular/common';
       @let user = me$ | async;
       @if (user) {
         <span [routerLink]="'/users/' + user.id">Hi, {{ user.username }}!</span>
-        <button matButton="filled" routerLink="/create-poll">
+        <button matButton="filled" [routerLink]="['/create-poll']">
           <mat-icon>add</mat-icon>
           설문 만들기
         </button>

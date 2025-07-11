@@ -1,7 +1,5 @@
 import { Poll } from '@/models/poll';
 import { PollDto } from '@/models/poll-dto';
-import { PollResultDto } from '@/models/poll-result-dto';
-import { User } from '@/models/user';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map } from 'rxjs';
@@ -42,10 +40,6 @@ export class PollApi {
       .pipe(map((pollDto) => this.fromDto(pollDto)));
   }
 
-  getPollResult$(pollId: string) {
-    return this.http.get<PollResultDto>(`/api/polls/${pollId}/result`);
-  }
-
   likePoll$(pollId: string, liked: boolean) {
     if (liked)
       return this.http.post<PollDto>(`/api/polls/${pollId}/like`, { liked });
@@ -65,7 +59,10 @@ export class PollApi {
         votedByMe: optionDto.votedByMe,
       })),
       hasVoted: dto.hasVoted,
-      createdBy: User.fromDto(dto.createdBy),
+      createdBy: {
+        id: dto.createdBy.userId,
+        username: dto.createdBy.username,
+      },
       likedByMe: dto.likedByMe,
     };
   }

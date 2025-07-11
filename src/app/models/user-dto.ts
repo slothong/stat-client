@@ -1,4 +1,4 @@
 export type UserDto = {
-  userId: string;
+  id: string;
   username: string;
 };

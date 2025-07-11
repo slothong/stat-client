@@ -10,6 +10,6 @@ export class User {
   }
 
   static fromDto(dto: UserDto) {
-    return new User(dto.userId, dto.username);
+    return new User(dto.id, dto.username);
   }
 }

@@ -37,13 +37,6 @@ export class PollQueries {
     }).result$;
   }
 
-  getPollResult$(pollId: string) {
-    return this.query({
-      queryKey: PollQueries.getPollResultQueryKey(pollId),
-      queryFn: () => this.pollApi.getPollResult$(pollId),
-    }).result$;
-  }
-
   createPoll() {
     return this.mutation({
       mutationFn: (pollDto: {
