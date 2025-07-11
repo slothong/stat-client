@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { injectMutation, injectQuery } from '@ngneat/query';
+import { injectMutation, injectQuery, injectQueryClient } from '@ngneat/query';
 import { PollApi } from './poll-api';
-import { PollDto } from '@/models/poll-dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PollQueries {
+  private readonly queryClient = injectQueryClient();
   private readonly query = injectQuery();
   private readonly mutation = injectMutation();
   private readonly pollApi = inject(PollApi);
@@ -51,6 +51,17 @@ export class PollQueries {
         description?: string | null;
         options: string[];
       }) => this.pollApi.createPoll$(pollDto),
+    });
+  }
+
+  likePoll(pollId: string) {
+    return this.mutation({
+      mutationFn: (liked: boolean) => this.pollApi.likePoll$(pollId, liked),
+      onSuccess: () => {
+        this.queryClient.invalidateQueries({
+          queryKey: PollQueries.getPollQueryKey(pollId),
+        });
+      },
     });
   }
 }

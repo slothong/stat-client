@@ -34,7 +34,7 @@ import { map, ReplaySubject, switchMap } from 'rxjs';
   template: `
     @let comments = (commentsResult$ | async)?.data;
     @if (comments) {
-      <mat-card appearance="outlined">
+      <mat-card appearance="outlined" class="bg-white!">
         <mat-card-content>
           <div class="flex flex-col gap-5">
             <span class="text-xl">댓글 {{ comments.length }}</span>

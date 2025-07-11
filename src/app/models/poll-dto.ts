@@ -11,4 +11,5 @@ export type PollDto = {
   };
   options: OptionDto[];
   hasVoted?: boolean;
+  likedByMe?: boolean;
 };

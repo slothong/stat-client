@@ -11,8 +11,8 @@ import { PollQueries } from '@/services/poll-queries';
   imports: [VoteForm, AsyncPipe, PollResultView],
   template: `
     @let poll = (poll$ | async)?.data;
-    @if (poll?.hasVoted) {
-      <app-poll-result-view [pollId]="pollId$ | async" />
+    @if (poll && poll?.hasVoted) {
+      <app-poll-result-view [poll]="poll" />
     } @else {
       <app-vote-form [pollId]="pollId$ | async" />
     }

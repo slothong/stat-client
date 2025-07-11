@@ -1,6 +1,6 @@
-export type OptionDto = {
+export interface OptionDto {
   id: string;
   optionText: string;
-  votes: number;
+  voteCount?: number;
   votedByMe?: boolean;
-};
+}

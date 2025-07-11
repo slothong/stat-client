@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from '@/components/header';
 import { AuthManager } from './services/auth-manager';
-import { map } from 'rxjs';
+import { catchError, finalize, map, of } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -22,5 +22,8 @@ import { AsyncPipe } from '@angular/common';
 export class App {
   protected readonly authInitialized = inject(AuthManager)
     .refresh$()
-    .pipe(map(() => true));
+    .pipe(
+      map(() => true),
+      catchError(() => of(true)),
+    );
 }
