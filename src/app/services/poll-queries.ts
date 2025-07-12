@@ -15,6 +15,10 @@ export class PollQueries {
     return ['polls'];
   }
 
+  static getPollsByUserQueryKey(userId?: string) {
+    return ['polls', 'user', userId];
+  }
+
   static getPollQueryKey(pollId: string) {
     return ['polls', pollId];
   }
@@ -27,6 +31,14 @@ export class PollQueries {
     return this.query({
       queryKey: PollQueries.getPollsQueryKey(),
       queryFn: () => this.pollApi.getPollList$(),
+    }).result$;
+  }
+
+  getPollsByUser$(userId?: string) {
+    return this.query({
+      queryKey: PollQueries.getPollsByUserQueryKey(userId),
+      queryFn: () => this.pollApi.getPollsByUser$(userId!),
+      enabled: !!userId,
     }).result$;
   }
 

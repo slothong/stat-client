@@ -14,8 +14,14 @@ export class AuthManager {
 
   readonly isAuthenticated$ = this.accessToken$.pipe(map((token) => !!token));
 
-  register$(email: string, password: string, birth: Date, gender: string) {
-    return this.authApi.register$(email, password, birth, gender);
+  register$(
+    email: string,
+    username: string,
+    password: string,
+    birth: Date,
+    gender: string,
+  ) {
+    return this.authApi.register$(email, username, password, birth, gender);
   }
 
   login$(email: string, password: string) {

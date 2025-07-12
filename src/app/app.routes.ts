@@ -6,6 +6,10 @@ import { PollDetailPage } from './pages/poll-detail-page';
 import { LoginPage } from './pages/login-page';
 import { RegisterPage } from './pages/register-page';
 import { UserProfilePage } from './pages/user-profile-page';
+import { UserProfilePollsPage } from './pages/user-profile-polls-page';
+import { UserProfileCommentsPage } from './pages/user-profile-comments-page';
+import { UserProfileLikedPage } from './pages/user-profile-liked-page';
+import { UserProfileBookmarkPage } from './pages/user-profile-bookmark-page';
 
 export const routes: Routes = [
   {
@@ -32,5 +36,23 @@ export const routes: Routes = [
   {
     path: 'users/:id',
     component: UserProfilePage,
+    children: [
+      {
+        path: 'polls',
+        component: UserProfilePollsPage,
+      },
+      {
+        path: 'comments',
+        component: UserProfileCommentsPage,
+      },
+      {
+        path: 'liked',
+        component: UserProfileLikedPage,
+      },
+      {
+        path: 'bookmark',
+        component: UserProfileBookmarkPage,
+      },
+    ],
   },
 ];

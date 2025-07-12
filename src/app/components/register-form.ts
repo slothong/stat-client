@@ -27,6 +27,7 @@ const registerFormSchema = z
       .string()
       .nonempty('이메일을 입력하세요')
       .email('유효하지 않은 이메일'),
+    username: z.string().nonempty('닉네임을 입력하세요'),
     password: z
       .string()
       .min(8, { message: 'Password must be at least 8 characters.' })
@@ -80,6 +81,16 @@ const registerFormSchema = z
                 placeholder="Email"
                 formControlName="email"
                 type="email"
+              />
+              <mat-error zod-error />
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>닉네임</mat-label>
+              <input
+                matInput
+                placeholder="Username"
+                formControlName="username"
+                type="text"
               />
               <mat-error zod-error />
             </mat-form-field>
@@ -165,6 +176,7 @@ export class RegisterForm {
     {
       email: new FormControl(''),
       password: new FormControl(''),
+      username: new FormControl(''),
       confirmPassword: new FormControl(''),
       birth: new FormControl<Date | null>(null, [Validators.required]),
       gender: new FormControl('male', [Validators.required]),
@@ -185,15 +197,22 @@ export class RegisterForm {
 
   onSubmit() {
     const email = this.formGroup.controls.email.value;
+    const username = this.formGroup.controls.username.value;
     const password = this.formGroup.controls.password.value;
     const birth = this.formGroup.controls.birth.value;
     const gender = this.formGroup.controls.gender.value;
-    if (email == null || password == null || birth == null || gender == null) {
+    if (
+      email == null ||
+      password == null ||
+      birth == null ||
+      gender == null ||
+      username == null
+    ) {
       this.snackBar.open('알 수 없는 에러');
       return;
     }
 
-    this.auth.register$(email, password, birth, gender).subscribe({
+    this.auth.register$(email, username, password, birth, gender).subscribe({
       next: () => {
         this.snackBar.open('회원 가입에 성공했습니다!');
         this.router.navigate(['/login']);
