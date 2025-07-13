@@ -6,7 +6,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { AsyncPipe } from '@angular/common';
-import { Avatar } from './avatar';
+// import { Avatar } from './avatar';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 @Component({
   selector: 'app-header',
@@ -14,8 +18,12 @@ import { Avatar } from './avatar';
     MatButtonModule,
     RouterModule,
     MatIconModule,
+    NzButtonModule,
+    NzIconModule,
+    NzDropDownModule,
     AsyncPipe,
-    Avatar,
+    // Avatar,
+    NzAvatarModule,
     MatMenuModule,
   ],
   host: {
@@ -26,11 +34,37 @@ import { Avatar } from './avatar';
     <div class="flex items-center gap-3">
       @let user = me$ | async;
       @if (user) {
-        <button matButton="filled" [routerLink]="['/create-poll']">
-          <mat-icon>add</mat-icon>
+        <button
+          nz-button
+          nzType="primary"
+          nzShape="round"
+          [routerLink]="['/create-poll']"
+        >
+          <nz-icon nzType="plus" />
           설문 만들기
         </button>
-        <app-avatar
+
+        <nz-avatar
+          nzIcon="user"
+          nz-dropdown
+          [nzDropdownMenu]="menu"
+          nzTrigger="click"
+          class="cursor-pointer"
+        ></nz-avatar>
+
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li
+              nz-menu-item
+              [routerLink]="'/users/' + user.id + '/polls'"
+              [nzMatchRouter]="false"
+            >
+              프로필
+            </li>
+            <li nz-menu-item (click)="logout()">로그아웃</li>
+          </ul>
+        </nz-dropdown-menu>
+        <!-- <app-avatar
           [size]="40"
           [matMenuTriggerFor]="menu"
           class="cursor-pointer"
@@ -40,7 +74,7 @@ import { Avatar } from './avatar';
             프로필
           </button>
           <button mat-menu-item (click)="logout()">로그아웃</button>
-        </mat-menu>
+        </mat-menu> -->
       } @else {
         <button matButton="filled" routerLink="/login">로그인</button>
       }

@@ -3,6 +3,8 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
+@import "ng-zorro-antd/ng-zorro-antd.min.css";
+
 body {
   padding: 0;
   margin: 0;

@@ -8,6 +8,10 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { PollQueries } from '@/services/poll-queries';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-poll-card',
@@ -18,6 +22,10 @@ import { PollQueries } from '@/services/poll-queries';
     MatRadioModule,
     MatButtonModule,
     MatIconModule,
+    NzButtonModule,
+    FormsModule,
+    NzRadioModule,
+    NzIconModule,
   ],
   template: `
     @let poll = poll$ | async;
@@ -38,37 +46,48 @@ import { PollQueries } from '@/services/poll-queries';
           {{ poll?.description }}
         </p>
       }
-      <div class="pt-3">
-        <mat-radio-group class="flex flex-col">
-          @for (option of poll?.options; track option) {
-            <mat-radio-button [value]="option.id" class="hover:bg-gray-100">
+      <div class="pb-3">
+        @for (option of poll?.options; track option) {
+          <div class="hover:bg-gray-100 py-1 px-1">
+            <div nz-radio>
               {{ option.optionText }}
-            </mat-radio-button>
-          }
-        </mat-radio-group>
+            </div>
+          </div>
+        }
       </div>
-      <div class="flex">
-        <button
-          matIconButton
-          aria-label="Like this poll"
+      <div class="flex gap-2">
+        <div
+          [class]="
+            'flex items-center justify-center text-sm transition-all hover:text-cyan-500 ' +
+            (poll?.likedByMe ? 'text-cyan-500' : 'text-gray-400')
+          "
           (click)="$event.stopPropagation(); likePoll(!poll?.likedByMe)"
         >
-          <mat-icon fontSet="material-icons-outlined">
-            {{ poll?.likedByMe ? 'favorite' : 'favorite_border' }}
-          </mat-icon>
-        </button>
-        <button
-          matIconButton
+          <nz-icon
+            nzType="heart"
+            [nzTheme]="poll?.likedByMe ? 'fill' : 'outline'"
+          />
+        </div>
+        <div
+          [class]="
+            'flex items-center justify-center text-sm transition-all hover:text-cyan-500 ' +
+            (poll?.bookmarkedByMe ? 'text-cyan-500' : 'text-gray-400')
+          "
           (click)="$event.stopPropagation(); bookmark(!poll?.bookmarkedByMe)"
         >
-          <mat-icon fontSet="material-icons-outlined">
-            {{ poll?.bookmarkedByMe ? 'bookmark' : 'bookmark_border' }}
-          </mat-icon>
-        </button>
-        <button matButton>
-          <mat-icon>comment</mat-icon>
+          <nz-icon
+            nzType="book"
+            [nzTheme]="poll?.bookmarkedByMe ? 'fill' : 'outline'"
+          />
+        </div>
+        <div
+          [class]="
+            'h-6 flex gap-1 items-center justify-center text-sm transition-all hover:text-cyan-500 text-gray-400'
+          "
+        >
+          <nz-icon nzType="comment" />
           {{ poll?.commentCount }}
-        </button>
+        </div>
       </div>
     </div>
   `,
