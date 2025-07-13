@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { injectQueryClient } from '@ngneat/query';
-import { map, ReplaySubject, switchMap } from 'rxjs';
+import { ReplaySubject, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-poll-comments-card',
@@ -100,8 +100,6 @@ export class PollCommentsCard {
   });
 
   readonly pollId$ = new ReplaySubject<string>(1);
-
-  private readonly queryClient = injectQueryClient();
 
   private readonly commentQueries = inject(CommentQueries);
 

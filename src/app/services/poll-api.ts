@@ -72,6 +72,7 @@ export class PollApi {
         username: dto.createdBy.username,
       },
       likedByMe: dto.likedByMe,
+      commentCount: dto.commentCount,
     };
   }
 }

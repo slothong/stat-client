@@ -1,3 +1,4 @@
+import { Avatar } from '@/components/avatar';
 import { MeStore } from '@/services/me-store';
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
@@ -8,12 +9,24 @@ import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile-page',
-  imports: [AsyncPipe, MatCardModule, MatTabsModule, RouterOutlet, RouterLink],
+  imports: [
+    AsyncPipe,
+    MatCardModule,
+    MatTabsModule,
+    RouterOutlet,
+    RouterLink,
+    Avatar,
+  ],
   template: `
     @let me = me$ | async;
     @if (me) {
       <div class="w-6xl mx-auto">
-        Hi, {{ me?.username }}
+        <div class="flex items-center gap-4 mb-4">
+          <app-avatar />
+          <span class="text-xl font-bold">
+            {{ me.username }}
+          </span>
+        </div>
         <nav mat-tab-nav-bar [tabPanel]="tabPanel">
           <a
             mat-tab-link

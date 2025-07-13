@@ -39,7 +39,7 @@ export const appConfig: ApplicationConfig = {
         baseUrlInterceptor,
         authInterceptor,
         credentialInterceptor,
-      ])
+      ]),
     ),
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),

@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from '@/components/header';
 import { AuthManager } from './services/auth-manager';
-import { catchError, finalize, map, of } from 'rxjs';
+import { catchError, map, of } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -10,10 +10,10 @@ import { AsyncPipe } from '@angular/common';
   imports: [RouterOutlet, Header, AsyncPipe],
   template: `
     @if (authInitialized | async) {
-      <header class="px-32">
+      <header>
         <app-header />
       </header>
-      <main class="px-32">
+      <main>
         <router-outlet></router-outlet>
       </main>
     }

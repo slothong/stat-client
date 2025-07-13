@@ -64,7 +64,7 @@ export class PollQueries {
       mutationFn: (liked: boolean) => this.pollApi.likePoll$(pollId, liked),
       onSuccess: () => {
         this.queryClient.invalidateQueries({
-          queryKey: PollQueries.getPollQueryKey(pollId),
+          queryKey: ['polls'],
         });
       },
     });
