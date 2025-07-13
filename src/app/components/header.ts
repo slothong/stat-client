@@ -2,27 +2,23 @@ import { Component, inject } from '@angular/core';
 import { AuthManager } from '@/services/auth-manager';
 import { MeStore } from '@/services/me-store';
 import { Router, RouterModule } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
 import { AsyncPipe } from '@angular/common';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzMenuModule } from 'ng-zorro-antd/menu';
 
 @Component({
   selector: 'app-header',
   imports: [
-    MatButtonModule,
     RouterModule,
-    MatIconModule,
     NzButtonModule,
     NzIconModule,
     NzDropDownModule,
+    NzMenuModule,
     AsyncPipe,
     NzAvatarModule,
-    MatMenuModule,
   ],
   host: {
     class: 'flex justify-between items-center py-3 px-5',
@@ -62,19 +58,10 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
             <li nz-menu-item (click)="logout()">로그아웃</li>
           </ul>
         </nz-dropdown-menu>
-        <!-- <app-avatar
-          [size]="40"
-          [matMenuTriggerFor]="menu"
-          class="cursor-pointer"
-        />
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item [routerLink]="'/users/' + user.id + '/polls'">
-            프로필
-          </button>
-          <button mat-menu-item (click)="logout()">로그아웃</button>
-        </mat-menu> -->
       } @else {
-        <button matButton="filled" routerLink="/login">로그인</button>
+        <button nz-button nzType="primary" nzShape="round" routerLink="/login">
+          로그인
+        </button>
       }
     </div>
   `,
