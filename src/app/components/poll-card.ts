@@ -2,35 +2,27 @@ import { Poll } from '@/models/poll';
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { ReplaySubject, take } from 'rxjs';
-import { Avatar } from './avatar';
 import { RelativeDatePipe } from '@/pipes/relative-date.pipe';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { PollQueries } from '@/services/poll-queries';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
-import { FormsModule } from '@angular/forms';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 
 @Component({
   selector: 'app-poll-card',
   imports: [
     AsyncPipe,
-    Avatar,
     RelativeDatePipe,
-    MatRadioModule,
-    MatButtonModule,
-    MatIconModule,
     NzButtonModule,
-    FormsModule,
+    NzAvatarModule,
     NzRadioModule,
     NzIconModule,
   ],
   template: `
     @let poll = poll$ | async;
     <div class="flex items-center gap-2">
-      <app-avatar [size]="20" />
+      <nz-avatar nzIcon="user" nzSize="small" />
       {{ poll?.createdBy?.username }}
       <span class="text-gray-500 text-xs">
         •

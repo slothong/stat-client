@@ -6,7 +6,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { AsyncPipe } from '@angular/common';
-// import { Avatar } from './avatar';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
@@ -22,7 +21,6 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     NzIconModule,
     NzDropDownModule,
     AsyncPipe,
-    // Avatar,
     NzAvatarModule,
     MatMenuModule,
   ],
