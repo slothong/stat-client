@@ -23,6 +23,14 @@ export class PollQueries {
     return ['polls', pollId];
   }
 
+  static getLikedPollsQueryKey(userId?: string) {
+    return ['polls', 'users', userId, 'liked'];
+  }
+
+  static getBookmarkedPollsQueryKey(userId?: string) {
+    return ['polls', 'users', userId, 'bookmarked'];
+  }
+
   static getPollResultQueryKey(pollId: string) {
     return ['polls', pollId, 'result'];
   }
@@ -38,6 +46,22 @@ export class PollQueries {
     return this.query({
       queryKey: PollQueries.getPollsByUserQueryKey(userId),
       queryFn: () => this.pollApi.getPollsByUser$(userId!),
+      enabled: !!userId,
+    }).result$;
+  }
+
+  getLikedPolls$(userId?: string) {
+    return this.query({
+      queryKey: PollQueries.getLikedPollsQueryKey(userId),
+      queryFn: () => this.pollApi.getLikedPolls$(userId!),
+      enabled: !!userId,
+    }).result$;
+  }
+
+  getBookmarkedPolls$(userId?: string) {
+    return this.query({
+      queryKey: PollQueries.getBookmarkedPollsQueryKey(userId),
+      queryFn: () => this.pollApi.getBookmarkedPolls$(userId!),
       enabled: !!userId,
     }).result$;
   }

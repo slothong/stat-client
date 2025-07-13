@@ -34,6 +34,22 @@ export class PollApi {
       );
   }
 
+  getLikedPolls$(userId: string) {
+    return this.http
+      .get<PollDto[]>(`/api/users/${userId}/liked-polls`)
+      .pipe(
+        map((pollDtos) => pollDtos.map((pollDto) => this.fromDto(pollDto))),
+      );
+  }
+
+  getBookmarkedPolls$(userId: string) {
+    return this.http
+      .get<PollDto[]>(`/api/users/${userId}/bookmarked-polls`)
+      .pipe(
+        map((pollDtos) => pollDtos.map((pollDto) => this.fromDto(pollDto))),
+      );
+  }
+
   getPoll$(pollId: string) {
     return this.http
       .get<PollDto>(`/api/polls/${pollId}`)
