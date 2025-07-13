@@ -51,15 +51,19 @@ import { PollQueries } from '@/services/poll-queries';
         <button
           matIconButton
           aria-label="Like this poll"
-          (click)="onClickLike($event)"
+          (click)="$event.stopPropagation(); likePoll(!poll?.likedByMe)"
         >
-          @if (poll?.likedByMe) {
-            <mat-icon fontSet="material-icons-outlined">favorite</mat-icon>
-          } @else {
-            <mat-icon fontSet="material-icons-outlined">
-              favorite_border
-            </mat-icon>
-          }
+          <mat-icon fontSet="material-icons-outlined">
+            {{ poll?.likedByMe ? 'favorite' : 'favorite_border' }}
+          </mat-icon>
+        </button>
+        <button
+          matIconButton
+          (click)="$event.stopPropagation(); bookmark(!poll?.bookmarkedByMe)"
+        >
+          <mat-icon fontSet="material-icons-outlined">
+            {{ poll?.bookmarkedByMe ? 'bookmark' : 'bookmark_border' }}
+          </mat-icon>
         </button>
         <button matButton>
           <mat-icon>comment</mat-icon>
@@ -82,12 +86,15 @@ export class PollCard {
 
   private readonly pollQueries = inject(PollQueries);
 
-  protected onClickLike(event: MouseEvent) {
-    event.stopPropagation();
-
+  protected likePoll(liked: boolean) {
     this.poll$.pipe(take(1)).subscribe((poll) => {
-      const currentLiked = poll.likedByMe ?? false;
-      this.pollQueries.likePoll(poll.id).mutate(!currentLiked);
+      this.pollQueries.likePoll(poll.id).mutate(liked);
+    });
+  }
+
+  protected bookmark(bookmarked: boolean) {
+    this.poll$.pipe(take(1)).subscribe((poll) => {
+      this.pollQueries.bookmarkPoll(poll.id).mutate(bookmarked);
     });
   }
 }

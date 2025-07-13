@@ -69,4 +69,16 @@ export class PollQueries {
       },
     });
   }
+
+  bookmarkPoll(pollId: string) {
+    return this.mutation({
+      mutationFn: (bookmarked: boolean) =>
+        this.pollApi.bookmarkPoll$(pollId, bookmarked),
+      onSuccess: () => {
+        this.queryClient.invalidateQueries({
+          queryKey: ['polls'],
+        });
+      },
+    });
+  }
 }

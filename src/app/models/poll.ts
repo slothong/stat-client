@@ -11,4 +11,5 @@ export interface Poll {
   hasVoted?: boolean;
   likedByMe?: boolean;
   commentCount: number;
+  bookmarkedByMe?: boolean;
 }

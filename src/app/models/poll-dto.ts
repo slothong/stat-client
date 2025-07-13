@@ -1,6 +1,6 @@
 import { OptionDto } from './option-dto';
 
-export type PollDto = {
+export interface PollDto {
   id: string;
   question: string;
   description?: string;
@@ -13,4 +13,5 @@ export type PollDto = {
   hasVoted?: boolean;
   likedByMe?: boolean;
   commentCount: number;
-};
+  bookmarkedByMe?: boolean;
+}

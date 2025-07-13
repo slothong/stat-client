@@ -54,6 +54,12 @@ export class PollApi {
     return this.http.delete<PollDto>(`/api/polls/${pollId}/like`);
   }
 
+  bookmarkPoll$(pollId: string, bookmarked: boolean) {
+    if (bookmarked)
+      return this.http.post<PollDto>(`/api/polls/${pollId}/bookmark`, {});
+    return this.http.delete<PollDto>(`/api/polls/${pollId}/bookmark`);
+  }
+
   private fromDto(dto: PollDto): Poll {
     return {
       id: dto.id,
@@ -73,6 +79,7 @@ export class PollApi {
       },
       likedByMe: dto.likedByMe,
       commentCount: dto.commentCount,
+      bookmarkedByMe: dto.bookmarkedByMe,
     };
   }
 }
