@@ -7,7 +7,13 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import { ChartConfiguration } from 'chart.js';
+import {
+  BarController,
+  BarControllerChartOptions,
+  BarOptions,
+  ChartConfiguration,
+  ChartType,
+} from 'chart.js';
 
 @Component({
   selector: 'app-poll-result-chart',
@@ -32,6 +38,9 @@ export class PollResultChart {
     if (options == null) return null;
     return {
       type: 'bar',
+      options: {
+        indexAxis: 'y',
+      },
       data: {
         labels: options.map((option) => option.optionText),
         datasets: [
