@@ -8,82 +8,79 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { injectQueryClient } from '@ngneat/query';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { ReplaySubject, switchMap } from 'rxjs';
+import { RelativeDatePipe } from '@/pipes/relative-date.pipe';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @Component({
   selector: 'app-poll-comments-card',
   imports: [
-    MatCardModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatListModule,
-    MatButtonModule,
-    MatDividerModule,
-    MatIconModule,
+    NzFormModule,
+    NzInputModule,
+    NzButtonModule,
     ReactiveFormsModule,
     AsyncPipe,
+    NzCommentModule,
+    NzAvatarModule,
+    NzIconModule,
+    NzToolTipModule,
+    RelativeDatePipe,
   ],
   template: `
     @let comments = (commentsResult$ | async)?.data;
     @if (comments) {
-      <mat-card appearance="outlined" class="bg-white!">
-        <mat-card-content>
-          <div class="flex flex-col gap-5">
-            <span class="text-xl">댓글 {{ comments.length }}</span>
-            <form
-              class="flex flex-col gap-2"
-              [formGroup]="formGroup"
-              (ngSubmit)="submitComment()"
+      <div class="flex flex-col">
+        <form
+          class="flex flex-col gap-2 h-[100px]"
+          nz-form
+          [formGroup]="formGroup"
+          (ngSubmit)="submitComment()"
+        >
+          <nz-form-control>
+            <textarea nz-input formControlName="content"></textarea>
+          </nz-form-control>
+          <div class="flex justify-end">
+            <button
+              nz-button
+              nzType="primary"
+              type="submit"
+              [disabled]="!formGroup.valid"
             >
-              <mat-form-field subscriptSizing="dynamic">
-                <textarea matInput formControlName="content"></textarea>
-              </mat-form-field>
-              <div class="flex justify-end">
-                <button
-                  matButton="filled"
-                  type="submit"
-                  [disabled]="!formGroup.valid"
-                >
-                  작성
-                </button>
-              </div>
-            </form>
-            <div class="flex flex-col gap-3">
-              @for (comment of comments; track comment.id) {
-                <mat-card appearance="outlined">
-                  <mat-card-content>
-                    <div class="text-sm mb-3">
-                      <span class="text-black">
-                        {{ comment.author.username }}
-                      </span>
-                      <span class="text-gray-400">
-                        •
-                        {{ getDateText(comment.createdAt) }}
-                      </span>
-                    </div>
-                    <div>
-                      {{ comment.content }}
-                    </div>
-                    <div>
-                      <mat-icon fontSet="material-icons-outlined">
-                        comment
-                      </mat-icon>
-                    </div>
-                  </mat-card-content>
-                </mat-card>
-              }
-            </div>
+              작성
+            </button>
           </div>
-        </mat-card-content>
-      </mat-card>
+        </form>
+        <div class="flex flex-col gap-3">
+          @for (comment of comments; track comment.id) {
+            <nz-comment
+              [nzAuthor]="comment.author.username"
+              [nzDatetime]="comment.createdAt | relativeDate"
+            >
+              <nz-avatar nz-comment-avatar nzIcon="user"></nz-avatar>
+              <nz-comment-content>
+                <p>
+                  {{ comment.content }}
+                </p>
+              </nz-comment-content>
+              <nz-comment-action>
+                <nz-icon nz-tooltip nzTooltipTitle="Like" nzType="like" />
+                <span class="ms-1">0</span>
+              </nz-comment-action>
+              <nz-comment-action>
+                <nz-icon nz-tooltip nzTooltipTitle="Dislike" nzType="dislike" />
+                <span class="ms-1">0</span>
+              </nz-comment-action>
+              <nz-comment-action>Reply to</nz-comment-action>
+            </nz-comment>
+          }
+        </div>
+      </div>
     }
   `,
 })

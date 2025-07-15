@@ -16,7 +16,7 @@ import { filter, map, switchMap } from 'rxjs';
   `,
 })
 export class UserProfileBookmarkPage {
-  protected readonly userId$ = inject(ActivatedRoute).parent?.paramMap.pipe(
+  protected readonly userId$ = inject(ActivatedRoute).paramMap.pipe(
     map((p) => p.get('id')),
   );
 

@@ -6,17 +6,18 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { PollApi } from '@/services/poll-api';
 import { Router } from '@angular/router';
 import z from 'zod';
 import { zodValidator } from '@/utils/zod-validator';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { PollQueries } from '@/services/poll-queries';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Poll } from '@/models/poll';
 
 const formSchema = z.object({
   title: z.string().nonempty(),
@@ -27,60 +28,69 @@ const formSchema = z.object({
 @Component({
   selector: 'app-poll-create-form',
   imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatRadioModule,
-    MatIconModule,
-    MatButtonModule,
+    NzInputModule,
+    NzFormModule,
+    NzButtonModule,
     ReactiveFormsModule,
+    NzRadioModule,
+    NzIconModule,
+    NzTypographyModule,
   ],
   template: `
+    <h1 nz-typography>설문 작성</h1>
     <form
+      nz-form
       [formGroup]="formGroup"
       (ngSubmit)="submitForm()"
       class="flex flex-col"
+      nzLayout="vertical"
     >
-      <mat-form-field>
-        <mat-label>Title</mat-label>
-        <input
-          matInput
-          type="text"
-          placeholder="Title"
-          formControlName="title"
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Description</mat-label>
-        <textarea
-          matInput
-          placeholder="Description"
-          formControlName="description"
-        ></textarea>
-      </mat-form-field>
-      <mat-radio-group>
-        <div class="flex flex-col">
-          @for (option of formGroup.controls.options.controls; track option) {
-            <div class="flex items-start gap-2">
-              <mat-radio-button [disabled]="true" class="mt-2" />
-              <mat-form-field class="flex-1">
-                <input matInput type="text" [formControl]="option" />
-              </mat-form-field>
-
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="title">Title</nz-form-label>
+        <nz-form-control nzErrorTip="제목을 입력하세요">
+          <input nz-input formControlName="title" id="title" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzFor="description" nzRequired
+          >Description</nz-form-label
+        >
+        <nz-form-control nzErrorTip="내용을 입력하세요">
+          <textarea
+            nz-input
+            id="description"
+            formControlName="description"
+          ></textarea>
+        </nz-form-control>
+      </nz-form-item>
+      <div class="flex flex-col gap-3 w-full">
+        @for (option of formGroup.controls.options.controls; track option) {
+          <div class="flex items-center">
+            <span nz-radio [nzDisabled]="true"></span>
+            <div class="flex grow-1 gap-1">
+              <nz-form-control class="grow">
+                <input nz-input [formControl]="option" type="text" />
+              </nz-form-control>
               <button
-                matIconButton
+                nz-button
                 (click)="removeItem($index)"
                 [disabled]="formGroup.controls.options.controls.length <= 2"
                 class="mt-2"
               >
-                <mat-icon>remove</mat-icon>
+                <nz-icon nzType="minus" />
               </button>
             </div>
-          }
-        </div>
-      </mat-radio-group>
-      <div class="flex flex-col gap-2">
-        <button matButton="text" (click)="addItem()">추가</button>
-        <button matButton="filled" type="submit" [disabled]="!formGroup.valid">
+          </div>
+        }
+      </div>
+      <div class="flex flex-col gap-2 mt-3">
+        <button nz-button (click)="addItem()">추가</button>
+        <button
+          nz-button
+          nzType="primary"
+          type="submit"
+          [disabled]="!formGroup.valid"
+        >
           제출
         </button>
       </div>
@@ -102,13 +112,11 @@ export class PollCreateForm {
     },
   );
 
-  private readonly poll = inject(PollApi);
-
   private readonly createPoll = inject(PollQueries).createPoll();
 
-  private readonly snackbar = inject(MatSnackBar);
+  private readonly router = inject(Router);
 
-  private router = inject(Router);
+  private readonly message = inject(NzMessageService);
 
   protected addItem() {
     this.formGroup.controls.options.push(
@@ -120,29 +128,27 @@ export class PollCreateForm {
     this.formGroup.controls.options.removeAt(index);
   }
 
-  protected submitForm() {
+  protected async submitForm() {
     const title = this.formGroup.value.title;
     const description = this.formGroup.value.description;
     const options = this.formGroup.value.options?.filter(
       (option) => option != null,
     );
     if (title == null || options == null || options.length < 2) {
-      this.snackbar.open('생성에 실패했습니다.');
+      this.message.error('생성에 실패했습니다.');
       return;
     }
 
-    this.createPoll.mutate(
-      {
+    try {
+      const poll = await this.createPoll.mutateAsync({
         question: title,
         description,
         options,
-      },
-      {
-        onSuccess: () => {
-          this.snackbar.open('설문을 생성했습니다!');
-          this.router.navigate(['/']);
-        },
-      },
-    );
+      });
+      this.message.success('설문을 생성했습니다!');
+      this.router.navigate(['/polls/' + poll.id]);
+    } catch {
+      this.message.error('생성에 실패했습니다.');
+    }
   }
 }

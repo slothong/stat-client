@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { injectMutation, injectQuery, injectQueryClient } from '@ngneat/query';
 import { PollApi } from './poll-api';
+import { Poll } from '@/models/poll';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -80,6 +82,9 @@ export class PollQueries {
         description?: string | null;
         options: string[];
       }) => this.pollApi.createPoll$(pollDto),
+      onSuccess: () => {
+        console.log('success');
+      },
     });
   }
 

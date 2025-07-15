@@ -15,7 +15,7 @@ export class PollApi {
     description?: string | null;
     options: string[];
   }) {
-    return this.http.post('/api/polls', pollDto);
+    return this.http.post<Poll>('/api/polls', pollDto);
   }
 
   getPollList$() {

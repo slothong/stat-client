@@ -1,11 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Vote } from '@/services/vote';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatButtonModule } from '@angular/material/button';
 import { PollQueries } from '@/services/poll-queries';
 import {
   combineLatest,
@@ -17,53 +12,108 @@ import {
   take,
 } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { RelativeDatePipe } from '@/pipes/relative-date.pipe';
+import { NzCommentModule } from 'ng-zorro-antd/comment';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @Component({
   selector: 'app-vote-form',
   imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatCardModule,
-    MatRadioModule,
-    MatButtonModule,
     ReactiveFormsModule,
     AsyncPipe,
+    NzAvatarModule,
+    NzFormModule,
+    NzInputModule,
+    NzRadioModule,
+    NzButtonModule,
+    NzCommentModule,
+    NzIconModule,
+    RelativeDatePipe,
   ],
   template: `
     @let formGroup = formGroup$ | async;
     @let poll = (pollQuery$ | async)?.data;
     @if (formGroup && poll) {
-      <form (ngSubmit)="submitForm()" [formGroup]="formGroup">
-        <mat-card appearance="outlined">
-          <mat-card-header>
-            <mat-card-title> {{ poll.question }} </mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="pt-5">
-              <div>{{ poll.description }}</div>
-              <mat-radio-group
-                [disabled]="!!poll.hasVoted"
-                class="flex flex-col"
-                formControlName="optionId"
-              >
-                @for (option of poll.options; track option.id) {
-                  <mat-radio-button [value]="option.id">
-                    {{ option.optionText }}
-                  </mat-radio-button>
-                }
-              </mat-radio-group>
-            </div>
-          </mat-card-content>
-          <mat-card-actions>
-            <button
-              matButton="filled"
-              type="submit"
-              [disabled]="!!poll.hasVoted"
+      <form nz-form (ngSubmit)="submitForm()" [formGroup]="formGroup">
+        <div class="flex items-center gap-2 pt-3">
+          <nz-avatar nzIcon="user" nzSize="small" />
+          {{ poll?.createdBy?.username }}
+          <span class="text-gray-500 text-xs">
+            •
+            {{ poll?.createdAt | relativeDate }}
+          </span>
+        </div>
+        <div class="flex flex-col pb-3">
+          <strong class="pt-3">
+            {{ poll?.question }}
+          </strong>
+          @if (poll?.description) {
+            <p>
+              {{ poll?.description }}
+            </p>
+          }
+
+          <nz-radio-group formControlName="optionId">
+            @for (option of poll?.options; track option) {
+              <div>
+                <label nz-radio [nzValue]="option.id">
+                  {{ option.optionText }}
+                </label>
+              </div>
+            }
+          </nz-radio-group>
+
+          <button
+            nz-button
+            type="submit"
+            nzType="primary"
+            [disabled]="!!poll.hasVoted"
+          >
+            투표하기
+          </button>
+
+          <div class="flex gap-2">
+            <div
+              [class]="
+                'flex items-center justify-center text-sm transition-all hover:text-cyan-500 ' +
+                (poll?.likedByMe ? 'text-cyan-500' : 'text-gray-400')
+              "
+              (click)="$event.stopPropagation(); likePoll(!poll?.likedByMe)"
             >
-              투표하기
-            </button>
-          </mat-card-actions>
-        </mat-card>
+              <nz-icon
+                nzType="heart"
+                [nzTheme]="poll?.likedByMe ? 'fill' : 'outline'"
+              />
+            </div>
+            <div
+              [class]="
+                'flex items-center justify-center text-sm transition-all hover:text-cyan-500 ' +
+                (poll?.bookmarkedByMe ? 'text-cyan-500' : 'text-gray-400')
+              "
+              (click)="
+                $event.stopPropagation(); bookmark(!poll?.bookmarkedByMe)
+              "
+            >
+              <nz-icon
+                nzType="book"
+                [nzTheme]="poll?.bookmarkedByMe ? 'fill' : 'outline'"
+              />
+            </div>
+            <div
+              [class]="
+                'h-6 flex gap-1 items-center justify-center text-sm transition-all hover:text-cyan-500 text-gray-400'
+              "
+            >
+              <nz-icon nzType="comment" />
+              {{ poll?.commentCount }}
+            </div>
+          </div>
+        </div>
       </form>
     }
   `,
@@ -112,5 +162,21 @@ export class VoteForm {
         switchMap(({ optionId, pollId }) => this.vote.vote$(pollId, optionId)),
       )
       .subscribe();
+  }
+
+  protected likePoll(liked: boolean) {
+    this.pollQuery$.pipe(take(1)).subscribe((poll) => {
+      if (poll.data?.id) {
+        this.pollQueries.likePoll(poll.data.id).mutate(liked);
+      }
+    });
+  }
+
+  protected bookmark(bookmarked: boolean) {
+    this.pollQuery$.pipe(take(1)).subscribe((poll) => {
+      if (poll.data?.id) {
+        this.pollQueries.bookmarkPoll(poll.data.id).mutate(bookmarked);
+      }
+    });
   }
 }

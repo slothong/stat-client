@@ -15,7 +15,11 @@ import {
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import { baseUrlInterceptor } from './http-interceptors/base-url-interceptor';
 import { authInterceptor } from './http-interceptors/auth-interceptor';
 import { credentialInterceptor } from './http-interceptors/credential-interceptor';
@@ -36,6 +40,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideHttpClient(
+      withFetch(),
       withInterceptors([
         baseUrlInterceptor,
         authInterceptor,
@@ -57,6 +62,10 @@ export const appConfig: ApplicationConfig = {
       useValue: { appearance: 'outline' },
     },
     provideNativeDateAdapter(),
-    { provide: MAT_DATE_LOCALE, useValue: 'ko-KR' }, provideNzI18n(ko_KR), importProvidersFrom(FormsModule), provideAnimationsAsync(), provideHttpClient(),
+    { provide: MAT_DATE_LOCALE, useValue: 'ko-KR' },
+    provideNzI18n(ko_KR),
+    importProvidersFrom(FormsModule),
+    provideAnimationsAsync(),
+    provideHttpClient(),
   ],
 };
