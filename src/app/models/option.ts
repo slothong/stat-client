@@ -1,5 +1,3 @@
-import { OptionDto } from './option-dto';
-
 export interface Option {
   id: string;
   optionText: string;

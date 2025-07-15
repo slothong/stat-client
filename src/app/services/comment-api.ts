@@ -16,6 +16,12 @@ export class CommentApi {
       .pipe(map((dtos) => dtos.map((dto) => this.fromDto(dto))));
   }
 
+  getCommentsByUser$(userId: string) {
+    return this.http
+      .get<CommentDto[]>(`/api/users/${userId}/comments`)
+      .pipe(map((dtos) => dtos.map((dto) => this.fromDto(dto))));
+  }
+
   postComment$(pollId: string, content: string) {
     return this.http
       .post<CommentDto>(`/api/polls/${pollId}/comments`, {

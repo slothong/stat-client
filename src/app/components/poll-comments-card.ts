@@ -13,10 +13,10 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { ReplaySubject, switchMap } from 'rxjs';
-import { RelativeDatePipe } from '@/pipes/relative-date.pipe';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { CommentCard } from './comment-card';
 
 @Component({
   selector: 'app-poll-comments-card',
@@ -30,7 +30,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzAvatarModule,
     NzIconModule,
     NzToolTipModule,
-    RelativeDatePipe,
+    CommentCard,
   ],
   template: `
     @let comments = (commentsResult$ | async)?.data;
@@ -58,26 +58,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
         </form>
         <div class="flex flex-col gap-3">
           @for (comment of comments; track comment.id) {
-            <nz-comment
-              [nzAuthor]="comment.author.username"
-              [nzDatetime]="comment.createdAt | relativeDate"
-            >
-              <nz-avatar nz-comment-avatar nzIcon="user"></nz-avatar>
-              <nz-comment-content>
-                <p>
-                  {{ comment.content }}
-                </p>
-              </nz-comment-content>
-              <nz-comment-action>
-                <nz-icon nz-tooltip nzTooltipTitle="Like" nzType="like" />
-                <span class="ms-1">0</span>
-              </nz-comment-action>
-              <nz-comment-action>
-                <nz-icon nz-tooltip nzTooltipTitle="Dislike" nzType="dislike" />
-                <span class="ms-1">0</span>
-              </nz-comment-action>
-              <nz-comment-action>Reply to</nz-comment-action>
-            </nz-comment>
+            <app-comment-card [comment]="comment" />
           }
         </div>
       </div>
@@ -101,7 +82,7 @@ export class PollCommentsCard {
   private readonly commentQueries = inject(CommentQueries);
 
   protected readonly commentsResult$ = this.pollId$.pipe(
-    switchMap((pollId) => this.commentQueries.getComments$(pollId).result$),
+    switchMap((pollId) => this.commentQueries.getComments(pollId).result$),
   );
 
   protected submitComment() {

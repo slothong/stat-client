@@ -15,10 +15,21 @@ export class CommentQueries {
     return ['polls', pollId, 'comments'];
   }
 
-  getComments$(pollId: string) {
+  static getCommentsByUserQueryKey(userId: string) {
+    return ['users', userId, 'comments'];
+  }
+
+  getComments(pollId: string) {
     return this.query({
       queryKey: CommentQueries.getCommentsQueryKey(pollId),
       queryFn: () => this.api.getComments$(pollId),
+    });
+  }
+
+  getCommentsByUser(userId: string) {
+    return this.query({
+      queryKey: CommentQueries.getCommentsByUserQueryKey(userId),
+      queryFn: () => this.api.getCommentsByUser$(userId),
     });
   }
 
