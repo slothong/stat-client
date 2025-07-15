@@ -1,8 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { injectMutation, injectQuery, injectQueryClient } from '@ngneat/query';
 import { PollApi } from './poll-api';
-import { Poll } from '@/models/poll';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
