@@ -28,7 +28,7 @@ export class PollApi {
 
   getPollsByUser$(userId: string) {
     return this.http
-      .get<PollDto[]>(`/api/polls?user=${userId}`)
+      .get<PollDto[]>(`/api/users/${userId}/polls`)
       .pipe(
         map((pollDtos) => pollDtos.map((pollDto) => this.fromDto(pollDto))),
       );

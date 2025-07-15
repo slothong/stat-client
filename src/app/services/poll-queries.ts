@@ -18,7 +18,7 @@ export class PollQueries {
   }
 
   static getPollsByUserQueryKey(userId?: string) {
-    return ['polls', 'user', userId];
+    return ['polls', { userId }];
   }
 
   static getPollQueryKey(pollId: string) {
@@ -26,15 +26,23 @@ export class PollQueries {
   }
 
   static getLikedPollsQueryKey(userId?: string) {
-    return ['polls', 'users', userId, 'liked'];
+    return [
+      'polls',
+      {
+        userId,
+        liked: true,
+      },
+    ];
   }
 
   static getBookmarkedPollsQueryKey(userId?: string) {
-    return ['polls', 'users', userId, 'bookmarked'];
-  }
-
-  static getPollResultQueryKey(pollId: string) {
-    return ['polls', pollId, 'result'];
+    return [
+      'polls',
+      {
+        userId,
+        bookmarked: true,
+      },
+    ];
   }
 
   getPolls$() {

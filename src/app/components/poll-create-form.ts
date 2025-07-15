@@ -84,7 +84,7 @@ const formSchema = z.object({
         }
       </div>
       <div class="flex flex-col gap-2 mt-3">
-        <button nz-button (click)="addItem()">추가</button>
+        <button nz-button type="button" (click)="addItem()">추가</button>
         <button
           nz-button
           nzType="primary"
