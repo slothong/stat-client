@@ -40,6 +40,13 @@ export class PollResultChart {
       type: 'bar',
       options: {
         indexAxis: 'y',
+        scales: {
+          x: {
+            ticks: {
+              precision: 0,
+            },
+          },
+        },
       },
       data: {
         labels: options.map((option) => option.optionText),
