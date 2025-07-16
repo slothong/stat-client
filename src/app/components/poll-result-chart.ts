@@ -7,13 +7,7 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import {
-  BarController,
-  BarControllerChartOptions,
-  BarOptions,
-  ChartConfiguration,
-  ChartType,
-} from 'chart.js';
+import { ChartConfiguration } from 'chart.js';
 
 @Component({
   selector: 'app-poll-result-chart',

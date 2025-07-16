@@ -92,7 +92,7 @@ export class UserProfilePage {
   protected getTabLink$(tab: string) {
     return this.me$.pipe(
       filter((me) => !!me),
-      map((me) => `/users/${me.id}/${tab}`),
+      map((me) => `/users/${me.id}/profile/${tab}`),
     );
   }
 

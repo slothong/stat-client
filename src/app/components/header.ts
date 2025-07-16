@@ -50,10 +50,13 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
           <ul nz-menu nzSelectable>
             <li
               nz-menu-item
-              [routerLink]="'/users/' + user.id + '/polls'"
+              [routerLink]="'/users/' + user.id + '/profile/polls'"
               [nzMatchRouter]="false"
             >
               프로필
+            </li>
+            <li nz-menu-item [routerLink]="'/users/' + user.id + '/settings'">
+              설정
             </li>
             <li nz-menu-item (click)="logout()">로그아웃</li>
           </ul>
