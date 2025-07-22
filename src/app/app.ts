@@ -16,7 +16,15 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
       </header>
       <div class="h-[1px] w-full bg-gray-200"></div>
       <main>
-        <router-outlet></router-outlet>
+        <div class="drawer drawer-open">
+          <input type="checkbox" class="drawer-toggle" />
+          <div class="drawer-content">
+            <router-outlet></router-outlet>
+          </div>
+          <div class="drawer-side border-r border-gray-200">
+            <div class="w-3xs">Sidebar</div>
+          </div>
+        </div>
       </main>
     }
   `,
