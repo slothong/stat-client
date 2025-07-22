@@ -8,10 +8,12 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
+import { NgIcon } from '@ng-icons/core';
 
 @Component({
   selector: 'app-header',
   imports: [
+    NgIcon,
     RouterModule,
     NzButtonModule,
     NzIconModule,
@@ -25,16 +27,17 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
   },
   template: `
     <a routerLink="/">로고</a>
+
+    <label class="input w-xl">
+      <ng-icon name="lucideSearch" />
+      <input type="search" required placeholder="Search" />
+    </label>
+
     <div class="flex items-center gap-3">
       @let user = me$ | async;
       @if (user) {
-        <button
-          nz-button
-          nzType="primary"
-          nzShape="round"
-          [routerLink]="['/create-poll']"
-        >
-          <nz-icon nzType="plus" />
+        <button class="btn btn-ghost" routerLink="/create-poll">
+          <ng-icon name="lucidePlus" size="16" />
           설문 만들기
         </button>
 
