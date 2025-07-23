@@ -40,14 +40,33 @@ import { NgIcon } from '@ng-icons/core';
           <ng-icon name="lucidePlus" size="16" />
           설문 만들기
         </button>
-
-        <nz-avatar
-          nzIcon="user"
-          nz-dropdown
-          [nzDropdownMenu]="menu"
-          nzTrigger="click"
-          class="cursor-pointer"
-        ></nz-avatar>
+        <div class="dropdown dropdown-end">
+          <div
+            class="avatar avatar-placeholder cursor-pointer"
+            role="button"
+            tabindex="0"
+          >
+            <div class="bg-neutral text-neutral-content w-10 rounded-full">
+              <span>SY</span>
+            </div>
+          </div>
+          <ul
+            tabindex="0"
+            class="menu dropdown-content bg-base-100 rounded-box z-1 w-26 p-2 shadow-sm"
+          >
+            <li>
+              <a [routerLink]="'/users/' + user.id + '/profile/polls'">
+                프로필
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="'/users/' + user.id + '/settings'"> 설정 </a>
+            </li>
+            <li (click)="logout()">
+              <a>로그아웃</a>
+            </li>
+          </ul>
+        </div>
 
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <ul nz-menu nzSelectable>

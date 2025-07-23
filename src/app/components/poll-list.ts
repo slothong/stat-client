@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { PollQueries } from '@/services/poll-queries';
 import { PollCard } from './poll-card';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-poll-list',
