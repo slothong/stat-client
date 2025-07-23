@@ -3,16 +3,10 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ZodError } from '@/components/zod-error';
-import { HasErrorRoot } from '@/directives/has-error-root';
 import { zodValidator } from '@/utils/zod-validator';
 import { AuthManager } from '@/services/auth-manager';
+import { NgIcon } from '@ng-icons/core';
 
 const loginFormSchema = {
   email: z
@@ -37,76 +31,64 @@ const loginFormSchema = {
 
 @Component({
   selector: 'app-login-form',
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    ZodError,
-    CommonModule,
-    RouterLink,
-    HasErrorRoot,
-    MatCardModule,
-    MatIconModule,
-  ],
+  imports: [ReactiveFormsModule, CommonModule, NgIcon, RouterLink],
   host: {
     class: 'block w-fit',
   },
   template: `
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="w-lg">
-      <mat-card appearance="outlined">
-        <mat-card-content>
-          <div class="flex flex-col items-center gap-3 px-5 pb-5">
-            <div>
-              <h3 class="text-xl">로그인</h3>
-            </div>
-            <mat-form-field class="w-full">
-              <mat-label>이메일</mat-label>
+      <div class="flex flex-col items-center pb-5">
+        <h3 class="text-xl">로그인</h3>
+        <div class="flex flex-col gap-2">
+          <div class="w-xs">
+            <label class="input validator box-border">
+              <ng-icon name="heroEnvelope" class="opacity-50" />
               <input
-                matInput
+                class="rounded-none"
                 placeholder="Email"
                 formControlName="email"
                 type="email"
               />
-              <mat-error zod-error />
-            </mat-form-field>
-            <mat-form-field class="w-full">
-              <mat-label>비밀번호</mat-label>
+            </label>
+            <div
+              class="text-red-500 text-xs mt-1.5"
+              [class.invisible]="!formGroup.controls.email.errors"
+            >
+              Must be a valid email
+            </div>
+          </div>
+          <div class="w-xs">
+            <label class="input validator box-border">
+              <ng-icon name="heroKey" class="opacity-50" />
               <input
-                matInput
+                name="password"
                 placeholder="Password"
                 formControlName="password"
-                [type]="hidePassword() ? 'password' : 'text'"
+                type="password"
               />
-              <button
-                type="button"
-                matIconButton
-                matSuffix
-                (click)="hidePassword.set(!hidePassword())"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hidePassword()"
-              >
-                <mat-icon>{{
-                  hidePassword() ? 'visibility_off' : 'visibility'
-                }}</mat-icon>
-              </button>
-              <mat-error zod-error />
-            </mat-form-field>
+            </label>
+            <div
+              class="text-red-500 text-xs mt-1.5"
+              [class.invisible]="!formGroup.controls.password.errors"
+            >
+              Password must be 8–16 characters long, and include letters,
+              numbers, special characters, and no spaces.
+            </div>
           </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <div class="flex flex-col w-full px-5 gap-1 pb-3">
+          <div class="flex flex-col">
             <button
-              matButton="filled"
               type="submit"
+              class="btn btn-primary btn-block"
               [disabled]="!formGroup.valid"
             >
               로그인
             </button>
-            <button matButton routerLink="/register">회원가입</button>
+            <button class="btn btn-ghost btn-block" routerLink="/register">
+              회원가입
+            </button>
           </div>
-        </mat-card-actions>
-      </mat-card>
+        </div>
+      </div>
     </form>
   `,
 })

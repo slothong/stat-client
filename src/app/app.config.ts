@@ -31,7 +31,8 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { ko_KR, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { provideIcons } from '@ng-icons/core';
-import { lucidePlus, lucideSearch } from '@ng-icons/lucide';
+import { lucidePlus, lucideSearch, lucideMail } from '@ng-icons/lucide';
+import { heroEnvelope, heroKey } from '@ng-icons/heroicons/outline';
 
 registerLocaleData(ko);
 
@@ -72,6 +73,9 @@ export const appConfig: ApplicationConfig = {
     provideIcons({
       lucidePlus,
       lucideSearch,
+      lucideMail,
+      heroEnvelope,
+      heroKey,
     }),
   ],
 };
