@@ -20,6 +20,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgIcon } from '@ng-icons/core';
+import { FormField } from './ui/form-field';
 
 const registerFormSchema = z
   .object({
@@ -43,7 +45,7 @@ const registerFormSchema = z
         message: 'Password must not contain spaces.',
       }),
     confirmPassword: z.string(),
-    birth: z.date(),
+    // birth: z.date(),
     gender: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -61,113 +63,99 @@ const registerFormSchema = z
     MatButtonModule,
     MatDatepickerModule,
     MatRadioModule,
-    ZodError,
-    HasErrorRoot,
     ReactiveFormsModule,
     CommonModule,
+    NgIcon,
+    FormField,
+    ZodError,
   ],
   template: `
-    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="w-lg">
-      <mat-card appearance="outlined">
-        <mat-card-content>
-          <div class="flex flex-col items-center gap-3 px-5 pb-5">
-            <div>
-              <h3 class="text-xl">회원가입</h3>
-            </div>
-            <mat-form-field class="w-full">
-              <mat-label>이메일</mat-label>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="w-xs">
+      <div class="flex flex-col items-center gap-3 px-5 pb-5">
+        <h3 class="text-xl">회원가입</h3>
+        <div class="w-full">
+          <app-form-field>
+            <label class="input validator box-border w-full">
+              <ng-icon name="heroEnvelope" />
+              <input placeholder="Email" formControlName="email" type="email" />
+            </label>
+            <app-zod-error />
+          </app-form-field>
+        </div>
+
+        <div class="w-full">
+          <app-form-field>
+            <label class="input validator box-border w-full">
               <input
-                matInput
-                placeholder="Email"
-                formControlName="email"
-                type="email"
-              />
-              <mat-error zod-error />
-            </mat-form-field>
-            <mat-form-field class="w-full">
-              <mat-label>닉네임</mat-label>
-              <input
-                matInput
                 placeholder="Username"
                 formControlName="username"
                 type="text"
               />
-              <mat-error zod-error />
-            </mat-form-field>
-            <mat-form-field class="w-full">
-              <mat-label>비밀번호</mat-label>
+            </label>
+            <app-zod-error />
+          </app-form-field>
+        </div>
+        <div class="w-full">
+          <app-form-field>
+            <label class="input validator box-border w-full">
+              <ng-icon name="heroKey" class="opacity-50" />
               <input
-                matInput
+                name="password"
                 placeholder="Password"
                 formControlName="password"
-                [type]="hidePassword() ? 'password' : 'text'"
+                type="password"
               />
-              <button
-                type="button"
-                matIconButton
-                matSuffix
-                tabindex="-1"
-                (click)="hidePassword.set(!hidePassword())"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hidePassword()"
-              >
-                <mat-icon>
-                  {{ hidePassword() ? 'visibility_off' : 'visibility' }}
-                </mat-icon>
-              </button>
-              <mat-error zod-error />
-            </mat-form-field>
-            <mat-form-field class="w-full">
-              <mat-label>비밀번호 확인</mat-label>
-              <input
-                matInput
-                placeholder="Confirm Password"
-                formControlName="confirmPassword"
-                [type]="hidePassword() ? 'password' : 'text'"
-              />
-              <mat-error zod-error />
-            </mat-form-field>
-            <mat-form-field class="w-full">
-              <mat-label>생년월일</mat-label>
-              <input
-                matInput
-                [matDatepicker]="picker"
-                [min]="minDate"
-                [max]="maxDate"
-                formControlName="birth"
-              />
-              <mat-hint>MM/DD/YYYY</mat-hint>
-              <mat-datepicker-toggle
-                matIconSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-              <mat-error zod-error />
-            </mat-form-field>
-            <div class="w-full flex flex-col">
-              <label id="gender-label">성별</label>
-              <mat-radio-group
-                formControlName="gender"
-                aria-labelledby="gender-label"
-              >
-                <mat-radio-button value="male">Male</mat-radio-button>
-                <mat-radio-button value="female">Female</mat-radio-button>
-              </mat-radio-group>
-            </div>
-          </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <div class="flex flex-col w-full px-5 gap-1 pb-3">
-            <button
-              matButton="filled"
-              type="submit"
-              [disabled]="!formGroup.valid"
-            >
-              회원가입
-            </button>
-          </div>
-        </mat-card-actions>
-      </mat-card>
+            </label>
+            <app-zod-error />
+          </app-form-field>
+        </div>
+        <div class="w-full">
+          <label class="input validator box-border w-full">
+            <ng-icon name="heroKey" class="opacity-50" />
+            <input
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              formControlName="confirmPassword"
+              type="password"
+            />
+          </label>
+        </div>
+        <input
+          class="input w-full box-border"
+          type="date"
+          [min]="minDate"
+          [max]="maxDate"
+          formControlName="birth"
+        />
+        <div class="text-sm w-full">Gender</div>
+        <div class="w-full flex gap-5 text-gray-600">
+          <label class="flex items-center gap-2 text-sm">
+            <input
+              type="radio"
+              formControlName="gender"
+              name="gender"
+              value="male"
+              class="radio radio-xs"
+            />
+            Male
+          </label>
+          <label class="flex items-center gap-2 text-sm">
+            <input
+              type="radio"
+              formControlName="gender"
+              value="female"
+              name="gender"
+              class="radio radio-xs"
+            />
+            Female
+          </label>
+        </div>
+      </div>
+      <div class="flex flex-col w-full px-5 gap-1 pb-3">
+        <button matButton="filled" type="submit" [disabled]="!formGroup.valid">
+          회원가입
+        </button>
+      </div>
     </form>
   `,
 })
@@ -178,7 +166,7 @@ export class RegisterForm {
       password: new FormControl(''),
       username: new FormControl(''),
       confirmPassword: new FormControl(''),
-      birth: new FormControl<Date | null>(null, [Validators.required]),
+      birth: new FormControl('', [Validators.required]),
       gender: new FormControl('male', [Validators.required]),
     },
     {
@@ -188,8 +176,8 @@ export class RegisterForm {
 
   protected readonly hidePassword = signal(true);
 
-  protected readonly minDate = new Date(1900, 0, 1);
-  protected readonly maxDate = new Date();
+  protected readonly minDate = '1900-01-01';
+  protected readonly maxDate = new Date().toISOString().split('T')[0];
 
   private readonly auth = inject(AuthManager);
   private readonly router = inject(Router);
@@ -212,14 +200,16 @@ export class RegisterForm {
       return;
     }
 
-    this.auth.register$(email, username, password, birth, gender).subscribe({
-      next: () => {
-        this.snackBar.open('회원 가입에 성공했습니다!');
-        this.router.navigate(['/login']);
-      },
-      error: () => {
-        this.snackBar.open('회원 가입에 실패했습니다.');
-      },
-    });
+    this.auth
+      .register$(email, username, password, new Date(birth), gender)
+      .subscribe({
+        next: () => {
+          this.snackBar.open('회원 가입에 성공했습니다!');
+          this.router.navigate(['/login']);
+        },
+        error: () => {
+          this.snackBar.open('회원 가입에 실패했습니다.');
+        },
+      });
   }
 }

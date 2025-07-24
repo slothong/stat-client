@@ -1,24 +1,26 @@
 import { Component, inject } from '@angular/core';
-import { HasErrorRoot } from '../directives/has-error-root';
 import { combineLatest, EMPTY, map, startWith, switchMap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { FormField } from './ui/form-field';
 
 @Component({
-  selector: 'mat-error[zod-error]',
-  template: `{{ error$ | async }}`,
+  selector: 'app-zod-error',
+  template: `<span class="text-red-500 text-xs mt-1.5">{{
+    error$ | async
+  }}</span>`,
   imports: [AsyncPipe],
 })
 export class ZodError {
-  readonly hasErrorRoot = inject(HasErrorRoot);
+  readonly formField = inject(FormField);
 
-  private status$ = this.hasErrorRoot.formControl$.pipe(
+  private status$ = this.formField.formControl$.pipe(
     switchMap((control) =>
       (control?.statusChanges ?? EMPTY).pipe(startWith(null)),
     ),
   );
 
   protected readonly error$ = combineLatest([
-    this.hasErrorRoot.formControl$,
+    this.formField.formControl$,
     this.status$,
   ]).pipe(
     map(([control]) => {

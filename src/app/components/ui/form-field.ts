@@ -1,4 +1,4 @@
-import { computed, contentChild, Directive, effect } from '@angular/core';
+import { Component, computed, contentChild, effect } from '@angular/core';
 import {
   FormControl,
   FormControlDirective,
@@ -6,10 +6,11 @@ import {
 } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 
-@Directive({
+@Component({
   selector: 'app-form-field',
+  template: `<ng-content></ng-content>`,
 })
-export class HasErrorRoot {
+export class FormField {
   readonly formControlDirective = contentChild(FormControlDirective);
 
   readonly formControlName = contentChild(FormControlName);

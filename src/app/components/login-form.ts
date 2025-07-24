@@ -7,6 +7,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { zodValidator } from '@/utils/zod-validator';
 import { AuthManager } from '@/services/auth-manager';
 import { NgIcon } from '@ng-icons/core';
+import { FormField } from './ui/form-field';
+import { ZodError } from './zod-error';
 
 const loginFormSchema = {
   email: z
@@ -31,7 +33,14 @@ const loginFormSchema = {
 
 @Component({
   selector: 'app-login-form',
-  imports: [ReactiveFormsModule, CommonModule, NgIcon, RouterLink],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    NgIcon,
+    RouterLink,
+    FormField,
+    ZodError,
+  ],
   host: {
     class: 'block w-fit',
   },
@@ -41,39 +50,32 @@ const loginFormSchema = {
         <h3 class="text-xl">로그인</h3>
         <div class="flex flex-col gap-2">
           <div class="w-xs">
-            <label class="input validator box-border">
-              <ng-icon name="heroEnvelope" class="opacity-50" />
-              <input
-                class="rounded-none"
-                placeholder="Email"
-                formControlName="email"
-                type="email"
-              />
-            </label>
-            <div
-              class="text-red-500 text-xs mt-1.5"
-              [class.invisible]="!formGroup.controls.email.errors"
-            >
-              Must be a valid email
-            </div>
+            <app-form-field>
+              <label class="input validator box-border">
+                <ng-icon name="heroEnvelope" class="opacity-50" />
+                <input
+                  class="rounded-none"
+                  placeholder="Email"
+                  formControlName="email"
+                  type="email"
+                />
+              </label>
+              <app-zod-error />
+            </app-form-field>
           </div>
           <div class="w-xs">
-            <label class="input validator box-border">
-              <ng-icon name="heroKey" class="opacity-50" />
-              <input
-                name="password"
-                placeholder="Password"
-                formControlName="password"
-                type="password"
-              />
-            </label>
-            <div
-              class="text-red-500 text-xs mt-1.5"
-              [class.invisible]="!formGroup.controls.password.errors"
-            >
-              Password must be 8–16 characters long, and include letters,
-              numbers, special characters, and no spaces.
-            </div>
+            <app-form-field>
+              <label class="input validator box-border">
+                <ng-icon name="heroKey" class="opacity-50" />
+                <input
+                  name="password"
+                  placeholder="Password"
+                  formControlName="password"
+                  type="password"
+                />
+              </label>
+              <app-zod-error />
+            </app-form-field>
           </div>
           <div class="flex flex-col">
             <button
