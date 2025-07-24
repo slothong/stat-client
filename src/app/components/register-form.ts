@@ -9,8 +9,7 @@ import {
 } from '@angular/forms';
 import { AuthManager } from '@/services/auth-manager';
 import { Router } from '@angular/router';
-import { ZodError } from '@/components/zod-error';
-import { HasErrorRoot } from '@/directives/has-error-root';
+import { FormFieldError } from '@/components/ui/form-field-error';
 import { zodValidator } from '@/utils/zod-validator';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -67,7 +66,7 @@ const registerFormSchema = z
     CommonModule,
     NgIcon,
     FormField,
-    ZodError,
+    FormFieldError,
   ],
   template: `
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="w-xs">
@@ -79,7 +78,7 @@ const registerFormSchema = z
               <ng-icon name="heroEnvelope" />
               <input placeholder="Email" formControlName="email" type="email" />
             </label>
-            <app-zod-error />
+            <app-form-field-error />
           </app-form-field>
         </div>
 
@@ -92,7 +91,7 @@ const registerFormSchema = z
                 type="text"
               />
             </label>
-            <app-zod-error />
+            <app-form-field-error />
           </app-form-field>
         </div>
         <div class="w-full">
@@ -106,7 +105,7 @@ const registerFormSchema = z
                 type="password"
               />
             </label>
-            <app-zod-error />
+            <app-form-field-error />
           </app-form-field>
         </div>
         <div class="w-full">

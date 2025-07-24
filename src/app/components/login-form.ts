@@ -8,7 +8,7 @@ import { zodValidator } from '@/utils/zod-validator';
 import { AuthManager } from '@/services/auth-manager';
 import { NgIcon } from '@ng-icons/core';
 import { FormField } from './ui/form-field';
-import { ZodError } from './zod-error';
+import { FormFieldError } from './ui/form-field-error';
 
 const loginFormSchema = {
   email: z
@@ -39,7 +39,7 @@ const loginFormSchema = {
     NgIcon,
     RouterLink,
     FormField,
-    ZodError,
+    FormFieldError,
   ],
   host: {
     class: 'block w-fit',
@@ -60,7 +60,7 @@ const loginFormSchema = {
                   type="email"
                 />
               </label>
-              <app-zod-error />
+              <app-form-field-error />
             </app-form-field>
           </div>
           <div class="w-xs">
@@ -74,7 +74,7 @@ const loginFormSchema = {
                   type="password"
                 />
               </label>
-              <app-zod-error />
+              <app-form-field-error />
             </app-form-field>
           </div>
           <div class="flex flex-col">

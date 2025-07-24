@@ -1,16 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { combineLatest, EMPTY, map, startWith, switchMap } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-import { FormField } from './ui/form-field';
+import { FormField } from './form-field';
 
 @Component({
-  selector: 'app-zod-error',
+  selector: 'app-form-field-error',
   template: `<span class="text-red-500 text-xs mt-1.5">{{
     error$ | async
   }}</span>`,
   imports: [AsyncPipe],
 })
-export class ZodError {
+export class FormFieldError {
   readonly formField = inject(FormField);
 
   private status$ = this.formField.formControl$.pipe(
