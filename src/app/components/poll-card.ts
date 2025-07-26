@@ -27,12 +27,24 @@ import { NgIcon } from '@ng-icons/core';
     @let poll = poll$ | async;
     <app-card>
       <div class="flex items-center gap-2">
-        <nz-avatar nzIcon="user" nzSize="small" />
-        {{ poll?.createdBy?.username }}
-        <span class="text-gray-500 text-xs">
-          •
-          {{ poll?.createdAt | relativeDate }}
-        </span>
+        <div
+          class="avatar avatar-placeholder cursor-pointer"
+          role="button"
+          tabindex="0"
+        >
+          <div class="bg-neutral text-neutral-content text-xs w-7 rounded-full">
+            <span>SY</span>
+          </div>
+        </div>
+        <div>
+          <span class="text-sm">
+            {{ poll?.createdBy?.username }}
+          </span>
+          <span class="text-gray-500 text-xs">
+            •
+            {{ poll?.createdAt | relativeDate }}
+          </span>
+        </div>
       </div>
       <div class="flex flex-col">
         <strong class="pt-3">
@@ -45,10 +57,9 @@ import { NgIcon } from '@ng-icons/core';
         }
         <div class="pb-3">
           @for (option of poll?.options; track option) {
-            <div class="hover:bg-gray-100 py-1 px-1">
-              <div nz-radio>
-                {{ option.optionText }}
-              </div>
+            <div class="hover:bg-gray-100 py-1 px-1 flex items-center gap-2">
+              <input type="radio" class="radio radio-xs m-0" />
+              {{ option.optionText }}
             </div>
           }
         </div>
