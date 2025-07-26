@@ -69,10 +69,10 @@ const registerFormSchema = z
     FormFieldError,
   ],
   template: `
-    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="w-xs">
-      <div class="flex flex-col items-center gap-3 px-5 pb-5">
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+      <div class="flex flex-col items-center gap-3 pb-5 w-sm">
         <h3 class="text-xl">회원가입</h3>
-        <div class="w-full">
+        <div class="flex flex-col gap-2 w-sm">
           <app-form-field>
             <label class="input validator box-border w-full">
               <ng-icon name="heroEnvelope" />
@@ -80,11 +80,10 @@ const registerFormSchema = z
             </label>
             <app-form-field-error />
           </app-form-field>
-        </div>
 
-        <div class="w-full">
           <app-form-field>
             <label class="input validator box-border w-full">
+              <ng-icon name="heroUser" />
               <input
                 placeholder="Username"
                 formControlName="username"
@@ -93,8 +92,6 @@ const registerFormSchema = z
             </label>
             <app-form-field-error />
           </app-form-field>
-        </div>
-        <div class="w-full">
           <app-form-field>
             <label class="input validator box-border w-full">
               <ng-icon name="heroKey" class="opacity-50" />
@@ -107,51 +104,55 @@ const registerFormSchema = z
             </label>
             <app-form-field-error />
           </app-form-field>
+
+          <app-form-field>
+            <label class="input validator box-border w-full">
+              <ng-icon name="heroKey" class="opacity-50" />
+              <input
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                formControlName="confirmPassword"
+                type="password"
+              />
+            </label>
+            <app-form-field-error />
+          </app-form-field>
+          <input
+            class="input w-full box-border"
+            type="date"
+            [min]="minDate"
+            [max]="maxDate"
+            formControlName="birth"
+          />
+          <div class="text-sm w-full">Gender</div>
+          <div class="w-full flex gap-5 text-gray-600">
+            <label class="flex items-center gap-2 text-sm">
+              <input
+                type="radio"
+                formControlName="gender"
+                name="gender"
+                value="male"
+                class="radio radio-xs"
+              />
+              Male
+            </label>
+            <label class="flex items-center gap-2 text-sm">
+              <input
+                type="radio"
+                formControlName="gender"
+                value="female"
+                name="gender"
+                class="radio radio-xs"
+              />
+              Female
+            </label>
+          </div>
         </div>
-        <div class="w-full">
-          <label class="input validator box-border w-full">
-            <ng-icon name="heroKey" class="opacity-50" />
-            <input
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              formControlName="confirmPassword"
-              type="password"
-            />
-          </label>
-        </div>
-        <input
-          class="input w-full box-border"
-          type="date"
-          [min]="minDate"
-          [max]="maxDate"
-          formControlName="birth"
-        />
-        <div class="text-sm w-full">Gender</div>
-        <div class="w-full flex gap-5 text-gray-600">
-          <label class="flex items-center gap-2 text-sm">
-            <input
-              type="radio"
-              formControlName="gender"
-              name="gender"
-              value="male"
-              class="radio radio-xs"
-            />
-            Male
-          </label>
-          <label class="flex items-center gap-2 text-sm">
-            <input
-              type="radio"
-              formControlName="gender"
-              value="female"
-              name="gender"
-              class="radio radio-xs"
-            />
-            Female
-          </label>
-        </div>
-      </div>
-      <div class="flex flex-col w-full px-5 gap-1 pb-3">
-        <button matButton="filled" type="submit" [disabled]="!formGroup.valid">
+        <button
+          class="btn btn-primary btn-block"
+          type="submit"
+          [disabled]="!formGroup.valid"
+        >
           회원가입
         </button>
       </div>

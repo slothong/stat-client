@@ -41,42 +41,35 @@ const loginFormSchema = {
     FormField,
     FormFieldError,
   ],
-  host: {
-    class: 'block w-fit',
-  },
   template: `
-    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="w-lg">
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
       <div class="flex flex-col items-center pb-5">
         <h3 class="text-xl">로그인</h3>
-        <div class="flex flex-col gap-2">
-          <div class="w-xs">
-            <app-form-field>
-              <label class="input validator box-border">
-                <ng-icon name="heroEnvelope" class="opacity-50" />
-                <input
-                  class="rounded-none"
-                  placeholder="Email"
-                  formControlName="email"
-                  type="email"
-                />
-              </label>
-              <app-form-field-error />
-            </app-form-field>
-          </div>
-          <div class="w-xs">
-            <app-form-field>
-              <label class="input validator box-border">
-                <ng-icon name="heroKey" class="opacity-50" />
-                <input
-                  name="password"
-                  placeholder="Password"
-                  formControlName="password"
-                  type="password"
-                />
-              </label>
-              <app-form-field-error />
-            </app-form-field>
-          </div>
+        <div class="flex flex-col gap-2 w-sm">
+          <app-form-field>
+            <label class="input validator box-border w-full">
+              <ng-icon name="heroEnvelope" class="opacity-50" />
+              <input
+                class="rounded-none"
+                placeholder="Email"
+                formControlName="email"
+                type="email"
+              />
+            </label>
+            <app-form-field-error />
+          </app-form-field>
+          <app-form-field>
+            <label class="input validator box-border w-full">
+              <ng-icon name="heroKey" class="opacity-50" />
+              <input
+                name="password"
+                placeholder="Password"
+                formControlName="password"
+                type="password"
+              />
+            </label>
+            <app-form-field-error />
+          </app-form-field>
           <div class="flex flex-col">
             <button
               type="submit"

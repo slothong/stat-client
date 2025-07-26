@@ -4,10 +4,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-create-poll-page',
   imports: [PollCreateForm],
-  template: `
-    <div class="w-3xl mx-auto pt-12">
-      <app-poll-create-form />
-    </div>
-  `,
+  template: ` <app-poll-create-form /> `,
 })
 export class CreatePollPage {}
