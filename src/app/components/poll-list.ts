@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   selector: 'app-poll-list',
   imports: [CommonModule, MatCardModule, MatRadioModule, PollCard],
   host: {
-    class: 'flex flex-col gap-3 w-xl mx-auto',
+    class: 'flex flex-col gap-3',
   },
   template: `
     @if (pollList$ | async; as result) {

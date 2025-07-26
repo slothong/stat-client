@@ -19,7 +19,9 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
         <div class="drawer drawer-open">
           <input type="checkbox" class="drawer-toggle" />
           <div class="drawer-content">
-            <router-outlet></router-outlet>
+            <div class="w-2xl mx-auto pt-8">
+              <router-outlet></router-outlet>
+            </div>
           </div>
           <div class="drawer-side border-r border-gray-200">
             <div class="w-3xs">Sidebar</div>

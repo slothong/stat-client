@@ -5,8 +5,5 @@ import { Component } from '@angular/core';
   selector: 'app-main-page',
   imports: [PollList],
   template: ` <app-poll-list /> `,
-  host: {
-    class: 'pt-8 block',
-  },
 })
 export class MainPage {}
