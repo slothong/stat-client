@@ -41,12 +41,20 @@ import { NgIcon } from '@ng-icons/core';
             class="menu dropdown-content bg-base-100 rounded-box z-1 w-26 p-2 shadow-sm"
           >
             <li>
-              <a [routerLink]="'/users/' + user.id + '/profile/polls'">
+              <a
+                [routerLink]="'/users/' + user.id + '/profile/polls'"
+                class="text-inherit no-underline"
+              >
                 프로필
               </a>
             </li>
             <li>
-              <a [routerLink]="'/users/' + user.id + '/settings'"> 설정 </a>
+              <a
+                [routerLink]="'/users/' + user.id + '/settings'"
+                class="text-inherit no-underline"
+              >
+                설정
+              </a>
             </li>
             <li>
               <a (click)="logout()">로그아웃</a>
