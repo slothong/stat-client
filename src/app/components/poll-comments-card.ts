@@ -19,7 +19,7 @@ import { CommentCard } from './comment-card';
     @if (comments) {
       <div class="flex flex-col">
         <form
-          class="flex flex-col gap-2 h-[100px]"
+          class="flex flex-col gap-2"
           [formGroup]="formGroup"
           (ngSubmit)="submitComment()"
         >
