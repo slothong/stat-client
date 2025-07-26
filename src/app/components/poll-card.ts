@@ -2,7 +2,6 @@ import { Poll } from '@/models/poll';
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { ReplaySubject, take } from 'rxjs';
-import { RelativeDatePipe } from '@/pipes/relative-date.pipe';
 import { PollQueries } from '@/services/poll-queries';
 import { Card } from './ui/card';
 import { NgIcon } from '@ng-icons/core';
@@ -10,7 +9,7 @@ import { PostMeta } from './post-meta';
 
 @Component({
   selector: 'app-poll-card',
-  imports: [AsyncPipe, RelativeDatePipe, Card, NgIcon, PostMeta],
+  imports: [AsyncPipe, Card, NgIcon, PostMeta],
   template: `
     @let poll = poll$ | async;
     <app-card>

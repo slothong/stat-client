@@ -16,10 +16,11 @@ import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
-import { RelativeDatePipe } from '@/pipes/relative-date.pipe';
 import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { PostMeta } from './post-meta';
+import { NgIcon } from '@ng-icons/core';
 
 @Component({
   selector: 'app-vote-form',
@@ -33,21 +34,18 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
     NzButtonModule,
     NzCommentModule,
     NzIconModule,
-    RelativeDatePipe,
+    NgIcon,
+    PostMeta,
   ],
   template: `
     @let formGroup = formGroup$ | async;
     @let poll = (pollQuery$ | async)?.data;
     @if (formGroup && poll) {
       <form nz-form (ngSubmit)="submitForm()" [formGroup]="formGroup">
-        <div class="flex items-center gap-2 pt-3">
-          <nz-avatar nzIcon="user" nzSize="small" />
+        <app-post-meta [createdAt]="poll?.createdAt">
           {{ poll?.createdBy?.username }}
-          <span class="text-gray-500 text-xs">
-            •
-            {{ poll?.createdAt | relativeDate }}
-          </span>
-        </div>
+        </app-post-meta>
+
         <div class="flex flex-col pb-3">
           <strong class="pt-3">
             {{ poll?.question }}
@@ -58,60 +56,57 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
             </p>
           }
 
-          <nz-radio-group formControlName="optionId">
+          <div class="mb-3">
             @for (option of poll?.options; track option) {
-              <div>
-                <label nz-radio [nzValue]="option.id">
-                  {{ option.optionText }}
-                </label>
-              </div>
+              <label
+                class="hover:bg-gray-100 py-1 px-1 flex items-center gap-2"
+              >
+                <input
+                  type="radio"
+                  class="radio radio-xs m-0"
+                  formControlName="optionId"
+                  [value]="option.id"
+                />
+                {{ option.optionText }}
+              </label>
             }
-          </nz-radio-group>
+          </div>
 
           <button
-            nz-button
             type="submit"
-            nzType="primary"
+            class="btn btn-block btn-primary"
             [disabled]="!!poll.hasVoted"
           >
             투표하기
           </button>
 
-          <div class="flex gap-2">
-            <div
-              [class]="
-                'flex items-center justify-center text-sm transition-all hover:text-cyan-500 ' +
-                (poll?.likedByMe ? 'text-cyan-500' : 'text-gray-400')
-              "
+          <div class="flex gap-2 mt-6">
+            <button
+              class="btn btn-circle btn-sm"
               (click)="$event.stopPropagation(); likePoll(!poll?.likedByMe)"
             >
-              <nz-icon
-                nzType="heart"
-                [nzTheme]="poll?.likedByMe ? 'fill' : 'outline'"
+              <ng-icon
+                [name]="poll?.likedByMe ? 'heroHeartSolid' : 'heroHeart'"
+                size="15"
               />
-            </div>
-            <div
-              [class]="
-                'flex items-center justify-center text-sm transition-all hover:text-cyan-500 ' +
-                (poll?.bookmarkedByMe ? 'text-cyan-500' : 'text-gray-400')
-              "
+            </button>
+            <button
+              class="btn btn-circle btn-sm"
               (click)="
                 $event.stopPropagation(); bookmark(!poll?.bookmarkedByMe)
               "
             >
-              <nz-icon
-                nzType="book"
-                [nzTheme]="poll?.bookmarkedByMe ? 'fill' : 'outline'"
+              <ng-icon
+                [name]="
+                  poll?.bookmarkedByMe ? 'heroBookmarkSolid' : 'heroBookmark'
+                "
+                size="15"
               />
-            </div>
-            <div
-              [class]="
-                'h-6 flex gap-1 items-center justify-center text-sm transition-all hover:text-cyan-500 text-gray-400'
-              "
-            >
-              <nz-icon nzType="comment" />
+            </button>
+            <button class="btn btn-sm font-normal">
+              <ng-icon name="heroChatBubbleOvalLeft" size="15" />
               {{ poll?.commentCount }}
-            </div>
+            </button>
           </div>
         </div>
       </form>
