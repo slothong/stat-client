@@ -26,7 +26,7 @@ import { filter, map } from 'rxjs';
           {{ me.username }}
         </span>
       </div>
-      <div role="tablist" class="tabs tabs-border">
+      <div role="tablist" class="tabs tabs-border mb-5">
         <a
           role="tab"
           class="tab no-underline text-inherit"
