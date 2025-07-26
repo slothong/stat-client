@@ -1,9 +1,9 @@
 import { PollCard } from '@/components/poll-card';
-import { MeStore } from '@/services/me-store';
 import { PollQueries } from '@/services/poll-queries';
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { switchMap } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { filter, map, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile-polls-page',
@@ -16,11 +16,14 @@ import { switchMap } from 'rxjs';
   `,
 })
 export class UserProfilePollsPage {
-  protected readonly me$ = inject(MeStore).user$;
+  private readonly userId$ = inject(ActivatedRoute).parent?.paramMap.pipe(
+    map((p) => p.get('id')),
+  );
 
   private pollQueries = inject(PollQueries);
 
-  protected polls$ = this.me$.pipe(
-    switchMap((me) => this.pollQueries.getPollsByUser$(me?.id)),
+  protected polls$ = this.userId$?.pipe(
+    filter((userId) => userId != null),
+    switchMap((userId) => this.pollQueries.getPollsByUser$(userId)),
   );
 }

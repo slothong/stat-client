@@ -17,13 +17,13 @@ import { filter, map, switchMap } from 'rxjs';
   `,
 })
 export class UserProfileCommentsPage {
-  private readonly userId$ = inject(ActivatedRoute)?.paramMap.pipe(
+  private readonly userId$ = inject(ActivatedRoute).parent?.paramMap.pipe(
     map((p) => p.get('id')),
   );
 
   protected readonly commentQueries = inject(CommentQueries);
 
-  protected readonly comments$ = this.userId$.pipe(
+  protected readonly comments$ = this.userId$?.pipe(
     filter((userId) => userId != null),
     switchMap(
       (userId) => this.commentQueries.getCommentsByUser(userId).result$,

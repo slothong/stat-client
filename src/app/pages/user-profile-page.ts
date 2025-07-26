@@ -1,86 +1,65 @@
 import { MeStore } from '@/services/me-store';
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
-import { UserProfilePollsPage } from './user-profile-polls-page';
-import { UserProfileCommentsPage } from './user-profile-comments-page';
-import { UserProfileLikedPage } from './user-profile-liked-page';
-import { UserProfileBookmarkPage } from './user-profile-bookmark-page';
 
 @Component({
   selector: 'app-user-profile-page',
-  imports: [
-    AsyncPipe,
-    RouterLink,
-    NzAvatarModule,
-    NzTabsModule,
-    UserProfilePollsPage,
-    UserProfileCommentsPage,
-    UserProfileLikedPage,
-    UserProfileBookmarkPage,
-  ],
+  imports: [AsyncPipe, RouterLink, RouterOutlet],
   template: `
     @let me = me$ | async;
     @if (me) {
-      <div class="w-6xl mx-auto">
-        <div class="flex items-center gap-4 mb-4 pt-5">
-          <nz-avatar
-            nzIcon="user"
-            nz-dropdown
-            nzTrigger="click"
-            class="cursor-pointer"
-            nzSize="large"
-          ></nz-avatar>
-          <span class="text-xl font-bold">
-            {{ me.username }}
-          </span>
+      <div class="flex items-center gap-4 mb-4 pt-5">
+        <div
+          class="avatar avatar-placeholder cursor-pointer"
+          role="button"
+          tabindex="0"
+        >
+          <div
+            class="bg-neutral text-neutral-content w-14 rounded-full text-xl"
+          >
+            <span>SY</span>
+          </div>
         </div>
-        <nz-tabs nzLinkRouter>
-          <nz-tab>
-            <a
-              *nzTabLink
-              nz-tab-link
-              [routerLink]="getTabLink$('polls') | async"
-            >
-              내가 작성한 설문
-            </a>
-            <app-user-profile-polls-page />
-          </nz-tab>
-          <nz-tab>
-            <a
-              *nzTabLink
-              nz-tab-link
-              [routerLink]="getTabLink$('comments') | async"
-            >
-              내가 쓴 댓글
-            </a>
-            <app-user-profile-comments-page />
-          </nz-tab>
-          <nz-tab>
-            <a
-              *nzTabLink
-              nz-tab-link
-              [routerLink]="getTabLink$('liked') | async"
-            >
-              좋아요 한 설문
-            </a>
-            <app-user-profile-liked-page />
-          </nz-tab>
-          <nz-tab>
-            <a
-              *nzTabLink
-              nz-tab-link
-              [routerLink]="getTabLink$('bookmark') | async"
-            >
-              북마크 한 설문
-            </a>
-            <app-user-profile-bookmark-page />
-          </nz-tab>
-        </nz-tabs>
+        <span class="text-xl">
+          {{ me.username }}
+        </span>
       </div>
+      <div role="tablist" class="tabs tabs-border">
+        <a
+          role="tab"
+          class="tab no-underline text-inherit"
+          [class.tab-active]="isActive$('polls') | async"
+          [routerLink]="getTabLink$('polls') | async"
+        >
+          내가 작성한 설문
+        </a>
+        <a
+          role="tab"
+          class="tab no-underline text-inherit"
+          [class.tab-active]="isActive$('comments') | async"
+          [routerLink]="getTabLink$('comments') | async"
+          >내가 쓴 댓글</a
+        >
+        <a
+          role="tab"
+          class="tab no-underline text-inherit"
+          [class.tab-active]="isActive$('liked') | async"
+          [routerLink]="getTabLink$('liked') | async"
+        >
+          좋아요 한 설문
+        </a>
+        <a
+          role="tab"
+          class="tab no-underline text-inherit"
+          [class.tab-active]="isActive$('bookmark') | async"
+          [routerLink]="getTabLink$('bookmark') | async"
+        >
+          북마크
+        </a>
+      </div>
+      <router-outlet></router-outlet>
     }
   `,
 })
@@ -96,13 +75,16 @@ export class UserProfilePage {
     );
   }
 
-  isActive(path: string | null) {
-    if (!path) return false;
-    return this.router.isActive(path, {
-      paths: 'subset',
-      queryParams: 'ignored',
-      fragment: 'ignored',
-      matrixParams: 'ignored',
-    });
+  isActive$(tab: string) {
+    return this.getTabLink$(tab).pipe(
+      map((path) =>
+        this.router.isActive(path, {
+          paths: 'subset',
+          queryParams: 'ignored',
+          fragment: 'ignored',
+          matrixParams: 'ignored',
+        }),
+      ),
+    );
   }
 }

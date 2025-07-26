@@ -16,7 +16,7 @@ import { filter, map, switchMap } from 'rxjs';
   `,
 })
 export class UserProfileLikedPage {
-  private readonly userId$ = inject(ActivatedRoute)?.paramMap.pipe(
+  private readonly userId$ = inject(ActivatedRoute).parent?.paramMap.pipe(
     map((p) => p.get('id')),
   );
 
