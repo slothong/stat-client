@@ -10,14 +10,9 @@ import { Router } from '@angular/router';
 import z from 'zod';
 import { zodValidator } from '@/utils/zod-validator';
 import { PollQueries } from '@/services/poll-queries';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzRadioModule } from 'ng-zorro-antd/radio';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { Poll } from '@/models/poll';
+import { FormField } from './ui/form-field';
+import { FormFieldError } from './ui/form-field-error';
+import { NgIcon } from '@ng-icons/core';
 
 const formSchema = z.object({
   title: z.string().nonempty(),
@@ -27,67 +22,55 @@ const formSchema = z.object({
 
 @Component({
   selector: 'app-poll-create-form',
-  imports: [
-    NzInputModule,
-    NzFormModule,
-    NzButtonModule,
-    ReactiveFormsModule,
-    NzRadioModule,
-    NzIconModule,
-    NzTypographyModule,
-  ],
+  imports: [ReactiveFormsModule, NgIcon, FormField, FormFieldError],
   template: `
     <h1 nz-typography>설문 작성</h1>
     <form
-      nz-form
       [formGroup]="formGroup"
       (ngSubmit)="submitForm()"
       class="flex flex-col"
-      nzLayout="vertical"
     >
-      <nz-form-item>
-        <nz-form-label nzRequired nzFor="title">Title</nz-form-label>
-        <nz-form-control nzErrorTip="제목을 입력하세요">
-          <input nz-input formControlName="title" id="title" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label nzFor="description" nzRequired
-          >Description</nz-form-label
-        >
-        <nz-form-control nzErrorTip="내용을 입력하세요">
-          <textarea
-            nz-input
-            id="description"
-            formControlName="description"
-          ></textarea>
-        </nz-form-control>
-      </nz-form-item>
-      <div class="flex flex-col gap-3 w-full">
+      <app-form-field class="mb-5">
+        <label class="floating-label input input-lg box-border w-full">
+          <span> Title </span>
+          <input type="text" placeholder="Title" formControlName="title" />
+        </label>
+        <app-form-field-error />
+      </app-form-field>
+      <textarea
+        formControlName="description"
+        class="textarea box-border w-full mb-3"
+        placeholder="Body Text (Optional)"
+      ></textarea>
+      <div class="flex flex-col gap-2 w-full">
         @for (option of formGroup.controls.options.controls; track option) {
           <div class="flex items-center">
-            <span nz-radio [nzDisabled]="true"></span>
-            <div class="flex grow-1 gap-1">
-              <nz-form-control class="grow">
-                <input nz-input [formControl]="option" type="text" />
-              </nz-form-control>
+            <div class="py-1 px-1 flex items-center gap-2 w-full">
+              <input
+                type="radio"
+                class="radio radio-sm m-0"
+                [disabled]="true"
+              />
+              <input
+                [formControl]="option"
+                type="text"
+                class="input input-sm grow"
+              />
               <button
-                nz-button
+                class="btn btn-circle btn-sm"
                 (click)="removeItem($index)"
                 [disabled]="formGroup.controls.options.controls.length <= 2"
-                class="mt-2"
               >
-                <nz-icon nzType="minus" />
+                <ng-icon name="heroMinus" size="15" />
               </button>
             </div>
           </div>
         }
       </div>
       <div class="flex flex-col gap-2 mt-3">
-        <button nz-button type="button" (click)="addItem()">추가</button>
+        <button class="btn btn-block">추가</button>
         <button
-          nz-button
-          nzType="primary"
+          class="btn btn-block btn-primary"
           type="submit"
           [disabled]="!formGroup.valid"
         >
@@ -116,8 +99,6 @@ export class PollCreateForm {
 
   private readonly router = inject(Router);
 
-  private readonly message = inject(NzMessageService);
-
   protected addItem() {
     this.formGroup.controls.options.push(
       new FormControl('', Validators.required),
@@ -135,7 +116,7 @@ export class PollCreateForm {
       (option) => option != null,
     );
     if (title == null || options == null || options.length < 2) {
-      this.message.error('생성에 실패했습니다.');
+      // this.message.error('생성에 실패했습니다.');
       return;
     }
 
@@ -145,10 +126,10 @@ export class PollCreateForm {
         description,
         options,
       });
-      this.message.success('설문을 생성했습니다!');
+      // this.message.success('설문을 생성했습니다!');
       this.router.navigate(['/polls/' + poll.id]);
     } catch {
-      this.message.error('생성에 실패했습니다.');
+      // this.message.error('생성에 실패했습니다.');
     }
   }
 }

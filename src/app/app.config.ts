@@ -38,6 +38,7 @@ import {
   heroEnvelope,
   heroHeart,
   heroKey,
+  heroMinus,
 } from '@ng-icons/heroicons/outline';
 import { heroBookmarkSolid, heroHeartSolid } from '@ng-icons/heroicons/solid';
 
@@ -88,6 +89,7 @@ export const appConfig: ApplicationConfig = {
       heroBookmark,
       heroBookmarkSolid,
       heroChatBubbleOvalLeft,
+      heroMinus,
     }),
   ],
 };

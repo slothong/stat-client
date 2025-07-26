@@ -4,25 +4,12 @@ import { Component, inject, Input } from '@angular/core';
 import { ReplaySubject, take } from 'rxjs';
 import { RelativeDatePipe } from '@/pipes/relative-date.pipe';
 import { PollQueries } from '@/services/poll-queries';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzRadioModule } from 'ng-zorro-antd/radio';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { Card } from './ui/card';
 import { NgIcon } from '@ng-icons/core';
 
 @Component({
   selector: 'app-poll-card',
-  imports: [
-    AsyncPipe,
-    RelativeDatePipe,
-    NzButtonModule,
-    NzAvatarModule,
-    NzRadioModule,
-    NzIconModule,
-    Card,
-    NgIcon,
-  ],
+  imports: [AsyncPipe, RelativeDatePipe, Card, NgIcon],
   template: `
     @let poll = poll$ | async;
     <app-card>
