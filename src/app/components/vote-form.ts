@@ -12,31 +12,12 @@ import {
   take,
 } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzRadioModule } from 'ng-zorro-antd/radio';
-import { NzCommentModule } from 'ng-zorro-antd/comment';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzButtonModule } from 'ng-zorro-antd/button';
 import { PostMeta } from './post-meta';
 import { NgIcon } from '@ng-icons/core';
 
 @Component({
   selector: 'app-vote-form',
-  imports: [
-    ReactiveFormsModule,
-    AsyncPipe,
-    NzAvatarModule,
-    NzFormModule,
-    NzInputModule,
-    NzRadioModule,
-    NzButtonModule,
-    NzCommentModule,
-    NzIconModule,
-    NgIcon,
-    PostMeta,
-  ],
+  imports: [ReactiveFormsModule, AsyncPipe, NgIcon, PostMeta],
   template: `
     @let formGroup = formGroup$ | async;
     @let poll = (pollQuery$ | async)?.data;

@@ -7,9 +7,10 @@ import { AsyncPipe } from '@angular/common';
 import { PollCommentsCard } from './poll-comments-card';
 import { Poll } from '@/models/poll';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { RelativeDatePipe } from '@/pipes/relative-date.pipe';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
+import { PostMeta } from './post-meta';
+import { NgIcon } from '@ng-icons/core';
 
 @Component({
   selector: 'app-poll-result-view',
@@ -20,19 +21,16 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
     PollCommentsCard,
     NzAvatarModule,
     NzRadioModule,
-    RelativeDatePipe,
     NzIconModule,
+    PostMeta,
+    NgIcon,
   ],
   template: `
     @let poll = poll$ | async;
-    <div class="flex items-center gap-2 pt-3">
-      <nz-avatar nzIcon="user" nzSize="small" />
+    @let selectedOption = selectedOption$ | async;
+    <app-post-meta [createdAt]="poll?.createdAt">
       {{ poll?.createdBy?.username }}
-      <span class="text-gray-500 text-xs">
-        •
-        {{ poll?.createdAt | relativeDate }}
-      </span>
-    </div>
+    </app-post-meta>
     <div class="flex flex-col pb-3">
       <strong class="pt-3">
         {{ poll?.question }}
@@ -45,51 +43,44 @@ import { NzRadioModule } from 'ng-zorro-antd/radio';
 
       <app-poll-result-chart [pollResult]="poll" />
 
-      <nz-radio-group
-        [ngModel]="(selectedOption$ | async)?.id"
-        [nzDisabled]="true"
-      >
+      <div class="mb-3">
         @for (option of poll?.options; track option) {
-          <div class="hover:bg-gray-100 py-1 px-1">
-            <label nz-radio [nzValue]="option.id">
-              {{ option.optionText }}
-            </label>
-          </div>
+          <label class="hover:bg-gray-100 py-1 px-1 flex items-center gap-2">
+            <input
+              type="radio"
+              class="radio radio-xs m-0"
+              [checked]="selectedOption?.id === option.id"
+              [disabled]="true"
+            />
+            {{ option.optionText }}
+          </label>
         }
-      </nz-radio-group>
-      <div class="flex gap-2">
-        <div
-          [class]="
-            'flex items-center justify-center text-sm transition-all hover:text-cyan-500 ' +
-            (poll?.likedByMe ? 'text-cyan-500' : 'text-gray-400')
-          "
+      </div>
+      <div class="flex gap-2 mt-6">
+        <button
+          type="button"
+          class="btn btn-circle btn-sm"
           (click)="$event.stopPropagation(); likePoll(!poll?.likedByMe)"
         >
-          <nz-icon
-            nzType="heart"
-            [nzTheme]="poll?.likedByMe ? 'fill' : 'outline'"
+          <ng-icon
+            [name]="poll?.likedByMe ? 'heroHeartSolid' : 'heroHeart'"
+            size="15"
           />
-        </div>
-        <div
-          [class]="
-            'flex items-center justify-center text-sm transition-all hover:text-cyan-500 ' +
-            (poll?.bookmarkedByMe ? 'text-cyan-500' : 'text-gray-400')
-          "
+        </button>
+        <button
+          type="button"
+          class="btn btn-circle btn-sm"
           (click)="$event.stopPropagation(); bookmark(!poll?.bookmarkedByMe)"
         >
-          <nz-icon
-            nzType="book"
-            [nzTheme]="poll?.bookmarkedByMe ? 'fill' : 'outline'"
+          <ng-icon
+            [name]="poll?.bookmarkedByMe ? 'heroBookmarkSolid' : 'heroBookmark'"
+            size="15"
           />
-        </div>
-        <div
-          [class]="
-            'h-6 flex gap-1 items-center justify-center text-sm transition-all hover:text-cyan-500 text-gray-400'
-          "
-        >
-          <nz-icon nzType="comment" />
+        </button>
+        <button type="button" class="btn btn-sm font-normal">
+          <ng-icon name="heroChatBubbleOvalLeft" size="15" />
           {{ poll?.commentCount }}
-        </div>
+        </button>
       </div>
     </div>
 
