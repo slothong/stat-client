@@ -32,7 +32,14 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { ko_KR, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { provideIcons } from '@ng-icons/core';
 import { lucidePlus, lucideSearch, lucideMail } from '@ng-icons/lucide';
-import { heroEnvelope, heroKey } from '@ng-icons/heroicons/outline';
+import {
+  heroBookmark,
+  heroChatBubbleOvalLeft,
+  heroEnvelope,
+  heroHeart,
+  heroKey,
+} from '@ng-icons/heroicons/outline';
+import { heroBookmarkSolid, heroHeartSolid } from '@ng-icons/heroicons/solid';
 
 registerLocaleData(ko);
 
@@ -76,6 +83,11 @@ export const appConfig: ApplicationConfig = {
       lucideMail,
       heroEnvelope,
       heroKey,
+      heroHeart,
+      heroHeartSolid,
+      heroBookmark,
+      heroBookmarkSolid,
+      heroChatBubbleOvalLeft,
     }),
   ],
 };

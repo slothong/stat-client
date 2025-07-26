@@ -9,6 +9,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { Card } from './ui/card';
+import { NgIcon } from '@ng-icons/core';
 
 @Component({
   selector: 'app-poll-card',
@@ -20,6 +21,7 @@ import { Card } from './ui/card';
     NzRadioModule,
     NzIconModule,
     Card,
+    NgIcon,
   ],
   template: `
     @let poll = poll$ | async;
@@ -50,39 +52,31 @@ import { Card } from './ui/card';
             </div>
           }
         </div>
-        <div class="flex gap-2">
-          <div
-            [class]="
-              'flex items-center justify-center text-sm transition-all hover:text-cyan-500 ' +
-              (poll?.likedByMe ? 'text-cyan-500' : 'text-gray-400')
-            "
+        <div class="flex gap-1">
+          <button
+            class="btn btn-circle btn-sm"
             (click)="$event.stopPropagation(); likePoll(!poll?.likedByMe)"
           >
-            <nz-icon
-              nzType="heart"
-              [nzTheme]="poll?.likedByMe ? 'fill' : 'outline'"
+            <ng-icon
+              [name]="poll?.likedByMe ? 'heroHeartSolid' : 'heroHeart'"
+              size="15"
             />
-          </div>
-          <div
-            [class]="
-              'flex items-center justify-center text-sm transition-all hover:text-cyan-500 ' +
-              (poll?.bookmarkedByMe ? 'text-cyan-500' : 'text-gray-400')
-            "
+          </button>
+          <button
+            class="btn btn-circle btn-sm"
             (click)="$event.stopPropagation(); bookmark(!poll?.bookmarkedByMe)"
           >
-            <nz-icon
-              nzType="book"
-              [nzTheme]="poll?.bookmarkedByMe ? 'fill' : 'outline'"
+            <ng-icon
+              [name]="
+                poll?.bookmarkedByMe ? 'heroBookmarkSolid' : 'heroBookmark'
+              "
+              size="15"
             />
-          </div>
-          <div
-            [class]="
-              'h-6 flex gap-1 items-center justify-center text-sm transition-all hover:text-cyan-500 text-gray-400'
-            "
-          >
-            <nz-icon nzType="comment" />
+          </button>
+          <button class="btn btn-sm font-normal">
+            <ng-icon name="heroChatBubbleOvalLeft" size="15" />
             {{ poll?.commentCount }}
-          </div>
+          </button>
         </div>
       </div>
     </app-card>
