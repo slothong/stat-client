@@ -8,47 +8,28 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzFormModule } from 'ng-zorro-antd/form';
-import { NzInputModule } from 'ng-zorro-antd/input';
-import { NzCommentModule } from 'ng-zorro-antd/comment';
 import { ReplaySubject, switchMap } from 'rxjs';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { CommentCard } from './comment-card';
 
 @Component({
   selector: 'app-poll-comments-card',
-  imports: [
-    NzFormModule,
-    NzInputModule,
-    NzButtonModule,
-    ReactiveFormsModule,
-    AsyncPipe,
-    NzCommentModule,
-    NzAvatarModule,
-    NzIconModule,
-    NzToolTipModule,
-    CommentCard,
-  ],
+  imports: [ReactiveFormsModule, AsyncPipe, CommentCard],
   template: `
     @let comments = (commentsResult$ | async)?.data;
     @if (comments) {
       <div class="flex flex-col">
         <form
           class="flex flex-col gap-2 h-[100px]"
-          nz-form
           [formGroup]="formGroup"
           (ngSubmit)="submitComment()"
         >
-          <nz-form-control>
-            <textarea nz-input formControlName="content"></textarea>
-          </nz-form-control>
+          <textarea
+            class="box-border w-full textarea"
+            formControlName="content"
+          ></textarea>
           <div class="flex justify-end">
             <button
-              nz-button
-              nzType="primary"
+              class="btn btn-primary"
               type="submit"
               [disabled]="!formGroup.valid"
             >
