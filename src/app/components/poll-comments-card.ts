@@ -37,7 +37,7 @@ import { CommentCard } from './comment-card';
             </button>
           </div>
         </form>
-        <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-6">
           @for (comment of comments; track comment.id) {
             <app-comment-card [comment]="comment" />
           }
