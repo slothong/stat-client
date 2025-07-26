@@ -68,7 +68,9 @@ const formSchema = z.object({
         }
       </div>
       <div class="flex flex-col gap-2 mt-3">
-        <button class="btn btn-block">추가</button>
+        <button class="btn btn-block" type="button" (click)="addItem()">
+          추가
+        </button>
         <button
           class="btn btn-block btn-primary"
           type="submit"
