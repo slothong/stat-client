@@ -6,33 +6,17 @@ import { RelativeDatePipe } from '@/pipes/relative-date.pipe';
 import { PollQueries } from '@/services/poll-queries';
 import { Card } from './ui/card';
 import { NgIcon } from '@ng-icons/core';
+import { PostMeta } from './post-meta';
 
 @Component({
   selector: 'app-poll-card',
-  imports: [AsyncPipe, RelativeDatePipe, Card, NgIcon],
+  imports: [AsyncPipe, RelativeDatePipe, Card, NgIcon, PostMeta],
   template: `
     @let poll = poll$ | async;
     <app-card>
-      <div class="flex items-center gap-2">
-        <div
-          class="avatar avatar-placeholder cursor-pointer"
-          role="button"
-          tabindex="0"
-        >
-          <div class="bg-neutral text-neutral-content text-xs w-7 rounded-full">
-            <span>SY</span>
-          </div>
-        </div>
-        <div>
-          <span class="text-sm">
-            {{ poll?.createdBy?.username }}
-          </span>
-          <span class="text-gray-500 text-xs">
-            •
-            {{ poll?.createdAt | relativeDate }}
-          </span>
-        </div>
-      </div>
+      <app-post-meta [createdAt]="poll?.createdAt">
+        {{ poll?.createdBy?.username }}
+      </app-post-meta>
       <div class="flex flex-col">
         <strong class="pt-3">
           {{ poll?.question }}
