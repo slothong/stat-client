@@ -82,6 +82,7 @@ import { NgIcon } from '@ng-icons/core';
 
           <div class="flex gap-2 mt-6">
             <button
+              type="button"
               class="btn btn-circle btn-sm"
               (click)="$event.stopPropagation(); likePoll(!poll?.likedByMe)"
             >
@@ -91,6 +92,7 @@ import { NgIcon } from '@ng-icons/core';
               />
             </button>
             <button
+              type="button"
               class="btn btn-circle btn-sm"
               (click)="
                 $event.stopPropagation(); bookmark(!poll?.bookmarkedByMe)
@@ -103,7 +105,7 @@ import { NgIcon } from '@ng-icons/core';
                 size="15"
               />
             </button>
-            <button class="btn btn-sm font-normal">
+            <button type="button" class="btn btn-sm font-normal">
               <ng-icon name="heroChatBubbleOvalLeft" size="15" />
               {{ poll?.commentCount }}
             </button>
