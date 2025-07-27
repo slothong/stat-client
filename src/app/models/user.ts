@@ -1,3 +1,4 @@
+import { BASE_API_URL } from '@/constants';
 import { UserDto } from './user-dto';
 
 export class User {
@@ -14,7 +15,7 @@ export class User {
   ) {
     this.id = id;
     this.username = username;
-    this.avatarUrl = avatarUrl;
+    this.avatarUrl = BASE_API_URL + avatarUrl;
     this.about = about;
   }
 

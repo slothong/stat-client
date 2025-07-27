@@ -8,6 +8,7 @@ export interface PollDto {
   createdBy: {
     userId: string;
     username: string;
+    avatarUrl?: string;
   };
   options: OptionDto[];
   hasVoted?: boolean;

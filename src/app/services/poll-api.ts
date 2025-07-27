@@ -1,3 +1,4 @@
+import { BASE_API_URL } from '@/constants';
 import { Poll } from '@/models/poll';
 import { PollDto } from '@/models/poll-dto';
 import { HttpClient } from '@angular/common/http';
@@ -92,6 +93,7 @@ export class PollApi {
       createdBy: {
         id: dto.createdBy.userId,
         username: dto.createdBy.username,
+        avatarUrl: BASE_API_URL + dto.createdBy.avatarUrl,
       },
       likedByMe: dto.likedByMe,
       commentCount: dto.commentCount,

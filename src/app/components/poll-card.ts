@@ -16,7 +16,10 @@ import { Router } from '@angular/router';
   },
   template: `
     @let poll = poll$ | async;
-    <app-post-meta [createdAt]="poll?.createdAt">
+    <app-post-meta
+      [createdAt]="poll?.createdAt"
+      [avatarUrl]="poll?.createdBy?.avatarUrl"
+    >
       {{ poll?.createdBy?.username }}
     </app-post-meta>
     <div class="flex flex-col">

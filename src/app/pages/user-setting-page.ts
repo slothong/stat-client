@@ -92,9 +92,7 @@ export class UserSettingsPage {
 
   protected readonly me$ = this.userQueries.getMe$().pipe(map((me) => me.data));
 
-  protected readonly avatarUrl$ = this.me$.pipe(
-    map((me) => BASE_API_URL + me?.avatarUrl),
-  );
+  protected readonly avatarUrl$ = this.me$.pipe(map((me) => me?.avatarUrl));
 
   constructor() {
     this.me$.subscribe((me) => {

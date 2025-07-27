@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { AuthManager } from '@/services/auth-manager';
-import { MeStore } from '@/services/me-store';
 import { Router, RouterModule } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
@@ -14,6 +13,8 @@ import { map } from 'rxjs';
     class: 'flex justify-between items-center py-3 px-5',
   },
   template: `
+    @let me = me$ | async;
+
     <a routerLink="/">로고</a>
 
     <label class="input w-xl">
@@ -34,8 +35,18 @@ import { map } from 'rxjs';
             role="button"
             tabindex="0"
           >
-            <div class="bg-neutral text-neutral-content w-10 rounded-full">
-              <span>SY</span>
+            <div class="bg-gray-300 text-gray-600 w-7 rounded-full">
+              @let avatarUrl = me?.avatarUrl;
+              @if (avatarUrl) {
+                <img
+                  [src]="avatarUrl"
+                  [style.width]="'100%'"
+                  [style.height]="'100%'"
+                  alt="avatar"
+                />
+              } @else {
+                <ng-icon name="heroUser" size="20" />
+              }
             </div>
           </div>
           <ul
