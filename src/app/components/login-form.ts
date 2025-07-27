@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { zodValidator } from '@/utils/zod-validator';
 import { AuthManager } from '@/services/auth-manager';
 import { NgIcon } from '@ng-icons/core';
 import { FormField } from './ui/form-field';
 import { FormFieldError } from './ui/form-field-error';
+import { ToastManager } from './ui/toast/toast-manager';
 
 const loginFormSchema = {
   email: z
@@ -90,7 +90,6 @@ const loginFormSchema = {
 export class LoginForm {
   private readonly router = inject(Router);
   protected readonly hidePassword = signal(true);
-  private readonly snackBar = inject(MatSnackBar);
 
   protected readonly formGroup = new FormGroup(
     {
@@ -103,6 +102,7 @@ export class LoginForm {
   );
 
   private readonly auth = inject(AuthManager);
+  private readonly toast = inject(ToastManager);
 
   onSubmit() {
     const email = this.formGroup.controls.email.value;
@@ -111,11 +111,11 @@ export class LoginForm {
 
     this.auth.login$(email, password).subscribe({
       next: () => {
-        this.snackBar.open('로그인에 성공했습니다.');
+        this.toast.show('로그인에 성공했습니다.');
         this.router.navigate(['/']);
       },
       error: () => {
-        this.snackBar.open('로그인에 실패했습니다.');
+        this.toast.show('로그인에 실패했습니다.');
       },
     });
   }

@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatRadioModule } from '@angular/material/radio';
 import { PollQueries } from '@/services/poll-queries';
 import { PollCard } from './poll-card';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-poll-list',
-  imports: [CommonModule, MatCardModule, MatRadioModule, PollCard],
+  imports: [CommonModule, PollCard],
   host: {
     class: 'flex flex-col gap-3',
   },

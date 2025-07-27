@@ -11,16 +11,9 @@ import { AuthManager } from '@/services/auth-manager';
 import { Router } from '@angular/router';
 import { FormFieldError } from '@/components/ui/form-field-error';
 import { zodValidator } from '@/utils/zod-validator';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgIcon } from '@ng-icons/core';
 import { FormField } from './ui/form-field';
+import { ToastManager } from './ui/toast/toast-manager';
 
 const registerFormSchema = z
   .object({
@@ -55,13 +48,6 @@ const registerFormSchema = z
 @Component({
   selector: 'app-register-form',
   imports: [
-    MatCardModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDatepickerModule,
-    MatRadioModule,
     ReactiveFormsModule,
     CommonModule,
     NgIcon,
@@ -181,7 +167,7 @@ export class RegisterForm {
 
   private readonly auth = inject(AuthManager);
   private readonly router = inject(Router);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly toast = inject(ToastManager);
 
   onSubmit() {
     const email = this.formGroup.controls.email.value;
@@ -196,7 +182,7 @@ export class RegisterForm {
       gender == null ||
       username == null
     ) {
-      this.snackBar.open('알 수 없는 에러');
+      this.toast.show('알 수 없는 에러');
       return;
     }
 
@@ -204,11 +190,11 @@ export class RegisterForm {
       .register$(email, username, password, new Date(birth), gender)
       .subscribe({
         next: () => {
-          this.snackBar.open('회원 가입에 성공했습니다!');
+          this.toast.show('회원 가입에 성공했습니다!');
           this.router.navigate(['/login']);
         },
         error: () => {
-          this.snackBar.open('회원 가입에 실패했습니다.');
+          this.toast.show('회원 가입에 실패했습니다.');
         },
       });
   }
