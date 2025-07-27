@@ -13,7 +13,7 @@ import { filter, map } from 'rxjs';
     @let me = me$ | async;
     @if (me) {
       <div class="flex items-center gap-4 mb-4 pt-5">
-        <app-avatar [avatarUrl]="me.avatarUrl" />
+        <app-avatar [avatarUrl]="me.avatarUrl" size="lg" />
         <span class="text-xl">
           {{ me.username }}
         </span>

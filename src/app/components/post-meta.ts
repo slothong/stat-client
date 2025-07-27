@@ -7,7 +7,7 @@ import { Avatar } from './ui/avatar';
   imports: [RelativeDatePipe, Avatar],
   template: `
     <div class="flex items-center gap-2">
-      <app-avatar [avatarUrl]="avatarUrl()" />
+      <app-avatar [avatarUrl]="avatarUrl()" size="sm" />
       <div>
         <span class="text-sm">
           <ng-content></ng-content>

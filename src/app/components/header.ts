@@ -5,10 +5,11 @@ import { AsyncPipe } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
 import { UserQueries } from '@/services/user-queries';
 import { map } from 'rxjs';
+import { Avatar } from './ui/avatar';
 
 @Component({
   selector: 'app-header',
-  imports: [NgIcon, RouterModule, AsyncPipe],
+  imports: [NgIcon, RouterModule, AsyncPipe, Avatar],
   host: {
     class: 'flex justify-between items-center py-3 px-5',
   },
@@ -30,25 +31,7 @@ import { map } from 'rxjs';
           설문 만들기
         </button>
         <div class="dropdown dropdown-end">
-          <div
-            class="avatar avatar-placeholder cursor-pointer"
-            role="button"
-            tabindex="0"
-          >
-            <div class="bg-gray-300 text-gray-600 w-10 rounded-full">
-              @let avatarUrl = me?.avatarUrl;
-              @if (avatarUrl) {
-                <img
-                  [src]="avatarUrl"
-                  [style.width]="'100%'"
-                  [style.height]="'100%'"
-                  alt="avatar"
-                />
-              } @else {
-                <ng-icon name="heroUser" size="20" />
-              }
-            </div>
-          </div>
+          <app-avatar role="button" tabindex="0" [avatarUrl]="me?.avatarUrl" />
           <ul
             tabindex="0"
             class="menu dropdown-content bg-base-100 rounded-box z-1 w-26 p-2 shadow-sm"
