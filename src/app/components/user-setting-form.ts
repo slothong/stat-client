@@ -60,13 +60,16 @@ export class UserSettingForm {
   }
 
   protected onSubmit() {
-    const { about, avatarFile } = this.formGroup.value;
+    const { about, avatarFile, username } = this.formGroup.value;
     const formData = new FormData();
     if (about) {
       formData.append('about', about);
     }
     if (avatarFile) {
       formData.append('avatarFile', avatarFile);
+    }
+    if (username) {
+      formData.append('username', username);
     }
 
     this.userQueries.updateMe().mutate(formData);
