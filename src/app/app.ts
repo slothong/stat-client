@@ -4,10 +4,11 @@ import { Header } from '@/components/header';
 import { AuthManager } from './services/auth-manager';
 import { catchError, map, of } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { ToastContainer } from './components/ui/toast/toast-container';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, AsyncPipe],
+  imports: [RouterOutlet, Header, AsyncPipe, ToastContainer],
   template: `
     @if (authInitialized | async) {
       <header>
@@ -27,6 +28,7 @@ import { AsyncPipe } from '@angular/common';
           </div>
         </div>
       </main>
+      <app-toast-container />
     }
   `,
 })

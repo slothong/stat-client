@@ -1,12 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import {
-  Component,
-  effect,
-  ElementRef,
-  inject,
-  input,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, input, viewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { BehaviorSubject } from 'rxjs';
@@ -59,12 +52,6 @@ export class ImageInput implements ControlValueAccessor {
   private onChange?: (file: File | undefined) => void;
 
   protected imageUrl$ = new BehaviorSubject<string | null>(null);
-
-  constructor() {
-    effect(() => {
-      console.log(this.defaultImageUrl());
-    });
-  }
 
   async writeValue(value: File): Promise<void> {
     this.imageUrl$.next(value ? await this.fileToBase64(value) : null);

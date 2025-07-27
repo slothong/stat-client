@@ -4,6 +4,7 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { map } from 'rxjs';
 import { ImageInput } from './ui/image-input';
+import { ToastManager } from './ui/toast/toast-manager';
 
 @Component({
   selector: 'app-user-setting-form',
@@ -50,6 +51,8 @@ export class UserSettingForm {
 
   protected readonly avatarUrl$ = this.me$.pipe(map((me) => me?.avatarUrl));
 
+  private readonly toast = inject(ToastManager);
+
   constructor() {
     this.me$.subscribe((me) => {
       this.formGroup.patchValue({
@@ -62,6 +65,7 @@ export class UserSettingForm {
   protected onSubmit() {
     const { about, avatarFile, username } = this.formGroup.value;
     const formData = new FormData();
+
     if (about) {
       formData.append('about', about);
     }
@@ -72,6 +76,11 @@ export class UserSettingForm {
       formData.append('username', username);
     }
 
-    this.userQueries.updateMe().mutate(formData);
+    try {
+      this.userQueries.updateMe().mutateAsync(formData);
+      this.toast.show('성공적으로 저장했습니다.');
+    } catch {
+      this.toast.show('요청이 실패했습니다.');
+    }
   }
 }

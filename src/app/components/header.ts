@@ -6,6 +6,7 @@ import { NgIcon } from '@ng-icons/core';
 import { UserQueries } from '@/services/user-queries';
 import { map } from 'rxjs';
 import { Avatar } from './ui/avatar';
+import { ToastManager } from './ui/toast/toast-manager';
 
 @Component({
   selector: 'app-header',
@@ -71,6 +72,12 @@ export class Header {
   protected readonly me$ = this.userQueries.getMe$().pipe(map((me) => me.data));
 
   private readonly router = inject(Router);
+
+  private readonly toast = inject(ToastManager);
+
+  protected showToast() {
+    this.toast.show('Toast!');
+  }
 
   protected logout() {
     this.auth.logout$().subscribe({

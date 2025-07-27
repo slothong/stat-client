@@ -2,6 +2,32 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
+@theme {
+  --animate-slide-in: slide-in 0.2s ease-out forwards;
+  --animate-slide-out: slide-out 0.2s ease-out forwards;
+  @keyframes slide-in {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 100%;
+    }
+  }
+
+  @keyframes slide-out {
+    0% {
+      transform: translateY(0);
+      opacity: 100%;
+    }
+    100% {
+      transform: translateY(-100%);
+      opacity: 0%;
+    }
+  }
+}
+
 @plugin "daisyui";
 @plugin "daisyui/theme" {
   name: "light";
