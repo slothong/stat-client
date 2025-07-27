@@ -71,6 +71,14 @@ export class UserSettingsPage {
 
   private readonly userQueries = inject(UserQueries);
 
+  private readonly me$ = this.userQueries.getMe$();
+
+  constructor() {
+    this.me$.subscribe((me) => {
+      this.formGroup.patchValue({ about: me.data?.about });
+    });
+  }
+
   protected onSubmit() {
     const { about, avatarFile } = this.formGroup.value;
     const formData = new FormData();
