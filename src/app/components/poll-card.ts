@@ -5,12 +5,14 @@ import { ReplaySubject, take } from 'rxjs';
 import { PollQueries } from '@/services/poll-queries';
 import { NgIcon } from '@ng-icons/core';
 import { PostMeta } from './post-meta';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-poll-card',
   imports: [AsyncPipe, NgIcon, PostMeta],
   host: {
     class: 'hover:bg-gray-50 rounded-xl flex flex-col py-1 px-3 cursor-pointer',
+    '(click)': 'onClick()',
   },
   template: `
     @let poll = poll$ | async;
@@ -71,6 +73,8 @@ export class PollCard {
 
   private readonly pollQueries = inject(PollQueries);
 
+  private readonly router = inject(Router);
+
   protected likePoll(liked: boolean) {
     this.poll$.pipe(take(1)).subscribe((poll) => {
       this.pollQueries.likePoll(poll.id).mutate(liked);
@@ -80,6 +84,12 @@ export class PollCard {
   protected bookmark(bookmarked: boolean) {
     this.poll$.pipe(take(1)).subscribe((poll) => {
       this.pollQueries.bookmarkPoll(poll.id).mutate(bookmarked);
+    });
+  }
+
+  protected onClick() {
+    this.poll$.subscribe((poll) => {
+      this.router.navigate(['polls', poll.id]);
     });
   }
 }
