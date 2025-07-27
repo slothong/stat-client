@@ -1,3 +1,4 @@
+import { BASE_API_URL } from '@/constants';
 import { Comment } from '@/models/comment';
 import { CommentDto } from '@/models/comment-dto';
 import { HttpClient } from '@angular/common/http';
@@ -33,6 +34,10 @@ export class CommentApi {
   private fromDto(dto: CommentDto): Comment {
     return {
       ...dto,
+      author: {
+        ...dto.author,
+        avatarUrl: dto.author.avatarUrl && BASE_API_URL + dto.author.avatarUrl,
+      },
       createdAt: new Date(dto.createdAt),
       updatedAt: new Date(dto.updatedAt),
     };

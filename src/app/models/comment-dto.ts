@@ -4,6 +4,7 @@ export interface CommentDto {
   author: {
     userId: string;
     username: string;
+    avatarUrl?: string;
   };
   content: string;
   createdAt: string;

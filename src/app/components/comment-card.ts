@@ -4,23 +4,16 @@ import { AsyncPipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { NgIcon } from '@ng-icons/core';
+import { Avatar } from './ui/avatar';
 
 @Component({
   selector: 'app-comment-card',
-  imports: [RelativeDatePipe, AsyncPipe, NgIcon],
+  imports: [RelativeDatePipe, AsyncPipe, NgIcon, Avatar],
   template: `
     @let comment = comment$ | async;
     @if (comment) {
       <div class="flex items-center gap-2">
-        <div
-          class="avatar avatar-placeholder cursor-pointer"
-          role="button"
-          tabindex="0"
-        >
-          <div class="bg-neutral text-neutral-content text-xs w-7 rounded-full">
-            <span>{{ comment.author.username }}</span>
-          </div>
-        </div>
+        <app-avatar [avatarUrl]="comment.author.avatarUrl" size="sm" />
         <span class="text-sm">{{ comment.author.username }}</span>
         <span class="text-gray-500 text-xs">
           •
