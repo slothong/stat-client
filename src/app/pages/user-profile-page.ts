@@ -14,9 +14,14 @@ import { filter, map } from 'rxjs';
     @if (me) {
       <div class="flex items-center gap-4 mb-4">
         <app-avatar [avatarUrl]="me.avatarUrl" size="lg" />
-        <span class="text-xl">
-          {{ me.username }}
-        </span>
+        <div class="flex flex-col">
+          <span class="text-xl">
+            {{ me.username }}
+          </span>
+          <span class="text-sm">
+            {{ me.about }}
+          </span>
+        </div>
       </div>
       <div role="tablist" class="tabs tabs-border mb-5">
         <a

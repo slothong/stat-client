@@ -1,14 +1,22 @@
 import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { Header } from '@/components/header';
 import { AuthManager } from './services/auth-manager';
 import { catchError, map, of } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { ToastContainer } from './components/ui/toast/toast-container';
+import { NgIcon } from '@ng-icons/core';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, AsyncPipe, ToastContainer],
+  imports: [
+    RouterOutlet,
+    Header,
+    AsyncPipe,
+    ToastContainer,
+    NgIcon,
+    RouterLink,
+  ],
   template: `
     @if (authInitialized | async) {
       <header>
@@ -24,7 +32,14 @@ import { ToastContainer } from './components/ui/toast/toast-container';
             </div>
           </div>
           <div class="drawer-side border-r border-gray-200">
-            <div class="w-3xs">Sidebar</div>
+            <ul class="w-3xs menu m-0">
+              <li>
+                <a [routerLink]="'/'" class="text-inherit no-underline">
+                  <ng-icon name="heroHome" size="20" />
+                  Home
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </main>

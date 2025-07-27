@@ -30,6 +30,7 @@ import {
   heroChatBubbleOvalLeft,
   heroEnvelope,
   heroHeart,
+  heroHome,
   heroKey,
   heroMinus,
   heroUser,
@@ -71,6 +72,7 @@ export const appConfig: ApplicationConfig = {
       heroChatBubbleOvalLeft,
       heroMinus,
       heroUser,
+      heroHome,
     }),
   ],
 };
