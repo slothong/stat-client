@@ -4,11 +4,10 @@ import { Header } from '@/components/header';
 import { AuthManager } from './services/auth-manager';
 import { catchError, map, of } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, AsyncPipe, NzDividerModule],
+  imports: [RouterOutlet, Header, AsyncPipe],
   template: `
     @if (authInitialized | async) {
       <header>

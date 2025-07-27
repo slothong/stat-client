@@ -6,9 +6,6 @@ import { PollQueries } from '@/services/poll-queries';
 import { AsyncPipe } from '@angular/common';
 import { PollCommentsCard } from './poll-comments-card';
 import { Poll } from '@/models/poll';
-import { NzAvatarModule } from 'ng-zorro-antd/avatar';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { PostMeta } from './post-meta';
 import { NgIcon } from '@ng-icons/core';
 
@@ -19,9 +16,6 @@ import { NgIcon } from '@ng-icons/core';
     PollResultChart,
     AsyncPipe,
     PollCommentsCard,
-    NzAvatarModule,
-    NzRadioModule,
-    NzIconModule,
     PostMeta,
     NgIcon,
   ],

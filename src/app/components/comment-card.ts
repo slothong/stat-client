@@ -3,13 +3,11 @@ import { RelativeDatePipe } from '@/pipes/relative-date.pipe';
 import { AsyncPipe } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { NzCommentModule } from 'ng-zorro-antd/comment';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NgIcon } from '@ng-icons/core';
 
 @Component({
   selector: 'app-comment-card',
-  imports: [NzCommentModule, NzIconModule, RelativeDatePipe, AsyncPipe, NgIcon],
+  imports: [RelativeDatePipe, AsyncPipe, NgIcon],
   template: `
     @let comment = comment$ | async;
     @if (comment) {

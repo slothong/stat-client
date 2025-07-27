@@ -22,7 +22,7 @@ import { NgIcon } from '@ng-icons/core';
     @let formGroup = formGroup$ | async;
     @let poll = (pollQuery$ | async)?.data;
     @if (formGroup && poll) {
-      <form nz-form (ngSubmit)="submitForm()" [formGroup]="formGroup">
+      <form (ngSubmit)="submitForm()" [formGroup]="formGroup">
         <app-post-meta [createdAt]="poll?.createdAt">
           {{ poll?.createdBy?.username }}
         </app-post-meta>

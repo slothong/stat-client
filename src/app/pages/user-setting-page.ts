@@ -9,7 +9,7 @@ import { map } from 'rxjs';
   selector: 'app-uesr-settings-page',
   imports: [ReactiveFormsModule, AsyncPipe, ImageInput],
   template: `
-    <h1 nz-typography>Settings</h1>
+    <h1>Settings</h1>
     <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
       <div class="flex gap-5">
         <app-image-input

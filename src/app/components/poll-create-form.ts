@@ -24,7 +24,7 @@ const formSchema = z.object({
   selector: 'app-poll-create-form',
   imports: [ReactiveFormsModule, NgIcon, FormField, FormFieldError],
   template: `
-    <h1 nz-typography>설문 작성</h1>
+    <h1>설문 작성</h1>
     <form
       [formGroup]="formGroup"
       (ngSubmit)="submitForm()"

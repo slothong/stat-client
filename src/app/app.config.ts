@@ -29,7 +29,6 @@ import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { ko_KR, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { provideIcons } from '@ng-icons/core';
 import { lucidePlus, lucideSearch, lucideMail } from '@ng-icons/lucide';
 import {
@@ -75,7 +74,6 @@ export const appConfig: ApplicationConfig = {
     },
     provideNativeDateAdapter(),
     { provide: MAT_DATE_LOCALE, useValue: 'ko-KR' },
-    provideNzI18n(ko_KR),
     importProvidersFrom(FormsModule),
     provideAnimationsAsync(),
     provideHttpClient(),
