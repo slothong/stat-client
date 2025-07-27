@@ -1,3 +1,4 @@
+import { Avatar } from '@/components/ui/avatar';
 import { MeStore } from '@/services/me-store';
 import { UserQueries } from '@/services/user-queries';
 import { AsyncPipe } from '@angular/common';
@@ -7,22 +8,12 @@ import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile-page',
-  imports: [AsyncPipe, RouterLink, RouterOutlet],
+  imports: [AsyncPipe, RouterLink, RouterOutlet, Avatar],
   template: `
     @let me = me$ | async;
     @if (me) {
       <div class="flex items-center gap-4 mb-4 pt-5">
-        <div
-          class="avatar avatar-placeholder cursor-pointer"
-          role="button"
-          tabindex="0"
-        >
-          <div
-            class="bg-neutral text-neutral-content w-14 rounded-full text-xl"
-          >
-            <span>SY</span>
-          </div>
-        </div>
+        <app-avatar [avatarUrl]="me.avatarUrl" />
         <span class="text-xl">
           {{ me.username }}
         </span>

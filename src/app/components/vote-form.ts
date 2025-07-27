@@ -23,7 +23,10 @@ import { NgIcon } from '@ng-icons/core';
     @let poll = (pollQuery$ | async)?.data;
     @if (formGroup && poll) {
       <form (ngSubmit)="submitForm()" [formGroup]="formGroup">
-        <app-post-meta [createdAt]="poll?.createdAt">
+        <app-post-meta
+          [createdAt]="poll?.createdAt"
+          [avatarUrl]="poll?.createdBy?.avatarUrl"
+        >
           {{ poll?.createdBy?.username }}
         </app-post-meta>
 

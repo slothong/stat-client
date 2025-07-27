@@ -22,7 +22,10 @@ import { NgIcon } from '@ng-icons/core';
   template: `
     @let poll = poll$ | async;
     @let selectedOption = selectedOption$ | async;
-    <app-post-meta [createdAt]="poll?.createdAt">
+    <app-post-meta
+      [createdAt]="poll?.createdAt"
+      [avatarUrl]="poll?.createdBy?.avatarUrl"
+    >
       {{ poll?.createdBy?.username }}
     </app-post-meta>
     <div class="flex flex-col pb-3">
