@@ -13,6 +13,7 @@ import { PollQueries } from '@/services/poll-queries';
 import { FormField } from './ui/form-field';
 import { FormFieldError } from './ui/form-field-error';
 import { NgIcon } from '@ng-icons/core';
+import { ToastManager } from './ui/toast/toast-manager';
 
 const formSchema = z.object({
   title: z.string().nonempty(),
@@ -101,6 +102,8 @@ export class PollCreateForm {
 
   private readonly router = inject(Router);
 
+  private readonly toast = inject(ToastManager);
+
   protected addItem() {
     this.formGroup.controls.options.push(
       new FormControl('', Validators.required),
@@ -118,7 +121,7 @@ export class PollCreateForm {
       (option) => option != null,
     );
     if (title == null || options == null || options.length < 2) {
-      // this.message.error('생성에 실패했습니다.');
+      this.toast.show('생성에 실패했습니다.');
       return;
     }
 
@@ -128,10 +131,10 @@ export class PollCreateForm {
         description,
         options,
       });
-      // this.message.success('설문을 생성했습니다!');
+      this.toast.show('설문을 생성했습니다!');
       this.router.navigate(['/polls/' + poll.id]);
     } catch {
-      // this.message.error('생성에 실패했습니다.');
+      this.toast.show('생성에 실패했습니다.');
     }
   }
 }
