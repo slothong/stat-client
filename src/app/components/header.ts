@@ -35,7 +35,7 @@ import { map } from 'rxjs';
             role="button"
             tabindex="0"
           >
-            <div class="bg-gray-300 text-gray-600 w-7 rounded-full">
+            <div class="bg-gray-300 text-gray-600 w-10 rounded-full">
               @let avatarUrl = me?.avatarUrl;
               @if (avatarUrl) {
                 <img
