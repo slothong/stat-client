@@ -58,6 +58,7 @@ const formSchema = z.object({
                 class="input input-sm grow"
               />
               <button
+                type="button"
                 class="btn btn-circle btn-sm"
                 (click)="removeItem($index)"
                 [disabled]="formGroup.controls.options.controls.length <= 2"
