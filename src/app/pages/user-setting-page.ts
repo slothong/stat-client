@@ -1,11 +1,14 @@
+import { BASE_API_URL } from '@/constants';
 import { UserApi } from '@/services/user-api';
 import { UserQueries } from '@/services/user-queries';
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-uesr-settings-page',
@@ -15,6 +18,7 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
     NzFormModule,
     NzInputModule,
     NzAvatarModule,
+    AsyncPipe,
   ],
   template: `
     <h1 nz-typography>Settings</h1>
@@ -30,7 +34,17 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
               <div
                 class="bg-neutral text-neutral-content text-lg w-20 rounded-full"
               >
-                <span>SY</span>
+                @let avatarUrl = avatarUrl$ | async;
+                @if (avatarUrl) {
+                  <img
+                    [src]="avatarUrl$ | async"
+                    alt="avatar"
+                    [style.width]="'100%'"
+                    [style.height]="'100%'"
+                  />
+                } @else {
+                  <span>SY</span>
+                }
               </div>
             </div>
             <div
@@ -49,7 +63,11 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
           <div class="flex flex-col">
             <label class="input floating-label">
               <span> Username </span>
-              <input type="text" placeholder="Username" />
+              <input
+                type="text"
+                formControlName="username"
+                placeholder="Username"
+              />
             </label>
             <textarea
               class="textarea"
@@ -66,16 +84,24 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
 export class UserSettingsPage {
   protected readonly formGroup = new FormGroup({
     avatarFile: new FormControl<File | null>(null),
+    username: new FormControl(''),
     about: new FormControl(''),
   });
 
   private readonly userQueries = inject(UserQueries);
 
-  private readonly me$ = this.userQueries.getMe$();
+  protected readonly me$ = this.userQueries.getMe$().pipe(map((me) => me.data));
+
+  protected readonly avatarUrl$ = this.me$.pipe(
+    map((me) => BASE_API_URL + me?.avatarUrl),
+  );
 
   constructor() {
     this.me$.subscribe((me) => {
-      this.formGroup.patchValue({ about: me.data?.about });
+      this.formGroup.patchValue({
+        about: me?.about,
+        username: me?.username,
+      });
     });
   }
 
