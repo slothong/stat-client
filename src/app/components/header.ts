@@ -4,6 +4,8 @@ import { MeStore } from '@/services/me-store';
 import { Router, RouterModule } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
+import { UserQueries } from '@/services/user-queries';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -70,7 +72,9 @@ import { NgIcon } from '@ng-icons/core';
 export class Header {
   private readonly auth = inject(AuthManager);
 
-  protected readonly me$ = inject(MeStore).user$;
+  private readonly userQueries = inject(UserQueries);
+
+  protected readonly me$ = this.userQueries.getMe$().pipe(map((me) => me.data));
 
   private readonly router = inject(Router);
 

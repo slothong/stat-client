@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { UserApi } from '@/services/user-api';
+import { UserQueries } from '@/services/user-queries';
+import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
@@ -16,34 +18,74 @@ import { NzTypographyModule } from 'ng-zorro-antd/typography';
   ],
   template: `
     <h1 nz-typography>Settings</h1>
-    <form nz-form nzLayout="vertical">
+    <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
       <div class="flex gap-5">
         <div class="relative group w-fit h-fit rounded-full overflow-hidden">
-          <nz-avatar nzIcon="user" [nzSize]="100" class="relative"></nz-avatar>
-          <div
-            class="absolute bottom-0 bg-gray-200 text-white text-center opacity-0 group-hover:opacity-70 w-full text-lg left-1/2 -translate-x-1/2 transition-opacity cursor-pointer"
-          >
-            Edit
-          </div>
+          <label>
+            <div
+              class="avatar avatar-placeholder cursor-pointer"
+              role="button"
+              tabindex="0"
+            >
+              <div
+                class="bg-neutral text-neutral-content text-lg w-20 rounded-full"
+              >
+                <span>SY</span>
+              </div>
+            </div>
+            <div
+              class="absolute bottom-0 bg-gray-200 text-white text-center opacity-0 group-hover:opacity-70 w-full text-lg left-1/2 -translate-x-1/2 transition-opacity cursor-pointer"
+            >
+              Edit
+            </div>
+            <input
+              type="file"
+              [style.display]="'none'"
+              (change)="onImagePicked($event)"
+            />
+          </label>
         </div>
         <div>
           <div class="flex flex-col">
-            <nz-form-item>
-              <nz-form-label>Username</nz-form-label>
-              <nz-form-control>
-                <input type="text" nz-input />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label>소개</nz-form-label>
-              <nz-form-control>
-                <textarea nz-input></textarea>
-              </nz-form-control>
-            </nz-form-item>
+            <label class="input floating-label">
+              <span> Username </span>
+              <input type="text" placeholder="Username" />
+            </label>
+            <textarea
+              class="textarea"
+              placeholder="소개"
+              formControlName="about"
+            ></textarea>
           </div>
         </div>
       </div>
+      <button class="btn btn-primary" type="submit">저장</button>
     </form>
   `,
 })
-export class UserSettingsPage {}
+export class UserSettingsPage {
+  protected readonly formGroup = new FormGroup({
+    avatarFile: new FormControl<File | null>(null),
+    about: new FormControl(''),
+  });
+
+  private readonly userQueries = inject(UserQueries);
+
+  protected onSubmit() {
+    const { about, avatarFile } = this.formGroup.value;
+    const formData = new FormData();
+    if (about) {
+      formData.append('about', about);
+    }
+    if (avatarFile) {
+      formData.append('avatarFile', avatarFile);
+    }
+
+    this.userQueries.updateMe().mutate(formData);
+  }
+
+  protected onImagePicked(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    this.formGroup.patchValue({ avatarFile: file });
+  }
+}

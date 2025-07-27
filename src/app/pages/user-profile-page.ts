@@ -1,4 +1,5 @@
 import { MeStore } from '@/services/me-store';
+import { UserQueries } from '@/services/user-queries';
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
@@ -64,7 +65,10 @@ import { filter, map } from 'rxjs';
   `,
 })
 export class UserProfilePage {
-  protected readonly me$ = inject(MeStore).user$;
+  private readonly userQueries = inject(UserQueries);
+
+  // TODO: me -> user
+  protected readonly me$ = this.userQueries.getMe$().pipe(map((me) => me.data));
 
   private readonly router = inject(Router);
 

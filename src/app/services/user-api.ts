@@ -15,4 +15,8 @@ export class UserApi {
       .get<UserDto>('/api/users/me')
       .pipe(map((userDto) => User.fromDto(userDto)));
   }
+
+  updateMe$(formData: FormData) {
+    return this.http.patch('/api/users/me', formData);
+  }
 }
