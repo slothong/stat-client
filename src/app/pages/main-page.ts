@@ -1,9 +1,12 @@
-import { PollList } from '@/components/poll-list';
+import { PollFeed } from '@/components/poll-feed';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-main-page',
-  imports: [PollList],
-  template: ` <app-poll-list /> `,
+  imports: [PollFeed],
+  host: {
+    class: 'h-full max-h-full',
+  },
+  template: ` <app-poll-feed /> `,
 })
 export class MainPage {}

@@ -1,11 +1,11 @@
 - [x] Thumb up (하트?)
 - [x] 프로필 페이지: 아바타, 내가 쓴 설문, 내가 답한 설문
 - [x] 북마크
+- [ ] virtual scroll 구현
 - [ ] SNS 로그인
 - [ ] 대댓글
 - [ ] 댓글 좋아요
 - [ ] rich editor 구현 (사진 업로드)
-- [ ] virtual scroll 구현
 - [ ] 카테고리: 연애 결혼 정치
 - [ ] 다른 투표 태그
 - [ ] checkbox 투표

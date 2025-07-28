@@ -1,6 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { injectMutation, injectQuery, injectQueryClient } from '@ngneat/query';
+import {
+  injectInfiniteQuery,
+  injectMutation,
+  injectQuery,
+  injectQueryClient,
+} from '@ngneat/query';
 import { PollApi } from './poll-api';
+import { Poll } from '@/models/poll';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +14,7 @@ import { PollApi } from './poll-api';
 export class PollQueries {
   private readonly queryClient = injectQueryClient();
   private readonly query = injectQuery();
+  private readonly inifiniteQuery = injectInfiniteQuery();
   private readonly mutation = injectMutation();
   private readonly pollApi = inject(PollApi);
 
@@ -44,9 +51,17 @@ export class PollQueries {
   }
 
   getPolls$() {
-    return this.query({
+    return this.inifiniteQuery<
+      { data: Poll[]; nextCursor?: string },
+      unknown,
+      { pages: { data: Poll[]; nextCursor?: string }[] },
+      string[],
+      string | undefined
+    >({
       queryKey: PollQueries.getPollsQueryKey(),
-      queryFn: () => this.pollApi.getPollList$(),
+      queryFn: ({ pageParam }) => this.pollApi.getPollList$(pageParam),
+      initialPageParam: undefined,
+      getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
     }).result$;
   }
 

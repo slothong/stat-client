@@ -1,6 +1,7 @@
 import { BASE_API_URL } from '@/constants';
 import { Poll } from '@/models/poll';
 import { PollDto } from '@/models/poll-dto';
+import { PollListDto } from '@/models/poll-list-dto';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map } from 'rxjs';
@@ -19,11 +20,18 @@ export class PollApi {
     return this.http.post<Poll>('/api/polls', pollDto);
   }
 
-  getPollList$() {
+  getPollList$(pageParam?: string) {
     return this.http
-      .get<PollDto[]>('/api/polls')
+      .get<PollListDto>(
+        pageParam
+          ? `/api/polls?after=${pageParam}&limit=5`
+          : `/api/polls?limit=10`,
+      )
       .pipe(
-        map((pollDtos) => pollDtos.map((pollDto) => this.fromDto(pollDto))),
+        map((pollListDto) => ({
+          data: pollListDto.data.map((dto) => this.fromDto(dto)),
+          nextCursor: pollListDto.nextCursor,
+        })),
       );
   }
 
