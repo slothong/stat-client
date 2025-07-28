@@ -15,7 +15,7 @@ export class User {
   ) {
     this.id = id;
     this.username = username;
-    this.avatarUrl = BASE_API_URL + avatarUrl;
+    this.avatarUrl = avatarUrl && BASE_API_URL + avatarUrl;
     this.about = about;
   }
 

@@ -101,7 +101,8 @@ export class PollApi {
       createdBy: {
         id: dto.createdBy.userId,
         username: dto.createdBy.username,
-        avatarUrl: BASE_API_URL + dto.createdBy.avatarUrl,
+        avatarUrl:
+          dto.createdBy.avatarUrl && BASE_API_URL + dto.createdBy.avatarUrl,
       },
       likedByMe: dto.likedByMe,
       commentCount: dto.commentCount,
