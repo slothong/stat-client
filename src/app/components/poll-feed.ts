@@ -27,11 +27,9 @@ import { Subject, withLatestFrom } from 'rxjs';
       @if (result.isSuccess) {
         @for (page of result.data.pages; track $index) {
           @for (poll of page.data; track poll.id) {
+            <app-poll-card [poll]="poll" />
             @if (!$last) {
-              <app-poll-card [poll]="poll" />
               <div class="w-full h-[1px] border-none bg-gray-200"></div>
-            } @else {
-              <app-poll-card [poll]="poll" />
             }
           }
         }
