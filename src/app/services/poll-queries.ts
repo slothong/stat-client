@@ -101,11 +101,9 @@ export class PollQueries {
       mutationFn: (pollDto: {
         question: string;
         description?: string | null;
+        duration: string;
         options: string[];
       }) => this.pollApi.createPoll$(pollDto),
-      onSuccess: () => {
-        console.log('success');
-      },
     });
   }
 

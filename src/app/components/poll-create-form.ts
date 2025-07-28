@@ -18,6 +18,7 @@ import { ToastManager } from './ui/toast/toast-manager';
 const formSchema = z.object({
   title: z.string().nonempty(),
   description: z.string(),
+  duration: z.string().nonempty({ message: '투표 기간을 선택하세요.' }),
   options: z.array(z.string()),
 });
 
@@ -31,6 +32,16 @@ const formSchema = z.object({
       (ngSubmit)="submitForm()"
       class="flex flex-col"
     >
+      <app-form-field class="mb-5 flex flex-col">
+        <select class="select w-26" formControlName="duration">
+          <option disabled selected value="">투표 기간</option>
+          <option value="1h">한 시간</option>
+          <option value="1d">하루</option>
+          <option value="3d">3일</option>
+          <option value="1w">1주일</option>
+        </select>
+        <app-form-field-error />
+      </app-form-field>
       <app-form-field class="mb-5">
         <label class="floating-label input input-lg box-border w-full">
           <span> Title </span>
@@ -89,6 +100,7 @@ export class PollCreateForm {
     {
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
+      duration: new FormControl(''),
       options: new FormArray([
         new FormControl('', Validators.required),
         new FormControl('', Validators.required),
@@ -118,10 +130,16 @@ export class PollCreateForm {
   protected async submitForm() {
     const title = this.formGroup.value.title;
     const description = this.formGroup.value.description;
+    const duration = this.formGroup.value.duration;
     const options = this.formGroup.value.options?.filter(
       (option) => option != null,
     );
-    if (title == null || options == null || options.length < 2) {
+    if (
+      title == null ||
+      options == null ||
+      options.length < 2 ||
+      duration == null
+    ) {
       this.toast.show('생성에 실패했습니다.');
       return;
     }
@@ -130,6 +148,7 @@ export class PollCreateForm {
       const poll = await this.createPoll.mutateAsync({
         question: title,
         description,
+        duration,
         options,
       });
       this.toast.show('설문을 생성했습니다!');
