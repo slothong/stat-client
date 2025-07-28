@@ -90,6 +90,7 @@ export class PollApi {
       id: dto.id,
       question: dto.question,
       description: dto.description,
+      expiresAt: dto.expiresAt,
       createdAt: new Date(dto.createdAt),
       options: dto.options.map((optionDto) => ({
         id: optionDto.id,

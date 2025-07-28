@@ -4,6 +4,7 @@ export interface PollDto {
   id: string;
   question: string;
   description?: string;
+  expiresAt: Date;
   createdAt: string;
   createdBy: {
     userId: string;

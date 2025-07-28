@@ -5,6 +5,7 @@ export interface Poll {
   id: string;
   question: string;
   description?: string;
+  expiresAt: Date;
   createdAt: Date;
   createdBy: User;
   options: Option[];

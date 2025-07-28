@@ -1,11 +1,12 @@
 import { Poll } from '@/models/poll';
 import { AsyncPipe } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { ReplaySubject, take } from 'rxjs';
+import { map, ReplaySubject, take } from 'rxjs';
 import { PollQueries } from '@/services/poll-queries';
 import { NgIcon } from '@ng-icons/core';
 import { PostMeta } from './post-meta';
 import { Router } from '@angular/router';
+import { isBefore } from 'date-fns';
 
 @Component({
   selector: 'app-poll-card',
@@ -16,12 +17,19 @@ import { Router } from '@angular/router';
   },
   template: `
     @let poll = poll$ | async;
-    <app-post-meta
-      [createdAt]="poll?.createdAt"
-      [avatarUrl]="poll?.createdBy?.avatarUrl"
-    >
-      {{ poll?.createdBy?.username }}
-    </app-post-meta>
+    <div class="flex justify-between items-center">
+      <app-post-meta
+        [createdAt]="poll?.createdAt"
+        [avatarUrl]="poll?.createdBy?.avatarUrl"
+      >
+        {{ poll?.createdBy?.username }}
+      </app-post-meta>
+      @if (pollInProgress$ | async) {
+        <div class="badge badge-primary">투표중</div>
+      } @else {
+        <div class="badge badge-secondary">마감</div>
+      }
+    </div>
     <div class="flex flex-col">
       <strong class="pt-3">
         {{ poll?.question }}
@@ -75,6 +83,10 @@ export class PollCard {
   protected readonly poll$ = new ReplaySubject<Poll>();
 
   private readonly pollQueries = inject(PollQueries);
+
+  protected readonly pollInProgress$ = this.poll$.pipe(
+    map((poll) => isBefore(new Date(), poll.expiresAt)),
+  );
 
   private readonly router = inject(Router);
 
