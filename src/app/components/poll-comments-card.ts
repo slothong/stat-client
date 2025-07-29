@@ -8,8 +8,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ReplaySubject, switchMap } from 'rxjs';
+import { ReplaySubject, switchMap, take } from 'rxjs';
 import { CommentCard } from './comment-card';
+import { injectQueryClient } from '@ngneat/query';
+import { PollQueries } from '@/services/poll-queries';
+import { ToastManager } from './ui/toast/toast-manager';
 
 @Component({
   selector: 'app-poll-comments-card',
@@ -66,12 +69,29 @@ export class PollCommentsCard {
     switchMap((pollId) => this.commentQueries.getComments(pollId).result$),
   );
 
+  private readonly queryClient = injectQueryClient();
+
+  private readonly toast = inject(ToastManager);
+
   protected submitComment() {
     const { content } = this.formGroup.value;
     if (!content) return;
-    this.pollId$.subscribe((pollId) => {
-      this.commentQueries.postComment(pollId).mutate(content);
-      this.formGroup.reset();
+    this.pollId$.pipe(take(1)).subscribe((pollId) => {
+      this.commentQueries
+        .postComment(pollId)
+        .mutateAsync(content)
+        .then(() => {
+          this.queryClient.invalidateQueries({
+            queryKey: PollQueries.getPollsQueryKey(),
+          });
+          this.queryClient.invalidateQueries({
+            queryKey: PollQueries.getPollQueryKey(pollId),
+          });
+          this.formGroup.reset();
+        })
+        .catch(() => {
+          this.toast.show('댓글 작성에 실패했습니다.');
+        });
     });
   }
 
