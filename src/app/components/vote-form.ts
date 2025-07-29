@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Vote } from '@/services/vote';
 import { PollQueries } from '@/services/poll-queries';
@@ -8,19 +8,21 @@ import {
   map,
   ReplaySubject,
   shareReplay,
+  Subject,
   switchMap,
   take,
+  takeUntil,
 } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { PostMeta } from './post-meta';
 import { NgIcon } from '@ng-icons/core';
+import { isBefore } from 'date-fns';
 
 @Component({
   selector: 'app-vote-form',
   imports: [ReactiveFormsModule, AsyncPipe, NgIcon, PostMeta],
   template: `
-    @let formGroup = formGroup$ | async;
-    @let poll = (pollQuery$ | async)?.data;
+    @let poll = poll$ | async;
     @if (formGroup && poll) {
       <form (ngSubmit)="submitForm()" [formGroup]="formGroup">
         <app-post-meta
@@ -59,7 +61,7 @@ import { NgIcon } from '@ng-icons/core';
           <button
             type="submit"
             class="btn btn-block btn-primary"
-            [disabled]="!!poll.hasVoted"
+            [disabled]="isDisabled$ | async"
           >
             투표하기
           </button>
@@ -99,7 +101,7 @@ import { NgIcon } from '@ng-icons/core';
     }
   `,
 })
-export class VoteForm {
+export class VoteForm implements OnInit, OnDestroy {
   @Input()
   set pollId(value: string | null) {
     if (value) {
@@ -111,30 +113,64 @@ export class VoteForm {
 
   private readonly pollQueries = inject(PollQueries);
 
-  readonly pollQuery$ = this.pollId$.pipe(
+  private readonly pollQuery$ = this.pollId$.pipe(
     switchMap((pollId) => this.pollQueries.getPoll$(pollId)),
     shareReplay(1),
   );
 
-  private readonly vote = inject(Vote);
-
-  protected formGroup$ = this.pollQuery$.pipe(
-    map((pollResult) => {
-      const poll = pollResult.data;
-      return new FormGroup({
-        optionId: new FormControl<string | null>(poll?.options[0]?.id ?? null),
-      });
-    }),
-    shareReplay(1),
+  protected readonly poll$ = this.pollQuery$.pipe(
+    map((pollQuery) => pollQuery.data),
   );
 
+  protected readonly isExpired$ = this.poll$.pipe(
+    filter((poll) => poll != null),
+    map((poll) => isBefore(poll.expiresAt, new Date())),
+  );
+
+  private readonly hasVoted$ = this.poll$.pipe(map((poll) => poll?.hasVoted));
+
+  protected readonly isDisabled$ = combineLatest([
+    this.hasVoted$,
+    this.isExpired$,
+  ]).pipe(map(([hasVoted, isExpired]) => hasVoted || isExpired));
+
+  private readonly vote = inject(Vote);
+
+  private readonly destroyed$ = new Subject<void>();
+
+  protected readonly formGroup = new FormGroup({
+    optionId: new FormControl<string | null>(null),
+  });
+
+  ngOnInit() {
+    this.poll$.pipe(takeUntil(this.destroyed$)).subscribe((poll) => {
+      this.formGroup.patchValue({
+        optionId: poll?.options[0]?.id ?? null,
+      });
+    });
+    this.isDisabled$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((isDisabled) => {
+        if (isDisabled) {
+          this.formGroup.disable();
+        } else {
+          this.formGroup.enable();
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next();
+    this.destroyed$.complete();
+  }
+
   protected submitForm() {
-    combineLatest([this.formGroup$, this.pollQuery$])
+    this.poll$
       .pipe(
         take(1),
-        map(([formGroup, pollResult]) => ({
-          optionId: formGroup.controls.optionId.value,
-          pollId: pollResult.data?.id,
+        map((poll) => ({
+          optionId: this.formGroup.controls.optionId.value,
+          pollId: poll?.id,
         })),
         filter(
           (result): result is { optionId: string; pollId: string } =>
@@ -146,17 +182,17 @@ export class VoteForm {
   }
 
   protected likePoll(liked: boolean) {
-    this.pollQuery$.pipe(take(1)).subscribe((poll) => {
-      if (poll.data?.id) {
-        this.pollQueries.likePoll(poll.data.id).mutate(liked);
+    this.poll$.pipe(take(1)).subscribe((poll) => {
+      if (poll?.id) {
+        this.pollQueries.likePoll(poll.id).mutate(liked);
       }
     });
   }
 
   protected bookmark(bookmarked: boolean) {
-    this.pollQuery$.pipe(take(1)).subscribe((poll) => {
-      if (poll.data?.id) {
-        this.pollQueries.bookmarkPoll(poll.data.id).mutate(bookmarked);
+    this.poll$.pipe(take(1)).subscribe((poll) => {
+      if (poll?.id) {
+        this.pollQueries.bookmarkPoll(poll.id).mutate(bookmarked);
       }
     });
   }
