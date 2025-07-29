@@ -5,6 +5,8 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { map } from 'rxjs';
 import { ImageInput } from './ui/image-input';
 import { ToastManager } from './ui/toast/toast-manager';
+import { injectQueryClient } from '@ngneat/query';
+import { PollQueries } from '@/services/poll-queries';
 
 @Component({
   selector: 'app-user-setting-form',
@@ -47,6 +49,8 @@ export class UserSettingForm {
 
   private readonly userQueries = inject(UserQueries);
 
+  private readonly queryClient = injectQueryClient();
+
   protected readonly me$ = this.userQueries.getMe$().pipe(map((me) => me.data));
 
   protected readonly avatarUrl$ = this.me$.pipe(map((me) => me?.avatarUrl));
@@ -78,6 +82,12 @@ export class UserSettingForm {
 
     try {
       this.userQueries.updateMe().mutateAsync(formData);
+      this.queryClient.invalidateQueries({
+        queryKey: UserQueries.getMeQueryKey(),
+      });
+      this.queryClient.invalidateQueries({
+        queryKey: PollQueries.getPollsQueryKey(),
+      });
       this.toast.show('성공적으로 저장했습니다.');
     } catch {
       this.toast.show('요청이 실패했습니다.');
