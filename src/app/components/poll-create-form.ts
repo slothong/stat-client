@@ -14,6 +14,7 @@ import { FormField } from './ui/form-field';
 import { FormFieldError } from './ui/form-field-error';
 import { NgIcon } from '@ng-icons/core';
 import { ToastManager } from './ui/toast/toast-manager';
+import { injectQueryClient, QueryClient } from '@ngneat/query';
 
 const formSchema = z.object({
   title: z.string().nonempty(),
@@ -117,6 +118,8 @@ export class PollCreateForm {
 
   private readonly toast = inject(ToastManager);
 
+  private readonly queryClient = injectQueryClient();
+
   protected addItem() {
     this.formGroup.controls.options.push(
       new FormControl('', Validators.required),
@@ -152,6 +155,9 @@ export class PollCreateForm {
         options,
       });
       this.toast.show('설문을 생성했습니다!');
+      this.queryClient.invalidateQueries({
+        queryKey: PollQueries.getPollsQueryKey(),
+      });
       this.router.navigate(['/polls/' + poll.id]);
     } catch {
       this.toast.show('생성에 실패했습니다.');
