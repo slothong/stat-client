@@ -2,7 +2,7 @@ import { BASE_API_URL } from '@/constants';
 import { Poll } from '@/models/poll';
 import { PollDto } from '@/models/poll-dto';
 import { PollListDto } from '@/models/poll-list-dto';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map } from 'rxjs';
 
@@ -20,19 +20,25 @@ export class PollApi {
     return this.http.post<Poll>('/api/polls', pollDto);
   }
 
-  getPollList$(pageParam?: string) {
-    return this.http
-      .get<PollListDto>(
-        pageParam
-          ? `/api/polls?after=${pageParam}&limit=5`
-          : `/api/polls?limit=10`,
-      )
-      .pipe(
-        map((pollListDto) => ({
-          data: pollListDto.data.map((dto) => this.fromDto(dto)),
-          nextCursor: pollListDto.nextCursor,
-        })),
-      );
+  getPollList$({ after, sort }: { after?: string; sort?: string }) {
+    console.log(after);
+    let params = new HttpParams().set('limit', after ? '5' : '10');
+    if (after) {
+      console.log('Set after');
+      params = params.set('after', after);
+    }
+
+    if (sort) {
+      params = params.set('sort', sort);
+    }
+    console.log(params);
+
+    return this.http.get<PollListDto>('/api/polls', { params }).pipe(
+      map((pollListDto) => ({
+        data: pollListDto.data.map((dto) => this.fromDto(dto)),
+        nextCursor: pollListDto.nextCursor,
+      })),
+    );
   }
 
   getPollsByUser$(userId: string) {

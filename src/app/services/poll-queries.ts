@@ -40,6 +40,15 @@ export class PollQueries {
     ];
   }
 
+  static getHotPollsQueryKey() {
+    return [
+      'polls',
+      {
+        sort: 'hot',
+      },
+    ];
+  }
+
   static getBookmarkedPollsQueryKey(userId?: string) {
     return [
       'polls',
@@ -59,7 +68,24 @@ export class PollQueries {
       string | undefined
     >({
       queryKey: PollQueries.getPollsQueryKey(),
-      queryFn: ({ pageParam }) => this.pollApi.getPollList$(pageParam),
+      queryFn: ({ pageParam }) =>
+        this.pollApi.getPollList$({ after: pageParam }),
+      initialPageParam: undefined,
+      getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+    }).result$;
+  }
+
+  getHotPolls$() {
+    return this.inifiniteQuery<
+      { data: Poll[]; nextCursor?: string },
+      unknown,
+      { pages: { data: Poll[]; nextCursor?: string }[] },
+      (string | object)[],
+      string | undefined
+    >({
+      queryKey: PollQueries.getHotPollsQueryKey(),
+      queryFn: ({ pageParam }) =>
+        this.pollApi.getPollList$({ after: pageParam, sort: 'hot' }),
       initialPageParam: undefined,
       getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
     }).result$;
