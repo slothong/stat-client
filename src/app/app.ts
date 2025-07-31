@@ -27,7 +27,7 @@ import { NgIcon } from '@ng-icons/core';
         <div class="drawer drawer-open">
           <input type="checkbox" class="drawer-toggle" />
           <div class="drawer-content">
-            <div class="w-2xl mx-auto pt-8">
+            <div class="min-w-2xl w-fit mx-auto pt-8">
               <router-outlet></router-outlet>
             </div>
           </div>

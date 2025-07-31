@@ -69,25 +69,19 @@ export class PollQueries {
     >({
       queryKey: PollQueries.getPollsQueryKey(),
       queryFn: ({ pageParam }) =>
-        this.pollApi.getPollList$({ after: pageParam }),
+        this.pollApi.getPollList$({
+          after: pageParam,
+          limit: pageParam ? 10 : 5,
+        }),
       initialPageParam: undefined,
       getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
     }).result$;
   }
 
   getHotPolls$() {
-    return this.inifiniteQuery<
-      { data: Poll[]; nextCursor?: string },
-      unknown,
-      { pages: { data: Poll[]; nextCursor?: string }[] },
-      (string | object)[],
-      string | undefined
-    >({
+    return this.query({
       queryKey: PollQueries.getHotPollsQueryKey(),
-      queryFn: ({ pageParam }) =>
-        this.pollApi.getPollList$({ after: pageParam, sort: 'hot' }),
-      initialPageParam: undefined,
-      getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+      queryFn: () => this.pollApi.getPollList$({ sort: 'hot', limit: 10 }),
     }).result$;
   }
 

@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
   host: {
     class: 'h-full max-h-full',
   },
-  template: ` <app-poll-feed /> `,
+  template: ` <app-poll-feed class="w-5xl" /> `,
 })
 export class MainPage {}

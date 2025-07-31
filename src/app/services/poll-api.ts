@@ -20,11 +20,17 @@ export class PollApi {
     return this.http.post<Poll>('/api/polls', pollDto);
   }
 
-  getPollList$({ after, sort }: { after?: string; sort?: string }) {
-    console.log(after);
-    let params = new HttpParams().set('limit', after ? '5' : '10');
+  getPollList$({
+    after,
+    limit = 10,
+    sort,
+  }: {
+    after?: string;
+    sort?: string;
+    limit?: number;
+  }) {
+    let params = new HttpParams().set('limit', limit);
     if (after) {
-      console.log('Set after');
       params = params.set('after', after);
     }
 
