@@ -14,6 +14,7 @@ export interface PollDto {
   options: OptionDto[];
   hasVoted?: boolean;
   likedByMe?: boolean;
+  likedByCount: number;
   commentCount: number;
   bookmarkedByMe?: boolean;
 }

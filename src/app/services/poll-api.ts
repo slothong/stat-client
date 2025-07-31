@@ -117,6 +117,7 @@ export class PollApi {
         avatarUrl:
           dto.createdBy.avatarUrl && BASE_API_URL + dto.createdBy.avatarUrl,
       },
+      likedByCount: dto.likedByCount,
       likedByMe: dto.likedByMe,
       commentCount: dto.commentCount,
       bookmarkedByMe: dto.bookmarkedByMe,

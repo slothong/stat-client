@@ -11,6 +11,7 @@ export interface Poll {
   options: Option[];
   hasVoted?: boolean;
   likedByMe?: boolean;
+  likedByCount: number;
   commentCount: number;
   bookmarkedByMe?: boolean;
 }

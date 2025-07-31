@@ -25,7 +25,7 @@ import { RouterLink } from '@angular/router';
         </a>
       </div>
       <div class="flex gap-1 text-xs text-gray-400">
-        <span> Likes </span>
+        <span>{{ poll.likedByCount }} Likes </span>
         •
         <span> {{ poll.commentCount }} Comments </span>
       </div>
