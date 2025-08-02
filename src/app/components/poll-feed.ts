@@ -48,7 +48,7 @@ import { SimplePollResult } from './simple-poll-result';
         }
       }
     </div>
-    <div class="w-80 h-fit flex flex-col">
+    <div class="w-80 h-fit flex flex-col gap-3">
       <div class="card w-full h-72 bg-gray-100 flex flex-col pt-3 pb-5">
         <span class="font-semibold text-gray-500 text-sm mb-3 px-5"
           >핫한 투표 결과</span
@@ -67,7 +67,9 @@ import { SimplePollResult } from './simple-poll-result';
       </div>
       <div class="card bg-base-100 shadow-sm overflow-hidden">
         <div class="card-body">
-          <span>가장 핫한 투표</span>
+          <span class="font-semibold text-gray-500 text-sm mb-3"
+            >가장 핫한 투표</span
+          >
           @if (hotPollList$ | async; as hotPollList) {
             @if (hotPollList.isSuccess) {
               @for (poll of hotPollList.data.data; track poll.id) {
