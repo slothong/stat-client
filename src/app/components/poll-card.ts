@@ -49,7 +49,7 @@ import { isBefore } from 'date-fns';
       </div>
       <div class="flex gap-1">
         <button
-          class="btn btn-sm font-normal"
+          class="btn btn-sm rounded-full font-normal"
           (click)="$event.stopPropagation(); likePoll(!poll?.likedByMe)"
         >
           <ng-icon
@@ -67,7 +67,7 @@ import { isBefore } from 'date-fns';
             size="15"
           />
         </button>
-        <button class="btn btn-sm font-normal">
+        <button class="btn btn-sm rounded-full font-normal">
           <ng-icon name="heroChatBubbleOvalLeft" size="15" />
           {{ poll?.commentCount }}
         </button>
