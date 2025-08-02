@@ -28,6 +28,8 @@ import { lucidePlus, lucideSearch, lucideMail } from '@ng-icons/lucide';
 import {
   heroBookmark,
   heroChatBubbleOvalLeft,
+  heroChevronLeft,
+  heroChevronRight,
   heroEnvelope,
   heroHeart,
   heroHome,
@@ -73,6 +75,8 @@ export const appConfig: ApplicationConfig = {
       heroMinus,
       heroUser,
       heroHome,
+      heroChevronLeft,
+      heroChevronRight,
     }),
   ],
 };

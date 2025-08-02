@@ -10,10 +10,12 @@ import { PollQueries } from '@/services/poll-queries';
 import { PollCard } from './poll-card';
 import { Subject, withLatestFrom } from 'rxjs';
 import { SimplePollListItem } from './simple-poll-list-item';
+import { Carousel } from './ui/carousel';
+import { CarouselItem } from './ui/carousel-item';
 
 @Component({
   selector: 'app-poll-feed',
-  imports: [CommonModule, PollCard, SimplePollListItem],
+  imports: [CommonModule, PollCard, SimplePollListItem, Carousel, CarouselItem],
   host: {
     class: 'flex gap-20',
   },
@@ -38,16 +40,27 @@ import { SimplePollListItem } from './simple-poll-list-item';
         }
       }
     </div>
-    <div class="card bg-base-100 w-80 h-fit shadow-sm overflow-hidden">
-      <div class="card-body">
-        <span>가장 핫한 투표</span>
+    <div class="w-80 h-fit flex flex-col">
+      <app-carousel class="w-full h-60 bg-gray-100">
         @if (hotPollList$ | async; as hotPollList) {
           @if (hotPollList.isSuccess) {
             @for (poll of hotPollList.data.data; track poll.id) {
-              <app-simple-poll-list-item [poll]="poll" />
+              <app-simple-poll-list-item [poll]="poll" *appCarouselItem />
             }
           }
         }
+      </app-carousel>
+      <div class="card bg-base-100 shadow-sm overflow-hidden">
+        <div class="card-body">
+          <span>가장 핫한 투표</span>
+          @if (hotPollList$ | async; as hotPollList) {
+            @if (hotPollList.isSuccess) {
+              @for (poll of hotPollList.data.data; track poll.id) {
+                <app-simple-poll-list-item [poll]="poll" />
+              }
+            }
+          }
+        </div>
       </div>
     </div>
   `,
