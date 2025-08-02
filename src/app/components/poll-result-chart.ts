@@ -17,7 +17,7 @@ import { ChartConfiguration } from 'chart.js';
       appChartMount
       [chartConfig]="chartConfig()"
       [style.width]="'100%'"
-      [style.heght]="'100%'"
+      [style.height]="'100%'"
     ></canvas>
   `,
 })
