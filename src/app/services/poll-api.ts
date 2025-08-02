@@ -24,10 +24,12 @@ export class PollApi {
     after,
     limit = 10,
     sort,
+    status,
   }: {
     after?: string;
     sort?: string;
     limit?: number;
+    status?: string;
   }) {
     let params = new HttpParams().set('limit', limit);
     if (after) {
@@ -37,7 +39,10 @@ export class PollApi {
     if (sort) {
       params = params.set('sort', sort);
     }
-    console.log(params);
+
+    if (status) {
+      params = params.set('status', status);
+    }
 
     return this.http.get<PollListDto>('/api/polls', { params }).pipe(
       map((pollListDto) => ({

@@ -49,6 +49,15 @@ export class PollQueries {
     ];
   }
 
+  static getExpiredPollsQueryKey() {
+    return [
+      'polls',
+      {
+        status: 'expired',
+      },
+    ];
+  }
+
   static getBookmarkedPollsQueryKey(userId?: string) {
     return [
       'polls',
@@ -82,6 +91,14 @@ export class PollQueries {
     return this.query({
       queryKey: PollQueries.getHotPollsQueryKey(),
       queryFn: () => this.pollApi.getPollList$({ sort: 'hot', limit: 10 }),
+    }).result$;
+  }
+
+  getExpiredPolls$() {
+    return this.query({
+      queryKey: PollQueries.getExpiredPollsQueryKey(),
+      queryFn: () =>
+        this.pollApi.getPollList$({ status: 'expired', limit: 10 }),
     }).result$;
   }
 

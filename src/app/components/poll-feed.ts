@@ -42,9 +42,9 @@ import { CarouselItem } from './ui/carousel-item';
     </div>
     <div class="w-80 h-fit flex flex-col">
       <app-carousel class="w-full h-60 bg-gray-100">
-        @if (hotPollList$ | async; as hotPollList) {
-          @if (hotPollList.isSuccess) {
-            @for (poll of hotPollList.data.data; track poll.id) {
+        @if (expiredPollList$ | async; as pollList) {
+          @if (pollList.isSuccess) {
+            @for (poll of pollList.data.data; track poll.id) {
               <app-simple-poll-list-item [poll]="poll" *appCarouselItem />
             }
           }
@@ -68,6 +68,7 @@ import { CarouselItem } from './ui/carousel-item';
 export class PollFeed {
   protected readonly pollList$ = inject(PollQueries).getPolls$();
   protected readonly hotPollList$ = inject(PollQueries).getHotPolls$();
+  protected readonly expiredPollList$ = inject(PollQueries).getExpiredPolls$();
 
   private readonly pollCards = viewChildren(PollCard, {
     read: ElementRef,
