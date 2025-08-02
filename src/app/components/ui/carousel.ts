@@ -9,9 +9,16 @@ import { NgIcon } from '@ng-icons/core';
   host: {
     class: 'overflow-hidden relative',
   },
+  styles: [
+    `
+      :host {
+        border-radius: var(--radius-box);
+      }
+    `,
+  ],
   template: `
     <div class="absolute left-1 top-1/2 -translate-y-1/2 z-10">
-      <button class="btn btn-sm btn-circle" (click)="prev()">
+      <button class="btn btn-sm btn-circle btn-ghost" (click)="prev()">
         <ng-icon name="heroChevronLeft" />
       </button>
     </div>
@@ -26,7 +33,7 @@ import { NgIcon } from '@ng-icons/core';
     }
 
     <div class="absolute right-1 top-1/2 -translate-y-1/2 z-10">
-      <button class="btn btn-sm btn-circle" (click)="next()">
+      <button class="btn btn-sm btn-circle btn-ghost" (click)="next()">
         <ng-icon name="heroChevronRight" />
       </button>
     </div>

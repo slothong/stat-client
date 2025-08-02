@@ -12,10 +12,18 @@ import { Subject, withLatestFrom } from 'rxjs';
 import { SimplePollListItem } from './simple-poll-list-item';
 import { Carousel } from './ui/carousel';
 import { CarouselItem } from './ui/carousel-item';
+import { SimplePollResult } from './simple-poll-result';
 
 @Component({
   selector: 'app-poll-feed',
-  imports: [CommonModule, PollCard, SimplePollListItem, Carousel, CarouselItem],
+  imports: [
+    CommonModule,
+    PollCard,
+    SimplePollListItem,
+    Carousel,
+    CarouselItem,
+    SimplePollResult,
+  ],
   host: {
     class: 'flex gap-20',
   },
@@ -41,11 +49,11 @@ import { CarouselItem } from './ui/carousel-item';
       }
     </div>
     <div class="w-80 h-fit flex flex-col">
-      <app-carousel class="w-full h-60 bg-gray-100">
+      <app-carousel class="w-full h-72 bg-gray-100">
         @if (expiredPollList$ | async; as pollList) {
           @if (pollList.isSuccess) {
             @for (poll of pollList.data.data; track poll.id) {
-              <app-simple-poll-list-item [poll]="poll" *appCarouselItem />
+              <app-simple-poll-result [poll]="poll" *appCarouselItem />
             }
           }
         }
