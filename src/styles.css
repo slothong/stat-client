@@ -74,6 +74,10 @@ html {
   --noise: 0;
 }
 
+.btn {
+  --radius-field: 100px;
+}
+
 /* @import "ng-zorro-antd/ng-zorro-antd.min.css"; */
 
 body {
