@@ -22,13 +22,14 @@ import { RouterLink } from '@angular/router';
         {{ poll.createdBy.username }}
       </app-post-meta>
 
-      <a class="no-underline text-inherit" [routerLink]="['polls', poll.id]">
+      <a
+        class="no-underline text-inherit grow"
+        [routerLink]="['polls', poll.id]"
+      >
         <div class="mt-3 mb-2 font-bold text-gray-500">
           {{ poll.question }}
         </div>
-        <div class="grow">
-          <app-poll-result-chart [pollResult]="poll" />
-        </div>
+        <app-poll-result-chart [pollResult]="poll" />
       </a>
       <div class="flex gap-1 text-xs text-gray-400">
         <span>{{ poll.likedByCount }} Likes </span>

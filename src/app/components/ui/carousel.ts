@@ -18,7 +18,11 @@ import { NgIcon } from '@ng-icons/core';
   ],
   template: `
     <div class="absolute left-1 top-1/2 -translate-y-1/2 z-10">
-      <button class="btn btn-sm btn-circle btn-ghost" (click)="prev()">
+      <button
+        class="btn btn-sm btn-circle btn-ghost"
+        (click)="prev()"
+        [disabled]="!hasPrev()"
+      >
         <ng-icon name="heroChevronLeft" />
       </button>
     </div>
@@ -33,7 +37,11 @@ import { NgIcon } from '@ng-icons/core';
     }
 
     <div class="absolute right-1 top-1/2 -translate-y-1/2 z-10">
-      <button class="btn btn-sm btn-circle btn-ghost" (click)="next()">
+      <button
+        class="btn btn-sm btn-circle btn-ghost"
+        (click)="next()"
+        [disabled]="!hasNext()"
+      >
         <ng-icon name="heroChevronRight" />
       </button>
     </div>
@@ -41,7 +49,12 @@ import { NgIcon } from '@ng-icons/core';
 })
 export class Carousel {
   protected readonly items = contentChildren(CarouselItem);
-  protected index = signal(0);
+  protected readonly index = signal(0);
+
+  protected readonly hasPrev = computed(() => this.index() > 0);
+  protected readonly hasNext = computed(
+    () => this.index() < this.items().length - 1,
+  );
 
   prev() {
     this.index.update((prev) => Math.max(0, prev - 1));
