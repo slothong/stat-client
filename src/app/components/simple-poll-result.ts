@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-simple-poll-result',
   imports: [PostMeta, AsyncPipe, PollResultChart, RouterLink],
   host: {
-    class: 'flex py-3 px-8 flex-col h-full',
+    class: 'flex flex-col h-full',
   },
   template: `
     @let poll = poll$ | async;

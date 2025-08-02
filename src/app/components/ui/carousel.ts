@@ -9,13 +9,6 @@ import { NgIcon } from '@ng-icons/core';
   host: {
     class: 'overflow-hidden relative',
   },
-  styles: [
-    `
-      :host {
-        border-radius: var(--radius-box);
-      }
-    `,
-  ],
   template: `
     <div class="absolute left-1 top-1/2 -translate-y-1/2 z-10">
       <button

@@ -49,15 +49,22 @@ import { SimplePollResult } from './simple-poll-result';
       }
     </div>
     <div class="w-80 h-fit flex flex-col">
-      <app-carousel class="w-full h-72 bg-gray-100">
-        @if (expiredPollList$ | async; as pollList) {
-          @if (pollList.isSuccess) {
-            @for (poll of pollList.data.data; track poll.id) {
-              <app-simple-poll-result [poll]="poll" *appCarouselItem />
+      <div class="card w-full h-72 bg-gray-100 flex flex-col pt-3 pb-5">
+        <span class="font-semibold text-gray-500 text-sm mb-3 px-5"
+          >핫한 투표 결과</span
+        >
+        <app-carousel class="grow">
+          @if (expiredPollList$ | async; as pollList) {
+            @if (pollList.isSuccess) {
+              @for (poll of pollList.data.data; track poll.id) {
+                <div class="px-8 h-full" *appCarouselItem>
+                  <app-simple-poll-result [poll]="poll" />
+                </div>
+              }
             }
           }
-        }
-      </app-carousel>
+        </app-carousel>
+      </div>
       <div class="card bg-base-100 shadow-sm overflow-hidden">
         <div class="card-body">
           <span>가장 핫한 투표</span>
