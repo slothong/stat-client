@@ -1,6 +1,7 @@
 import { BASE_API_URL } from '@/constants';
 import { Comment } from '@/models/comment';
 import { CommentDto } from '@/models/comment-dto';
+import { PollDto } from '@/models/poll-dto';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map } from 'rxjs';
@@ -21,6 +22,14 @@ export class CommentApi {
     return this.http
       .get<CommentDto[]>(`/api/users/${userId}/comments`)
       .pipe(map((dtos) => dtos.map((dto) => this.fromDto(dto))));
+  }
+
+  likeComment$(commentId: string, liked: boolean) {
+    if (liked)
+      return this.http.post<CommentDto>(`/api/comments/${commentId}/like`, {
+        liked,
+      });
+    return this.http.delete<null>(`/api/comments/${commentId}/like`);
   }
 
   postComment$({
@@ -50,6 +59,8 @@ export class CommentApi {
       createdAt: new Date(dto.createdAt),
       updatedAt: new Date(dto.updatedAt),
       replies: dto.replies.map((replyDto) => this.fromDto(replyDto)),
+      likedByMe: dto.likedByMe,
+      likedByCount: dto.likedByCount ?? 0,
     };
   }
 }

@@ -5,7 +5,7 @@ import { Component, inject, input, output } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { NgIcon } from '@ng-icons/core';
 import { Avatar } from './ui/avatar';
-import { BehaviorSubject, filter, take } from 'rxjs';
+import { BehaviorSubject, filter, map, take } from 'rxjs';
 import {
   FormControl,
   FormGroup,
@@ -13,6 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastManager } from './ui/toast/toast-manager';
+import { CommentQueries } from '@/services/comment-queries';
 
 @Component({
   selector: 'app-comment-card',
@@ -32,9 +33,16 @@ import { ToastManager } from './ui/toast/toast-manager';
         {{ comment.content }}
       </div>
       <div class="flex gap-1">
-        <button type="button" class="btn btn-sm btn-ghost font-normal">
-          <ng-icon name="heroHeart" size="15" />
-          0
+        <button
+          type="button"
+          class="btn btn-sm btn-ghost font-normal"
+          (click)="likeComment(comment.id, !comment.likedByMe)"
+        >
+          <ng-icon
+            [name]="comment.likedByMe ? 'heroHeartSolid' : 'heroHeart'"
+            size="15"
+          />
+          {{ comment.likedByCount }}
         </button>
         <button
           type="button"
@@ -78,9 +86,16 @@ import { ToastManager } from './ui/toast/toast-manager';
               {{ reply.content }}
             </div>
             <div class="flex gap-1">
-              <button type="button" class="btn btn-sm btn-ghost font-normal">
-                <ng-icon name="heroHeart" size="15" />
-                0
+              <button
+                type="button"
+                class="btn btn-sm btn-ghost font-normal"
+                (click)="likeComment(reply.id, !reply.likedByMe)"
+              >
+                <ng-icon
+                  [name]="reply.likedByMe ? 'heroHeartSolid' : 'heroHeart'"
+                  size="15"
+                />
+                {{ reply.likedByCount }}
               </button>
             </div>
           </div>
@@ -103,6 +118,8 @@ export class CommentCard {
 
   private readonly toast = inject(ToastManager);
 
+  private readonly commentQuery = inject(CommentQueries);
+
   protected submitForm() {
     const { content } = this.formGroup.value;
     if (content == null || content.trim().length === 0) {
@@ -116,5 +133,9 @@ export class CommentCard {
 
   protected toggleOpenReply() {
     this.replyOpen$.next(!this.replyOpen$.getValue());
+  }
+
+  protected likeComment(commentId: string, liked: boolean) {
+    this.commentQuery.likeComment(commentId).mutateAsync(liked);
   }
 }

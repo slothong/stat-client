@@ -9,5 +9,7 @@ export interface Comment {
   content: string;
   createdAt: Date;
   updatedAt: Date;
+  likedByMe?: boolean;
+  likedByCount: number;
   replies: Comment[];
 }

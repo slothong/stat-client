@@ -12,11 +12,21 @@ export class CommentQueries {
   private readonly queryClient = injectQueryClient();
 
   static getCommentsQueryKey(pollId: string) {
-    return ['polls', pollId, 'comments'];
+    return [
+      'comments',
+      {
+        pollId,
+      },
+    ];
   }
 
   static getCommentsByUserQueryKey(userId: string) {
-    return ['users', userId, 'comments'];
+    return [
+      'comments',
+      {
+        userId,
+      },
+    ];
   }
 
   getComments(pollId: string) {
@@ -50,6 +60,17 @@ export class CommentQueries {
       onSuccess: () => {
         this.queryClient.invalidateQueries({
           queryKey: CommentQueries.getCommentsQueryKey(pollId),
+        });
+      },
+    });
+  }
+
+  likeComment(commentId: string) {
+    return this.mutation({
+      mutationFn: (liked: boolean) => this.api.likeComment$(commentId, liked),
+      onSuccess: () => {
+        this.queryClient.invalidateQueries({
+          queryKey: ['comments'],
         });
       },
     });

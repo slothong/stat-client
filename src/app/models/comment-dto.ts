@@ -10,4 +10,6 @@ export interface CommentDto {
   createdAt: string;
   updatedAt: string;
   replies: CommentDto[];
+  likedByMe?: boolean;
+  likedByCount: number;
 }
