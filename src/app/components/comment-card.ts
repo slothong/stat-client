@@ -109,6 +109,8 @@ export class CommentCard {
       this.toast.show('Content must not be empty');
       return;
     }
+    this.formGroup.patchValue({ content: '' });
+    this.replyOpen$.next(false);
     this.createReply.emit(content);
   }
 
