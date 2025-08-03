@@ -9,4 +9,5 @@ export interface CommentDto {
   content: string;
   createdAt: string;
   updatedAt: string;
+  replies: CommentDto[];
 }

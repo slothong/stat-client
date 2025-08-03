@@ -42,7 +42,10 @@ import { ToastManager } from './ui/toast/toast-manager';
         </form>
         <div class="flex flex-col gap-6">
           @for (comment of comments; track comment.id) {
-            <app-comment-card [comment]="comment" />
+            <app-comment-card
+              [comment]="comment"
+              (createReply)="createReply(comment.id, $event)"
+            />
           }
         </div>
       </div>
@@ -79,7 +82,7 @@ export class PollCommentsCard {
     this.pollId$.pipe(take(1)).subscribe((pollId) => {
       this.commentQueries
         .postComment(pollId)
-        .mutateAsync(content)
+        .mutateAsync({ content })
         .then(() => {
           this.queryClient.invalidateQueries({
             queryKey: PollQueries.getPollsQueryKey(),
@@ -97,5 +100,25 @@ export class PollCommentsCard {
 
   protected getDateText(date: Date) {
     return getRelativeDateText(date);
+  }
+
+  protected createReply(parentId: string, content: string) {
+    this.pollId$.pipe(take(1)).subscribe((pollId) => {
+      this.commentQueries
+        .postComment(pollId)
+        .mutateAsync({ parentId, content })
+        .then(() => {
+          this.queryClient.invalidateQueries({
+            queryKey: PollQueries.getPollsQueryKey(),
+          });
+          this.queryClient.invalidateQueries({
+            queryKey: PollQueries.getPollQueryKey(pollId),
+          });
+          this.formGroup.reset();
+        })
+        .catch(() => {
+          this.toast.show('댓글 작성에 실패했습니다.');
+        });
+    });
   }
 }

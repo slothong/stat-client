@@ -35,7 +35,18 @@ export class CommentQueries {
 
   postComment(pollId: string) {
     return this.mutation({
-      mutationFn: (content: string) => this.api.postComment$(pollId, content),
+      mutationFn: ({
+        parentId,
+        content,
+      }: {
+        parentId?: string;
+        content: string;
+      }) =>
+        this.api.postComment$({
+          pollId,
+          parentId,
+          content,
+        }),
       onSuccess: () => {
         this.queryClient.invalidateQueries({
           queryKey: CommentQueries.getCommentsQueryKey(pollId),

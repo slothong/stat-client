@@ -23,10 +23,19 @@ export class CommentApi {
       .pipe(map((dtos) => dtos.map((dto) => this.fromDto(dto))));
   }
 
-  postComment$(pollId: string, content: string) {
+  postComment$({
+    pollId,
+    parentId,
+    content,
+  }: {
+    pollId: string;
+    parentId?: string;
+    content: string;
+  }) {
     return this.http
       .post<CommentDto>(`/api/polls/${pollId}/comments`, {
         content,
+        parentId,
       })
       .pipe(map((dto) => this.fromDto(dto)));
   }
@@ -40,6 +49,7 @@ export class CommentApi {
       },
       createdAt: new Date(dto.createdAt),
       updatedAt: new Date(dto.updatedAt),
+      replies: dto.replies.map((replyDto) => this.fromDto(replyDto)),
     };
   }
 }
