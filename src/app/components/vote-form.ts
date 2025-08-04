@@ -69,13 +69,14 @@ import { isBefore } from 'date-fns';
           <div class="flex gap-2 mt-6">
             <button
               type="button"
-              class="btn btn-circle btn-sm"
+              class="btn btn-sm font-normal"
               (click)="$event.stopPropagation(); likePoll(!poll?.likedByMe)"
             >
               <ng-icon
                 [name]="poll?.likedByMe ? 'heroHeartSolid' : 'heroHeart'"
                 size="15"
               />
+              {{ poll.likedByCount }}
             </button>
             <button
               type="button"
